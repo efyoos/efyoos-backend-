@@ -6,8 +6,23 @@ export class AppService {
   private readonly DB_KEY = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
 
   async insertRow(data: any) {
+    // 1. Handle Staff Shifts (Ahmed/Karim)
     const hour = new Date().getHours();
     const responsible = (hour >= 8 && hour < 20) ? 'Ahmed' : 'Karim';
+
+    // 2. Prepare the payload to match Supabase exactly
+    const payload = {
+      hotel_id: data.hotel_id || 'EFYOOS_V1',
+      room_number: data.room || '000',      // Fixes Room Number Null
+      guest_name: data.guest_name || 'Guest',
+      category: data.short_code || 'Service', // Fixes Category Null
+      short_code: data.short_code || 'REQ',
+      request_text: `Service requested: ${data.short_code}`, // Fixes Request Text Null
+      urgency: 'normal',
+      assigned_to: responsible,             // Correctly maps staff
+      status: 'pending',
+      language: 'FR'                        // Standard for V1
+    };
 
     const response = await fetch(this.DB_URL, {
       method: 'POST',
@@ -17,17 +32,10 @@ export class AppService {
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify({
-        hotel_id: data.hotel_id || 'ALGERIA_TRIAL_01',
-        room_number: data.room, // Matched to your supabase column
-        guest_name: data.guest_name || 'Guest', // Matched
-        short_code: data.short_code,
-        assigned_to: responsible, // Matched to your supabase column
-        status: 'pending'
-      }),
+      body: JSON.stringify(payload),
     });
 
-    return { status: 'Request processed' };
+    return { status: 'Request processed', assigned_to: responsible };
   }
 
   async getOrders() {
