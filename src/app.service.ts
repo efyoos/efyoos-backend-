@@ -1,37 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { DateTime } from 'luxon';
 
 @Injectable()
 export class AppService {
-  // These must be defined to fix the "Property does not exist" errors
-  private readonly DB_URL = 'https://swuqyrbknkobamnruurl.supabase.co/rest/v1/orders';
-  private readonly DB_KEY = 'YOUR_SUPABASE_KEY_HERE';
+  private readonly DB_URL = 'https://swuqyrbknkobamnruurl.supabase.co/rest/v1/guest_requests';
+  private readonly DB_KEY = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
 
+  // 1. Function to Insert a New Order
   async insertRow(data: any) {
-    // Fixes "Cannot find name DateTime"
-    const algeriaTime = DateTime.now().setZone('Africa/Algiers');
-    const hour = algeriaTime.hour;
-    const isDay = hour >= 8 && hour < 20;
+    const { hotel_id, room, short_code } = data;
 
-    const payload = {
-      hotel_id: data.hotel_id,
-      room: data.room,
-      short_code: data.short_code,
-      responsible_staff: isDay ? 'Ahmed' : 'Karim',
-      shift: isDay ? 'DAY' : 'NIGHT',
-      created_at: algeriaTime.toISO(),
-    };
+    // Shift Logic: Ahmed (8h to 20h), Karim (20h to 8h)
+    const hour = new Date().getHours();
+    const responsible = (hour >= 8 && hour < 20) ? 'Ahmed' : 'Karim';
 
     const response = await fetch(this.DB_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'apikey': this.DB_KEY,
         'Authorization': `Bearer ${this.DB_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        hotel_id: hotel_id || 'ALGERIA_TRIAL',
+        room: room,
+        short_code: short_code,
+        responsible_staff: responsible
+      }),
     });
 
+    return response.json();
+  }
+
+  // 2. Function to Get Orders for the Dashboard
+  async getOrders() {
+    const response = await fetch(`${this.DB_URL}?select=*&order=created_at.desc`, {
+      headers: {
+        'apikey': this.DB_KEY,
+        'Authorization': `Bearer ${this.DB_KEY}`
+      }
+    });
     return response.json();
   }
 }
