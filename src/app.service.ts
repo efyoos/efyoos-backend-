@@ -6,22 +6,23 @@ export class AppService {
   private readonly DB_KEY = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
 
   async insertRow(data: any) {
-    // 1. Handle Staff Shifts (Ahmed/Karim)
     const hour = new Date().getHours();
     const responsible = (hour >= 8 && hour < 20) ? 'Ahmed' : 'Karim';
 
-    // 2. Prepare the payload to match Supabase exactly
     const payload = {
       hotel_id: data.hotel_id || 'EFYOOS_V1',
-      room_number: data.room || '000',      // Fixes Room Number Null
+      // Takes room_number from request, falls back to 000 if missing
+      room_number: data.room_number || data.room || '000', 
       guest_name: data.guest_name || 'Guest',
-      category: data.short_code || 'Service', // Fixes Category Null
-      short_code: data.short_code || 'REQ',
-      request_text: `Service requested: ${data.short_code}`, // Fixes Request Text Null
-      urgency: 'normal',
-      assigned_to: responsible,             // Correctly maps staff
+      category: data.short_code, // Store "MAINT" or "HK" here
+      // n8n will replace this, but we send a placeholder for now
+      short_code: data.short_code || 'PENDING', 
+      request_text: data.request_text || `Service: ${data.short_code}`,
+      urgency: data.urgency || 'normal',
+      assigned_to: responsible,
       status: 'pending',
-      language: 'FR'                        // Standard for V1
+      // Captures the language used on the guest device
+      language: data.language || 'fr' 
     };
 
     const response = await fetch(this.DB_URL, {
@@ -35,7 +36,7 @@ export class AppService {
       body: JSON.stringify(payload),
     });
 
-    return { status: 'Request processed', assigned_to: responsible };
+    return { status: 'success', assigned: responsible };
   }
 
   async getOrders() {
