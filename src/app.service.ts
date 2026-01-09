@@ -1,46 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { createClient } from '@supabase/supabase-js';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class AppService {
-  private supabase = createClient(
-    'https://swuqyrbknkobamnruurl.supabase.co',
-    'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5'
-  );
+  // These must be defined to fix the "Property does not exist" errors
+  private readonly DB_URL = 'https://swuqyrbknkobamnruurl.supabase.co/rest/v1/orders';
+  private readonly DB_KEY = 'YOUR_SUPABASE_KEY_HERE';
 
- async insertRow(data: any) {
-    // 1. Calculate Shift Logic for Algeria
+  async createRequest(data: any) {
+    // Fixes "Cannot find name DateTime"
     const algeriaTime = DateTime.now().setZone('Africa/Algiers');
     const hour = algeriaTime.hour;
     const isDay = hour >= 8 && hour < 20;
-    
-    // 2. Prepare the data with your specific requirements
+
     const payload = {
-      hotel_id: data.hotel_id, 
+      hotel_id: data.hotel_id,
       room: data.room,
       short_code: data.short_code,
-      responsible_staff: isDay ? 'Ahmed' : 'Karim', // Linking service to staff
-      shift: isDay ? 'DAY' : 'NIGHT',               // Handling day/night shifts
+      responsible_staff: isDay ? 'Ahmed' : 'Karim',
+      shift: isDay ? 'DAY' : 'NIGHT',
       created_at: algeriaTime.toISO(),
     };
 
-    // 3. Send the data to your external service (the "Insert Row" node)
-    try {
-      const response = await fetch(this.DB_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': this.DB_KEY, // Use the header name your DB requires
-          'Authorization': `Bearer ${this.DB_KEY}`
-        },
-        body: JSON.stringify(payload),
-      });
+    const response = await fetch(this.DB_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': this.DB_KEY,
+        'Authorization': `Bearer ${this.DB_KEY}`,
+      },
+      body: JSON.stringify(payload),
+    });
 
-      return await response.json();
-    } catch (error) {
-      console.error('Error inserting row:', error);
-      throw error;
-    }
+    return response.json();
   }
 }
 
