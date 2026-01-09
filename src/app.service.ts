@@ -7,7 +7,7 @@ export class AppService {
   private readonly DB_URL = 'https://swuqyrbknkobamnruurl.supabase.co/rest/v1/orders';
   private readonly DB_KEY = 'YOUR_SUPABASE_KEY_HERE';
 
-  async createRequest(data: any) {
+  async insertRow(data: any) {
     // Fixes "Cannot find name DateTime"
     const algeriaTime = DateTime.now().setZone('Africa/Algiers');
     const hour = algeriaTime.hour;
