@@ -7,7 +7,7 @@
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "manager.efyoos.com" }],
+      "has": [{ "type": "host", "value": "www.manager.efyoos.com" }],
       "destination": "/dashboard.html"
     },
     {
