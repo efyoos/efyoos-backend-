@@ -1,7 +1,24 @@
 {
   "rewrites": [
-    { "source": "/", "has": [{ "type": "host", "value": "guest.efyoos.com" }], "destination": "/guest.html" },
-    { "source": "/", "has": [{ "type": "host", "value": "manager.efyoos.com" }], "destination": "/dashboard.html" },
-    { "source": "/", "has": [{ "type": "host", "value": "www.efyoos.com" }], "destination": "/index.html" }
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "guest.efyoos.com" }],
+      "destination": "/guest.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "manager.efyoos.com" }],
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.efyoos.com" }],
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "efyoos.com" }],
+      "destination": "/index.html"
+    }
   ]
 }
