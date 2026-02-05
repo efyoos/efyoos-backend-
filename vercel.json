@@ -1,22 +1,22 @@
 {
   "rewrites": [
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "guest.efyoos.com" }],
       "destination": "/public/guest.html"
     },
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "manager.efyoos.com" }],
       "destination": "/public/dashboard.html"
     },
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.efyoos.com" }],
       "destination": "/public/index.html"
     },
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "efyoos.com" }],
       "destination": "/public/index.html"
     }
