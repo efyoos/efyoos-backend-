@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/guest.html", "has": [{ "type": "host", "value": "guest.efyoos.com" }] },
-    { "source": "/", "destination": "/dashboard.html", "has": [{ "type": "host", "value": "manager.efyoos.com" }] },
-    { "source": "/", "destination": "/index.html", "has": [{ "type": "host", "value": "www.efyoos.com" }] }
+    { "source": "/", "has": [{ "type": "host", "value": "guest.efyoos.com" }], "destination": "/guest.html" },
+    { "source": "/", "has": [{ "type": "host", "value": "manager.efyoos.com" }], "destination": "/dashboard.html" },
+    { "source": "/", "has": [{ "type": "host", "value": "www.efyoos.com" }], "destination": "/index.html" }
   ]
 }
