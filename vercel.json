@@ -2,18 +2,23 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/guest.html",
+      "destination": "/public/guest.html",
       "has": [{ "type": "host", "value": "guest.efyoos.com" }]
     },
     {
       "source": "/",
-      "destination": "/dashboard.html",
+      "destination": "/public/dashboard.html",
       "has": [{ "type": "host", "value": "manager.efyoos.com" }]
     },
     {
       "source": "/",
-      "destination": "/index.html",
+      "destination": "/public/index.html",
       "has": [{ "type": "host", "value": "www.efyoos.com" }]
+    },
+    {
+      "source": "/",
+      "destination": "/public/index.html",
+      "has": [{ "type": "host", "value": "efyoos.com" }]
     }
   ]
 }
