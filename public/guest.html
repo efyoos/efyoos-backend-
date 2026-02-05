@@ -959,7 +959,7 @@
                 submitBtn.disabled = true;
                 showStatus(translations[currentLang].sending, 'sending');
 
-                const response = await fetch('https://efyoos-backend.onrender.com', {
+                const response = await fetch('https://efyoos-backend.onrender.com/request', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
