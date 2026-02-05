@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EFYOOS COMMAND | Elite S2</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' },
+                        dark: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' },
+                        gold: { 500: '#eab308' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [v-cloak] { display: none; }
+        body { background-color: #0f172a; color: #f8fafc; overflow-x: hidden; }
+        
+        /* Typography based on Direction */
+        .rtl { font-family: 'Cairo', sans-serif !important; }
+        .ltr { font-family: 'Inter', sans-serif !important; }
+
+        /* Row States */
+        .row-base { transition: all 0.3s ease; border-left: 4px solid transparent; }
+        .row-urgent { 
+            background: rgba(239, 68, 68, 0.08); 
+            border-left-color: #ef4444;
+            animation: pulse-red 2s infinite;
+        }
+        .row-late {
+            background: rgba(245, 158, 11, 0.05);
+            border-left-color: #f59e0b;
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% { background: rgba(239, 68, 68, 0.08); }
+            50% { background: rgba(239, 68, 68, 0.15); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body class="dark bg-dark-900 min-h-screen selection:bg-brand-500/30">
+
+    <div id="app" v-cloak :dir="rtl ? 'rtl' : 'ltr'" :class="{'rtl': rtl, 'ltr': !rtl}">
+        
+        <audio ref="alertSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+        <header class="sticky top-0 z-50 bg-dark-900/90 backdrop-blur-md border-b border-slate-800 shadow-2xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <div class="flex items-center gap-4">
+                    <div class="bg-brand-600/10 p-2 rounded-xl border border-brand-500/20">
+                        <i class="fa-solid fa-bolt text-brand-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black italic tracking-tighter leading-none">
+                            EFYOOS <span class="text-brand-500">COMMAND</span>
+                        </h1>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="relative flex h-2 w-2">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">System Live</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button @click="toggleSound" class="h-10 w-10 rounded-xl bg-dark-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">
+                        <i class="fa-solid" :class="soundEnabled ? 'fa-volume-high text-green-500' : 'fa-volume-xmark'"></i>
+                    </button>
+                    
+                    <select v-model="currentLang" @change="saveSettings" class="bg-dark-800 border border-slate-700 text-slate-200 text-xs font-bold rounded-xl px-4 py-2.5 outline-none hover:border-brand-500 transition cursor-pointer">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="ar">🇩🇿 العربية</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+                
+                <div class="bg-dark-800 rounded-3xl p-6 border border-slate-700/50 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fa-solid fa-clock text-6xl text-white"></i>
+                    </div>
+                    <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-1">{{ t('pendingTasks') }}</p>
+                    <h2 class="text-4xl font-black text-white tracking-tight">{{ stats.pending }}</h2>
+                </div>
+
+                <div class="bg-dark-800 rounded-3xl p-6 border border-slate-700/50 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fa-solid fa-triangle-exclamation text-6xl text-red-500"></i>
+                    </div>
+                    <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-1">{{ t('attentionNeeded') }}</p>
+                    <div class="flex items-baseline gap-2">
+                        <h2 class="text-4xl font-black text-red-500 tracking-tight">{{ stats.urgent }}</h2>
+                        <span class="text-xs font-bold text-orange-400" v-if="stats.late > 0">({{ stats.late }} {{ t('late') }})</span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-gradient-to-r from-brand-900/20 to-dark-800 rounded-3xl p-1 border border-brand-500/20 shadow-xl">
+                    <div class="h-full bg-dark-900/50 backdrop-blur-sm rounded-[20px] p-5 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-gold-500/10 p-3 rounded-full text-gold-500 border border-gold-500/20">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-black uppercase text-slate-300">{{ t('topStaff') }}</h3>
+                                <p class="text-[10px] text-slate-500">{{ t('livePerformance') }}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                            <div v-for="(staff, i) in topPerformers" :key="i" class="flex items-center gap-2 bg-dark-950 px-3 py-2 rounded-xl border border-slate-700 min-w-[120px]">
+                                <span class="text-[10px] font-black text-slate-500">#{{ i+1 }}</span>
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-bold text-white whitespace-nowrap">{{ staff.name }}</span>
+                                    <span class="text-[10px] font-mono text-brand-400">{{ staff.points }} pts</span>
+                                </div>
+                            </div>
+                            <div v-if="topPerformers.length === 0" class="text-xs text-slate-500 font-bold italic py-2">
+                                {{ t('noData') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-dark-800 rounded-[2.5rem] border border-slate-700/50 shadow-2xl overflow-hidden">
+                
+                <div class="p-6 border-b border-slate-700/50 flex flex-col md:flex-row gap-4 justify-between items-center bg-dark-800">
+                    <div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                        <button v-for="cat in categories" :key="cat.id" 
+                                @click="activeFilter = cat.id"
+                                :class="activeFilter === cat.id ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/20' : 'bg-dark-900 text-slate-400 border border-slate-700 hover:border-slate-500'"
+                                class="px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap">
+                            {{ t(cat.label) }}
+                        </button>
+                    </div>
+                    <div class="relative w-full md:w-64">
+                        <i class="fa-solid fa-search absolute top-1/2 -translate-y-1/2 left-4 text-slate-500 text-xs rtl:right-4 rtl:left-auto"></i>
+                        <input v-model="searchQuery" type="text" :placeholder="t('searchPlaceholder')" 
+                               class="w-full bg-dark-900 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-xs font-bold text-white placeholder-slate-600 focus:outline-none focus:border-brand-500 transition rtl:pr-10 rtl:pl-4">
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left rtl:text-right">
+                        <thead>
+                            <tr class="text-[10px] font-black text-slate-500 uppercase bg-dark-900/50 border-b border-slate-700">
+                                <th class="px-8 py-5 tracking-wider">{{ t('roomCode') }}</th>
+                                <th class="px-8 py-5 tracking-wider">{{ t('request') }}</th>
+                                <th class="px-8 py-5 tracking-wider">{{ t('status') }}</th>
+                                <th class="px-8 py-5 tracking-wider">{{ t('timer') }}</th>
+                                <th class="px-8 py-5 text-end rtl:text-left tracking-wider">{{ t('action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/30">
+    <tr v-for="req in filteredRequests" :key="req.id" 
+        :class="getRowClass(req)" 
+        class="row-base hover:bg-slate-700/10 group">
+        
+        <td class="px-8 py-6 align-top">
+    <div class="flex flex-col gap-1">
+        <span class="text-sm font-black uppercase text-slate-300 tracking-wide mb-0.5">
+            {{ req.guest_name || 'GUEST' }}
+        </span>
+
+        <span class="text-2xl font-black text-white tracking-tighter leading-none">
+            Room {{ req.room_number }}
+        </span>
+        
+        <span class="text-[11px] font-mono font-bold text-brand-500 mt-1 flex items-center gap-1 bg-brand-500/5 w-fit px-2 py-0.5 rounded border border-brand-500/10">
+            <span class="opacity-50 font-sans">#</span>{{ req.short_code || '----' }}
+        </span>
+    </div>
+</td>
+
+
+
+        <td class="px-8 py-6 align-top">
+            <div class="flex flex-col max-w-md">
+                <p class="text-sm font-bold text-slate-200 leading-relaxed">{{ req.request_text }}</p>
+                
+                <div v-if="req.completed_by" class="mt-3 flex items-center gap-2 text-[10px] font-black text-green-500 uppercase bg-green-500/5 w-fit px-2 py-1 rounded border border-green-500/10">
+                    <i class="fa-solid fa-check-circle"></i> {{ t('handledBy') }}: {{ req.completed_by }}
+                </div>
+            </div>
+        </td>
+
+        <td class="px-8 py-6 align-top">
+            <span :class="getStatusClass(req.status)" class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wide border">
+                {{ t(req.status) }}
+            </span>
+        </td>
+
+        <td class="px-8 py-6 align-top">
+            <div class="flex flex-col">
+                <span class="text-xs font-bold" :class="isLate(req.created_at) && req.status !== 'completed' ? 'text-orange-500' : 'text-slate-400'">
+                    {{ getTimeAgo(req.created_at) }}
+                </span>
+                <span class="text-[9px] text-slate-600 font-mono mt-1">
+                    {{ new Date(req.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}
+                </span>
+            </div>
+        </td>
+
+        <td class="px-8 py-6 align-top text-end rtl:text-left">
+            <button v-if="req.status !== 'completed'" 
+                    @click="openModal(req)" 
+                    class="bg-brand-600 hover:bg-brand-500 text-white text-[10px] font-black px-6 py-3 rounded-xl shadow-lg shadow-brand-600/20 hover:scale-105 active:scale-95 transition-all">
+                {{ t('complete') }}
+            </button>
+            <div v-else class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-500/10 text-green-500">
+                <i class="fa-solid fa-check text-lg"></i>
+            </div>
+        </td>
+    </tr>
+</tbody>
+
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <div v-if="showModal" class="fixed inset-0 z-[100] bg-dark-950/90 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
+            <div class="bg-dark-800 w-full max-w-sm rounded-[2rem] border border-slate-700 p-8 shadow-2xl relative">
+                <button @click="closeModal" class="absolute top-6 right-6 text-slate-500 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-brand-600/10 text-brand-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-500/20">
+                        <i class="fa-solid fa-signature text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-1">{{ t('signOff') }}</h3>
+                    <p class="text-xs text-slate-400 font-bold">Room {{ selectedRequest?.room_number }} • #{{ selectedRequest?.short_code }}</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">{{ t('staffName') }}</label>
+                        <input v-model="staffName" 
+                               ref="staffInput"
+                               type="text" 
+                               @keyup.enter="confirmCompletion"
+                               class="w-full bg-dark-900 border border-slate-700 rounded-2xl p-4 text-center text-white font-bold focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all placeholder-slate-600"
+                               :placeholder="t('namePlaceholder')">
+                    </div>
+                    
+                    <button @click="confirmCompletion" 
+                            :disabled="!staffName"
+                            class="w-full bg-brand-600 hover:bg-brand-500 disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-2xl font-black shadow-xl shadow-brand-600/20 transition-all active:scale-95">
+                        {{ t('confirmComplete') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    const { createClient } = supabase;
+    // --- SUPABASE CONFIG ---
+    const sbUrl = 'https://swuqyrbknkobamnruurl.supabase.co';
+    const sbKey = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
+    const supabaseClient = createClient(sbUrl, sbKey);
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                requests: [],
+                searchQuery: '',
+                activeFilter: 'all',
+                currentLang: 'en',
+                showModal: false,
+                selectedRequest: null,
+                staffName: '',
+                now: Date.now(),
+                soundEnabled: false,
+                timerInterval: null,
+                categories: [
+                    { id: 'all', label: 'all' },
+                    { id: 'housekeeping_request', label: 'hk' },
+                    { id: 'maintenance_request', label: 'maint' },
+                    { id: 'roomservice_order', label: 'food' },
+                    { id: 'reception_request', label: 'fo' }
+                ],
+                translations: {
+                    en: {
+                        pendingTasks: 'Pending Tasks', attentionNeeded: 'Attention Needed', late: 'Late', topStaff: 'Top Performers', livePerformance: 'Live Performance',
+                        roomCode: 'Room & Context', request: 'Request Details', status: 'Status', timer: 'Elapsed Time', action: 'Action',
+                        handledBy: 'Handled by', complete: 'COMPLETE', confirmComplete: 'CONFIRM COMPLETION', signOff: 'Staff Signature',
+                        staffName: 'Staff Member Name', namePlaceholder: 'Enter your name...', noRequests: 'All caught up! No active requests.',
+                        noData: 'No completed tasks yet', searchPlaceholder: 'Search room, code, or details...',
+                        completed: 'Completed', pending: 'Pending',
+                        all: 'All', hk: 'Housekeeping', maint: 'Maintenance', food: 'Room Service', fo: 'Front Desk'
+                    },
+                    fr: {
+                        pendingTasks: 'Tâches en attente', attentionNeeded: 'Attention requise', late: 'Retard', topStaff: 'Meilleurs agents', livePerformance: 'Performance live',
+                        roomCode: 'Chambre & Code', request: 'Détails', status: 'Statut', timer: 'Temps écoulé', action: 'Action',
+                        handledBy: 'Traité par', complete: 'TERMINER', confirmComplete: 'CONFIRMER', signOff: 'Signature Staff',
+                        staffName: 'Nom de l\'agent', namePlaceholder: 'Votre nom...', noRequests: 'Tout est à jour !',
+                        noData: 'Aucune tâche terminée', searchPlaceholder: 'Rechercher...',
+                        completed: 'Terminé', pending: 'En Attente',
+                        all: 'Tout', hk: 'Ménage', maint: 'Maintenance', food: 'Restauration', fo: 'Réception'
+                    },
+                    ar: {
+                        pendingTasks: 'المهام المعلقة', attentionNeeded: 'يتطلب انتباه', late: 'متأخر', topStaff: 'الأفضل أداءً', livePerformance: 'الأداء المباشر',
+                        roomCode: 'الغرفة والرمز', request: 'التفاصيل', status: 'الحالة', timer: 'المدة', action: 'الإجراء',
+                        handledBy: 'بواسطة', complete: 'إنجاز', confirmComplete: 'تأكيد الإنجاز', signOff: 'توقيع الموظف',
+                        staffName: 'اسم الموظف', namePlaceholder: 'أدخل اسمك...', noRequests: 'لا توجد طلبات نشطة حالياً',
+                        noData: 'لا توجد بيانات', searchPlaceholder: 'بحث...',
+                        completed: 'مكتمل', pending: 'قيد الانتظار',
+                        all: 'الكل', hk: 'تدبير منزلي', maint: 'صيانة', food: 'خدمة غرف', fo: 'استقبال'
+                    }
+                }
+            }
+        },
+        computed: {
+            rtl() { return this.currentLang === 'ar'; },
+            stats() {
+                const pending = this.requests.filter(r => r.status !== 'completed');
+                const late = pending.filter(r => this.isLate(r.created_at)).length;
+                const urgent = pending.filter(r => r.urgency === 'high').length;
+                return { pending: pending.length, urgent, late };
+            },
+            topPerformers() {
+                const scores = {};
+                this.requests.forEach(r => {
+                    if (r.status === 'completed' && r.completed_by) {
+                        scores[r.completed_by] = (scores[r.completed_by] || 0) + 10;
+                    }
+                });
+                return Object.entries(scores)
+                    .map(([name, points]) => ({ name, points }))
+                    .sort((a, b) => b.points - a.points)
+                    .slice(0, 5);
+            },
+            filteredRequests() {
+                let filtered = this.requests;
+                // Category Filter
+                if (this.activeFilter !== 'all') {
+                    filtered = filtered.filter(r => r.category === this.activeFilter);
+                }
+                // Search Filter
+                if (this.searchQuery) {
+                    const q = this.searchQuery.toLowerCase();
+                    filtered = filtered.filter(r => 
+                        r.room_number?.toLowerCase().includes(q) || 
+                        r.short_code?.includes(q) || 
+                        r.request_text?.toLowerCase().includes(q)
+                    );
+                }
+                return filtered;
+            }
+        },
+        mounted() {
+            // Restore settings
+            const savedLang = localStorage.getItem('efyoos_lang');
+            if (savedLang) this.currentLang = savedLang;
+
+            // Start reactive timer
+            this.timerInterval = setInterval(() => { this.now = Date.now() }, 60000);
+
+            // Init Supabase
+            this.fetchRequests();
+            this.subscribeRealtime();
+        },
+        methods: {
+            t(key) { return this.translations[this.currentLang][key] || key; },
+            saveSettings() { localStorage.setItem('efyoos_lang', this.currentLang); },
+            
+            async fetchRequests() {
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('guest_requests')
+                        .select('*')
+                        .order('created_at', { ascending: false });
+                    if (!error && data) this.requests = data;
+                } catch (e) { console.error("Fetch error", e); }
+            },
+
+            subscribeRealtime() {
+                supabaseClient.channel('public:guest_requests')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'guest_requests' }, payload => {
+                        if (payload.eventType === 'INSERT') this.playSound();
+                        this.fetchRequests();
+                    })
+                    .subscribe();
+            },
+
+            // Audio Logic
+            toggleSound() {
+                this.soundEnabled = !this.soundEnabled;
+                if(this.soundEnabled) this.playSound(true); // Test sound
+            },
+            playSound(force = false) {
+                if (!this.soundEnabled && !force) return;
+                const audio = this.$refs.alertSound;
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.play().catch(e => console.log("Audio prevented by browser policy", e));
+                }
+            },
+
+            // Time Helpers
+            isLate(dateStr) {
+                const diff = (this.now - new Date(dateStr).getTime()) / 1000 / 60;
+                return diff > 15;
+            },
+            getTimeAgo(dateStr) {
+                const diffSec = (this.now - new Date(dateStr).getTime()) / 1000;
+                if (diffSec < 60) return this.currentLang === 'ar' ? 'الآن' : 'Just now';
+                if (diffSec < 3600) return Math.floor(diffSec / 60) + (this.currentLang === 'ar' ? ' د' : 'm ago');
+                return Math.floor(diffSec / 3600) + (this.currentLang === 'ar' ? ' س' : 'h ago');
+            },
+
+            // UI Helpers
+            getRowClass(req) {
+                if (req.status === 'completed') return 'opacity-60 grayscale';
+                if (req.urgency === 'high') return 'row-urgent';
+                if (this.isLate(req.created_at)) return 'row-late';
+                return 'row-base border-l-brand-500';
+            },
+            getStatusClass(status) {
+                if (status === 'completed') return 'bg-green-500/10 text-green-500 border-green-500/20';
+                return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
+            },
+
+            // Actions
+            openModal(req) {
+                this.selectedRequest = req;
+                this.staffName = '';
+                this.showModal = true;
+                this.$nextTick(() => this.$refs.staffInput.focus());
+            },
+            closeModal() { this.showModal = false; },
+            async confirmCompletion() {
+                if (!this.staffName.trim()) return;
+                
+                // Optimistic update
+                const id = this.selectedRequest.id;
+                const idx = this.requests.findIndex(r => r.id === id);
+                if (idx !== -1) {
+                    this.requests[idx].status = 'completed';
+                    this.requests[idx].completed_by = this.staffName;
+                }
+                this.closeModal();
+
+                // DB Update
+                await supabaseClient
+                    .from('guest_requests')
+                    .update({ 
+                        status: 'completed', 
+                        completed_by: this.staffName,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', id);
+            }
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send a Request</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: white;
+            --text-primary: #333;
+            --text-secondary: #555;
+            --border-color: #e0e0e0;
+            --accent-color: #4a90e2;
+            --accent-hover: #3a7bc8;
+            --hover-bg: #f8fafc;
+            --selected-bg: #e3f2fd;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --accent-color: #5ba3f5;
+            --accent-hover: #4a90e2;
+            --hover-bg: #383838;
+            --selected-bg: #2a4a6a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 20px;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .theme-toggle, .lang-switch {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover, .lang-switch:hover {
+            border-color: var(--accent-color);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-btn.show {
+            display: flex;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .request-btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            flex-direction: column;
+            color: var(--text-primary);
+        }
+
+        .request-btn:hover {
+            border-color: var(--accent-color);
+            background: var(--hover-bg);
+        }
+
+        .request-btn:active {
+            transform: scale(0.98);
+        }
+
+        .emoji {
+            font-size: 32px;
+            min-width: 32px;
+        }
+
+        .category-view,
+        .detailed-view {
+            display: none;
+        }
+
+        .category-view.active,
+        .detailed-view.active {
+            display: block;
+        }
+
+        .order-summary-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .order-summary-box.show {
+            display: block;
+        }
+
+        .order-summary-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .order-items-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: var(--hover-bg);
+            border-radius: 6px;
+        }
+
+        .order-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .order-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .order-item-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .order-item-qty {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .order-item-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-item-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-color);
+            white-space: nowrap;
+        }
+
+        .order-item-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .order-item-remove:hover {
+            background: #c82333;
+        }
+
+        .order-total {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-total-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .order-total-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .detailed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .detailed-item {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .detailed-item .emoji {
+            font-size: 28px;
+        }
+
+        .detailed-item .label {
+            font-size: 11px;
+            line-height: 1.2;
+        }
+
+        .detailed-item:hover {
+            border-color: var(--accent-color);
+            background: var(--hover-bg);
+        }
+
+        .detailed-item.selected {
+            border-color: var(--accent-color);
+            background: var(--selected-bg);
+        }
+
+        .quantity-section {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .quantity-section.show {
+            display: block;
+        }
+
+        .quantity-label {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .quantity-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .quantity-display {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            width: 100%;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submit-btn {
+            background: var(--accent-color);
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .add-to-order-btn {
+            background: #28a745;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .add-to-order-btn.show {
+            display: block;
+        }
+
+        .add-to-order-btn:hover {
+            background: #218838;
+        }
+
+        .status-message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .status-message.sending {
+            display: block;
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .footer img {
+            height: 48px;
+            width: auto;
+        }
+
+        @media (min-width: 600px) {
+            .button-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .detailed-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-controls">
+            <select class="lang-switch" id="langSwitch">
+                <option value="en">🇬🇧 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="ar">🇩🇿 العربية</option>
+            </select>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+
+        <button class="back-btn" id="backBtn">← <span data-translate="back">Back</span></button>
+        <h1 id="pageTitle" data-translate="title">Send a Request</h1>
+        
+        <form id="requestForm">
+            <div class="form-group">
+                <label for="guestName" data-translate="guestName">Guest Name *</label>
+                <input type="text" id="guestName" name="guest_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="roomNumber" data-translate="roomNumber">Room Number *</label>
+                <input type="text" id="roomNumber" name="room_number" required>
+            </div>
+
+            <input type="hidden" name="category" id="categoryInput">
+            <input type="hidden" name="urgency" id="urgencyInput">
+
+            <div class="category-view active" id="categoryView">
+                <div class="button-grid">
+                    <button type="button" class="request-btn" data-category="housekeeping">
+                        <span class="emoji">🧹</span>
+                        <span data-translate="housekeeping">Housekeeping</span>
+                    </button>
+                    <button type="button" class="request-btn" data-category="maintenance">
+                        <span class="emoji">🛠</span>
+                        <span data-translate="maintenance">Maintenance</span>
+                    </button>
+                    <button type="button" class="request-btn" data-category="reception">
+                        <span class="emoji">☎</span>
+                        <span data-translate="reception">Reception</span>
+                    </button>
+                    <button type="button" class="request-btn" data-category="roomservice">
+                        <span class="emoji">🍽️</span>
+                        <span data-translate="roomservice">Room Service</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="detailed-view" id="detailedView">
+                <div class="order-summary-box" id="orderSummaryBox">
+                    <div class="order-summary-title" data-translate="yourOrder">Your Order</div>
+                    <div class="order-items-list" id="orderItemsList"></div>
+                    <div class="order-total">
+                        <span class="order-total-label" data-translate="totalPrice">Total Price</span>
+                        <span class="order-total-amount" id="orderTotalAmount">0 DA</span>
+                    </div>
+                </div>
+
+                <div class="detailed-grid" id="detailedList"></div>
+                
+                <div class="quantity-section" id="quantitySection">
+                    <div class="quantity-label" data-translate="quantity">Quantity</div>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" id="decreaseQty">−</button>
+                        <span class="quantity-display" id="quantityDisplay">1</span>
+                        <button type="button" class="quantity-btn" id="increaseQty">+</button>
+                    </div>
+                </div>
+
+                <button type="button" class="btn add-to-order-btn" id="addToOrderBtn" data-translate="addToOrder">Add to Order</button>
+            </div>
+
+            <div class="form-group">
+                <label for="feedback" data-translate="feedback">Feedback (Optional)</label>
+                <textarea id="feedback" name="feedback"></textarea>
+            </div>
+
+            <button type="submit" class="btn submit-btn" id="submitBtn" data-translate="sendRequest">Send Request</button>
+
+            <div class="status-message" id="statusMessage"></div>
+        </form>
+
+        <div class="footer">
+            <span>Developed by EFYOOS</span>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHg9IjEwMCIgeT0iMTAwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzFhM2M1YSIvPgo8cmVjdCB4PSIyNTAiIHk9IjEwMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM2Yzc1N2QiLz4KPHJlY3QgeD0iMTAwIiB5PSIyNTAiIHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjNGY4YThhIi8+CjxyZWN0IHg9IjI1MCIgeT0iMjUwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzY3Nzg4YSIvPgo8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyNTAiIHI9IjgwIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjUwIDIyMEwyMjAgMjgwSDI4MEwyNTAgMjIwWiIgZmlsbD0iIzRmOGE4YSIvPgo8cGF0aCBkPSJNMjUwIDI4MEwyMjAgMzIwSDI4MEwyNTAgMjgwWiIgZmlsbD0iIzFhM2M1YSIvPgo8L3N2Zz4=" alt="EFYOOS Logo">
+        </div>
+    </div>
+
+    <script>
+          
+        const translations = {
+            en: {
+                title: "Send a Request", back: "Back", guestName: "Guest Name *", roomNumber: "Room Number *",
+                housekeeping: "Housekeeping", maintenance: "Maintenance", reception: "Reception", roomservice: "Room Service",
+                feedback: "Feedback (Optional)", sendRequest: "Send Request", quantity: "Quantity",
+                housekeepingTitle: "Housekeeping Requests", maintenanceTitle: "Maintenance Requests",
+                receptionTitle: "Reception Requests", roomserviceTitle: "Room Service Menu",
+                pleaseEnterName: "Please enter your name", pleaseEnterRoom: "Please enter your room number",
+                pleaseSelectRequest: "Please select a request", sending: "Sending...", networkError: "Network error: ",
+                totalPrice: "Total Price", yourOrder: "Your Order", addToOrder: "Add to Order", remove: "Remove",
+                staffAssigned: "Thank you! A staff member has been assigned to handle your request and will be with you shortly."
+            },
+            fr: {
+                title: "Envoyer une Demande", back: "Retour", guestName: "Nom du Client *", roomNumber: "Numéro de Chambre *",
+                housekeeping: "Ménage", maintenance: "Maintenance", reception: "Réception", roomservice: "Service de Chambre",
+                feedback: "Commentaires (Facultatif)", sendRequest: "Envoyer la Demande", quantity: "Quantité",
+                housekeepingTitle: "Demandes de Ménage", maintenanceTitle: "Demandes de Maintenance",
+                receptionTitle: "Demandes de Réception", roomserviceTitle: "Menu du Service",
+                pleaseEnterName: "Veuillez entrer votre nom", pleaseEnterRoom: "Veuillez entrer votre numéro de chambre",
+                pleaseSelectRequest: "Veuillez sélectionner une demande", sending: "Envoi en cours...", networkError: "Erreur réseau: ",
+                totalPrice: "Prix Total", yourOrder: "Votre Commande", addToOrder: "Ajouter à la Commande", remove: "Retirer",
+                staffAssigned: "Merci! Un membre du personnel a été assigné pour traiter votre demande et sera avec vous sous peu."
+            },
+            ar: {
+                title: "إرسال طلب", back: "رجوع", guestName: "اسم الضيف *", roomNumber: "رقم الغرفة *",
+                housekeeping: "التدبير المنزلي", maintenance: "الصيانة", reception: "الاستقبال", roomservice: "خدمة الغرف",
+                feedback: "ملاحظات (اختياري)", sendRequest: "إرسال الطلب", quantity: "الكمية",
+                housekeepingTitle: "طلبات التدبير المنزلي", maintenanceTitle: "طلبات الصيانة",
+                receptionTitle: "طلبات الاستقبال", roomserviceTitle: "قائمة خدمة الغرف",
+                pleaseEnterName: "الرجاء إدخال اسمك", pleaseEnterRoom: "الرجاء إدخال رقم غرفتك",
+                pleaseSelectRequest: "الرجاء اختيار طلب", sending: "جاري الإرسال...", networkError: "خطأ في الشبكة: ",
+                totalPrice: "السعر الإجمالي", yourOrder: "طلبك", addToOrder: "أضف للطلب", remove: "حذف",
+                staffAssigned: "شكراً! تم تعيين موظف لمعالجة طلبك وسيكون معك قريباً."
+            }
+        };
+
+        const requestsLabels = {
+            en: {
+                housekeeping: ["Towels", "Pillows", "Bedsheets", "Cleaning", "Coffee/Tea", "Toilet Paper", "Hangers", "Towel Replace", "Turndown", "Trash", "Bath Mat", "Blankets", "Not Cleaned", "Pillow Type", "Crib Bedding", "Sanitize", "Early Clean", "Laundry", "Minibar Water", "Slippers"],
+                maintenance: ["AC Not Cool", "TV Remote", "Toilet Clog", "Drain Block", "Hot Water", "Light Bulb", "Safe Box", "WiFi Weak", "Door Lock", "Window", "Mini Fridge", "Outlet", "Sink Leak", "AC Noise", "TV Signal", "Low Pressure", "Bedside Lamp", "Toilet Water", "Balcony Door", "AC Leak"],
+                reception: ["Wake-up 7AM", "Late Checkout", "Taxi", "Room Upgrade", "Breakfast", "WiFi Pass", "Print Docs", "Invoice", "City Map", "Restaurant", "Luggage", "Early Checkin", "Airport", "Extend Stay", "Bill Check", "Extra Key", "Schedule Info", "Change Room", "Shuttle", "Tours"],
+                roomservice: ["Burger", "Pizza", "Salad", "Pasta", "Shawarma", "Grilled Meat", "Couscous", "Shorba", "Tacos", "Coffee", "Soft Drink", "Algerian Tea", "Dessert", "Msemen", "Makrout", "Baghrir"]
+            },
+            fr: {
+                housekeeping: ["Serviettes", "Oreillers", "Draps", "Nettoyage", "Café/Thé", "Papier Toilette", "Cintres", "Changer Serviettes", "Service Soir", "Poubelle", "Tapis de Bain", "Couvertures", "Pas Nettoyé", "Type Oreiller", "Lit Bébé", "Désinfecter", "Nettoyage Tôt", "Blanchisserie", "Eau Minibar", "Pantoufles"],
+                maintenance: ["Clim Froide", "Télécommande", "Toilette Bloquée", "Drain Bloqué", "Eau Chaude", "Ampoule", "Coffre-fort", "WiFi Faible", "Serrure Porte", "Fenêtre", "Mini Frigo", "Prise", "Fuite Lavabo", "Bruit Clim", "Signal TV", "Basse Pression", "Lampe Chevet", "Eau Toilette", "Porte Balcon", "Fuite Clim"],
+                reception: ["Réveil 7h", "Départ Tardif", "Taxi", "Surclassement", "Petit-déj", "Mot WiFi", "Imprimer", "Facture", "Plan Ville", "Restaurant", "Bagages", "Arrivée Tôt", "Aéroport", "Prolonger", "Facture Détails", "Clé Extra", "Info Horaire", "Changer Chambre", "Navette", "Visites"],
+                roomservice: ["Burger", "Pizza", "Salade", "Pâtes", "Shawarma", "Viande Grillée", "Couscous", "Chorba", "Tacos", "Café", "Boisson", "Thé Algérien", "Dessert", "Msemen", "Makrout", "Baghrir"]
+            },
+            ar: {
+                housekeeping: ["فوط", "مخدات", "ملايات", "تنظيف الغرفة", "قهوة وشاي", "ورق صحي", "علاقات ملابس", "تبديل الفوط", "خدمة مسائية", "إفراغ الزبالة", "سجادة الحمام", "بطانيات إضافية", "الغرفة ماتنضفتش", "نوع المخدة", "فراش سرير الطفل", "تعقيم الغرفة", "تنظيف بكري", "غسيل الملابس", "ماء البار الصغير", "شباشب"],
+                maintenance: ["الكليماتيزور مايبردش", "ريموت التلفزة", "التواليت مسدود", "الدوش مسدود", "الماء السخون", "اللامبة محروقة", "الخزينة", "الواي فاي ضعيف", "قفل الباب", "الشباك", "الثلاجة الصغيرة", "البريز", "الحوض يقطر", "الكليم يعمل ضجة", "التلفزة مافيهاش إشارة", "الماء ضعيف", "لامبة الطاولة", "التواليت الماء يجري", "باب البلكونة", "الكليم يقطر ماء"],
+                reception: ["فيقوني السبعة صباح", "خروج متأخر", "طاكسي", "ترقية الشامبر", "الفطور", "موت دوباس الواي فاي", "طباعة", "الفاتورة", "خريطة المدينة", "حجز مطعم", "مساعدة في الحقائب", "دخول بكري", "المطار", "زيادة الإقامة", "توضيح الفاتورة", "مفتاح زيادة", "معلومات التنظيف", "تبديل الشامبر", "النقل", "الجولات السياحية"],
+                roomservice: ["همبرغر", "بيتزا", "سلطة", "معكرونة", "شاورما", "مشوي", "كسكسي", "شربة", "طاكوس", "قهوة", "مشروب غازي", "أتاي", "حلويات", "مسمن", "مقروط", "بغرير"]
+            }
+        };
+
+        const requests = {
+            housekeeping: [
+                {emoji:"🧻",text:"Please send extra towels to the room"},{emoji:"🛏️",text:"Can we get two extra pillows"},
+                {emoji:"🛏️",text:"Need fresh bedsheets"},{emoji:"🧹",text:"Request room cleaning now"},
+                {emoji:"☕",text:"Please refill coffee and tea supplies"},{emoji:"🧻",text:"Can we get extra toilet paper"},
+                {emoji:"👔",text:"Need additional hangers in the closet"},{emoji:"🧺",text:"Please replace used towels"},
+                {emoji:"🌙",text:"Request evening turndown service"},                {emoji:"🗑️",text:"Can you empty the trash bin"},{emoji:"🛁",text:"Need a fresh bath mat"},
+                {emoji:"🛌",text:"Please bring extra blankets"},{emoji:"🧹",text:"Room hasn't been cleaned today"},
+                {emoji:"🫔",text:"Request pillow change (firm/soft)"},{emoji:"👶",text:"Need baby crib bedding"},
+                {emoji:"🧼",text:"Please sanitize the room"},{emoji:"⏰",text:"Request room cleaning before 10 AM"},
+                {emoji:"🧺",text:"Need laundry pickup"},{emoji:"💧",text:"Please refill minibar water"},
+                {emoji:"🥿",text:"Need extra slippers"}
+            ],
+            maintenance: [
+                {emoji:"❄️",text:"Air conditioner is not cooling"},{emoji:"📺",text:"TV remote not working"},
+                {emoji:"🚽",text:"Toilet is clogged"},{emoji:"🚿",text:"Shower drain is blocked"},
+                {emoji:"🔥",text:"Hot water not working"},{emoji:"💡",text:"Light bulb is burnt out"},
+                {emoji:"🔒",text:"Safe box is not opening"},{emoji:"📶",text:"Wi-Fi signal is weak in room"},
+                {emoji:"🚪",text:"Door lock not working properly"},{emoji:"🪟",text:"Window won't close"},
+                {emoji:"🧊",text:"Mini fridge not cooling"},{emoji:"🔌",text:"Electrical outlet not working"},
+                {emoji:"🚰",text:"Bathroom sink leaking"},{emoji:"❄️",text:"AC making loud noise"},
+                {emoji:"📺",text:"TV has no signal"},{emoji:"🚿",text:"Shower pressure is very low"},
+                {emoji:"💡",text:"Bedside lamp not turning on"},{emoji:"🚽",text:"Toilet keeps running water"},
+                {emoji:"🚪",text:"Balcony door stuck"},{emoji:"❄️",text:"Air conditioner leaking water"}
+            ],
+            reception: [
+                {emoji:"⏰",text:"Request wake-up call at 7 AM"},{emoji:"🏨",text:"Can I check out late"},
+                {emoji:"🚕",text:"Need taxi booking"},{emoji:"⬆️",text:"Request room upgrade"},
+                {emoji:"🍳",text:"What time is breakfast"},{emoji:"📶",text:"Need Wi-Fi password"},
+                {emoji:"🖨️",text:"Can you print documents"},{emoji:"🧾",text:"Request invoice copy"},
+                {emoji:"🗺️",text:"Need city map"},{emoji:"🍽️",text:"Can you book a restaurant"},
+                {emoji:"🧳",text:"Request luggage assistance"},{emoji:"🏨",text:"Early check-in request"},
+                {emoji:"✈️",text:"Need directions to airport"},{emoji:"📅",text:"Can I extend my stay"},
+                {emoji:"💳",text:"Request bill clarification"},{emoji:"🔑",text:"Need extra room key"},
+                {emoji:"🧹",text:"Request housekeeping schedule info"},{emoji:"🔄",text:"Can I change room"},
+                {emoji:"🚐",text:"Request shuttle service"},{emoji:"🗺️",text:"Need tour information"}
+            ],
+            roomservice: [
+                {emoji:"🍔",text:"Burger",price:1200},{emoji:"🍕",text:"Pizza",price:1500},
+                {emoji:"🥗",text:"Salad",price:800},{emoji:"🍝",text:"Pasta",price:1400},
+                {emoji:"🥙",text:"Shawarma",price:900},{emoji:"🍖",text:"Grilled Meat",price:2200},
+                {emoji:"🥘",text:"Couscous",price:1800},{emoji:"🍲",text:"Shorba",price:700},
+                {emoji:"🥙",text:"Tacos",price:850},{emoji:"☕",text:"Coffee",price:300},
+                {emoji:"🥤",text:"Soft Drink",price:250},{emoji:"🫖",text:"Algerian Tea",price:200},
+                {emoji:"🍰",text:"Dessert",price:600},{emoji:"🥞",text:"Msemen",price:400},
+                {emoji:"🧁",text:"Makrout",price:500},{emoji:"🍯",text:"Baghrir",price:450}
+            ]
+        };
+
+        let currentLang = 'en';
+        let currentTheme = 'light';
+        let currentCategory = '';
+        let selectedItem = null;
+        let quantity = 1;
+        let orderItems = [];
+
+        const form = document.getElementById('requestForm');
+        const categoryView = document.getElementById('categoryView');
+        const detailedView = document.getElementById('detailedView');
+        const detailedList = document.getElementById('detailedList');
+        const backBtn = document.getElementById('backBtn');
+        const pageTitle = document.getElementById('pageTitle');
+        const categoryBtns = document.querySelectorAll('[data-category]');
+        const themeToggle = document.getElementById('themeToggle');
+        const langSwitch = document.getElementById('langSwitch');
+        const quantitySection = document.getElementById('quantitySection');
+        const quantityDisplay = document.getElementById('quantityDisplay');
+        const decreaseQty = document.getElementById('decreaseQty');
+        const increaseQty = document.getElementById('increaseQty');
+        const addToOrderBtn = document.getElementById('addToOrderBtn');
+        const orderSummaryBox = document.getElementById('orderSummaryBox');
+        const orderItemsList = document.getElementById('orderItemsList');
+        const orderTotalAmount = document.getElementById('orderTotalAmount');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        function updateTranslations() {
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+            if (currentLang === 'ar') {
+                document.body.style.direction = 'rtl';
+            } else {
+                document.body.style.direction = 'ltr';
+            }
+        }
+
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message ' + type;
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusMessage.className = 'status-message';
+                }, 5000);
+            }
+        }
+
+        function updateOrderSummary() {
+            if (orderItems.length === 0) {
+                orderSummaryBox.classList.remove('show');
+                return;
+            }
+
+            orderSummaryBox.classList.add('show');
+            orderItemsList.innerHTML = '';
+            let total = 0;
+
+            orderItems.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'order-item';
+                itemDiv.innerHTML = `
+                    <div class="order-item-left">
+                        <span class="emoji">${item.emoji}</span>
+                        <div class="order-item-info">
+                            <div class="order-item-name">${item.name}</div>
+                            <div class="order-item-qty">x${item.quantity}</div>
+                        </div>
+                    </div>
+                    <div class="order-item-right">
+                        <span class="order-item-price">${itemTotal.toLocaleString()} DA</span>
+                        <button type="button" class="order-item-remove" onclick="removeItem(${index})">${translations[currentLang].remove}</button>
+                    </div>
+                `;
+                orderItemsList.appendChild(itemDiv);
+            });
+
+            orderTotalAmount.textContent = total.toLocaleString() + ' DA';
+        }
+
+        window.removeItem = function(index) {
+            orderItems.splice(index, 1);
+            updateOrderSummary();
+        };
+
+        langSwitch.addEventListener('change', (e) => {
+            currentLang = e.target.value;
+            updateTranslations();
+            if (currentCategory) {
+                showDetailedView(currentCategory);
+            }
+        });
+
+        themeToggle.addEventListener('click', () => {
+            if (currentTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+                currentTheme = 'dark';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+                currentTheme = 'light';
+            }
+        });
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentCategory = this.dataset.category;
+                showDetailedView(currentCategory);
+            });
+        });
+
+        backBtn.addEventListener('click', () => {
+            detailedView.classList.remove('active');
+            categoryView.classList.add('active');
+            backBtn.classList.remove('show');
+            pageTitle.textContent = translations[currentLang].title;
+            selectedItem = null;
+            quantity = 1;
+            quantitySection.classList.remove('show');
+            addToOrderBtn.classList.remove('show');
+            document.querySelectorAll('.detailed-item').forEach(i => i.classList.remove('selected'));
+        });
+
+        function showDetailedView(category) {
+            categoryView.classList.remove('active');
+            detailedView.classList.add('active');
+            backBtn.classList.add('show');
+            
+            const titleMap = {
+                housekeeping: 'housekeepingTitle',
+                maintenance: 'maintenanceTitle',
+                reception: 'receptionTitle',
+                roomservice: 'roomserviceTitle'
+            };
+            pageTitle.textContent = translations[currentLang][titleMap[category]];
+
+            if (category === 'roomservice') {
+                updateOrderSummary();
+            } else {
+                orderSummaryBox.classList.remove('show');
+            }
+
+            detailedList.innerHTML = '';
+            requests[category].forEach((req, index) => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'detailed-item';
+                const label = requestsLabels[currentLang][category][index] || req.text;
+                item.innerHTML = `
+                    <span class="emoji">${req.emoji}</span>
+                    <span class="label">${label}</span>
+                    ${req.price ? `<span class="label" style="font-weight:600">${req.price} DA</span>` : ''}
+                `;
+                item.addEventListener('click', () => selectItem(req, item, category));
+                detailedList.appendChild(item);
+            });
+
+            const categoryMap = {
+                housekeeping: 'housekeeping_request',
+                maintenance: 'maintenance_request',
+                reception: 'reception_request',
+                roomservice: 'roomservice_order'
+            };
+            const urgencyMap = {
+                housekeeping: 'medium',
+                maintenance: 'high',
+                reception: 'low',
+                roomservice: 'medium'
+            };
+            document.getElementById('categoryInput').value = categoryMap[category];
+            document.getElementById('urgencyInput').value = urgencyMap[category];
+        }
+
+        function selectItem(req, itemEl, category) {
+            document.querySelectorAll('.detailed-item').forEach(i => i.classList.remove('selected'));
+            itemEl.classList.add('selected');
+            selectedItem = req;
+            quantity = 1;
+            quantityDisplay.textContent = '1';
+
+            if (category === 'roomservice') {
+                quantitySection.classList.add('show');
+                addToOrderBtn.classList.add('show');
+            } else {
+                quantitySection.classList.remove('show');
+                addToOrderBtn.classList.remove('show');
+            }
+        }
+
+        decreaseQty.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityDisplay.textContent = quantity;
+            }
+        });
+
+        increaseQty.addEventListener('click', () => {
+            if (quantity < 10) {
+                quantity++;
+                quantityDisplay.textContent = quantity;
+            }
+        });
+
+        addToOrderBtn.addEventListener('click', () => {
+            if (!selectedItem) {
+                showStatus(translations[currentLang].pleaseSelectRequest, 'error');
+                return;
+            }
+
+            const label = requestsLabels[currentLang].roomservice[requests.roomservice.indexOf(selectedItem)];
+            orderItems.push({
+                emoji: selectedItem.emoji,
+                name: label,
+                price: selectedItem.price,
+                quantity: quantity
+            });
+
+            updateOrderSummary();
+            document.querySelectorAll('.detailed-item').forEach(i => i.classList.remove('selected'));
+            selectedItem = null;
+            quantity = 1;
+            quantityDisplay.textContent = '1';
+            quantitySection.classList.remove('show');
+            addToOrderBtn.classList.remove('show');
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const guestName = document.getElementById('guestName').value.trim();
+            const roomNumber = document.getElementById('roomNumber').value.trim();
+            const feedback = document.getElementById('feedback').value.trim();
+
+            if (!guestName) {
+                showStatus(translations[currentLang].pleaseEnterName, 'error');
+                return;
+            }
+
+            if (!roomNumber) {
+                showStatus(translations[currentLang].pleaseEnterRoom, 'error');
+                return;
+            }
+
+            let requestText = '';
+            if (currentCategory === 'roomservice') {
+                if (orderItems.length === 0) {
+                    showStatus(translations[currentLang].pleaseSelectRequest, 'error');
+                    return;
+                }
+                const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                requestText = orderItems.map(item => `${item.name} x${item.quantity}`).join(', ') + ` (Total: ${total} DA)`;
+            } else {
+                if (!selectedItem) {
+                    showStatus(translations[currentLang].pleaseSelectRequest, 'error');
+                    return;
+                }
+                requestText = selectedItem.text;
+            }
+
+            if (feedback) {
+                requestText += ' - Feedback: ' + feedback;
+            }
+
+            const payload = {
+                hotel_id: 'H001',
+                language: currentLang,
+                guest_name: guestName,
+                room_number: roomNumber,
+                category: document.getElementById('categoryInput').value,
+                short_code: (document.getElementById('categoryInput')?.value || 'REQ').toUpperCase().substring(0, 5),
+                urgency: document.getElementById('urgencyInput').value,
+                request_text: requestText
+            };
+
+            try {
+                submitBtn.disabled = true;
+                showStatus(translations[currentLang].sending, 'sending');
+
+                const response = await fetch('https://efyoos-backend.onrender.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    showStatus(translations[currentLang].staffAssigned, 'success');
+                    
+                    setTimeout(() => {
+                        document.getElementById('guestName').value = '';
+                        document.getElementById('roomNumber').value = '';
+                        document.getElementById('feedback').value = '';
+                        orderItems = [];
+                        selectedItem = null;
+                        quantity = 1;
+                        detailedView.classList.remove('active');
+                        categoryView.classList.add('active');
+                        backBtn.classList.remove('show');
+                        pageTitle.textContent = translations[currentLang].title;
+                        orderSummaryBox.classList.remove('show');
+                        quantitySection.classList.remove('show');
+                        addToOrderBtn.classList.remove('show');
+                        statusMessage.className = 'status-message';
+                        submitBtn.disabled = false;
+                    }, 3000);
+                } else {
+                    showStatus('Failed to send request. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                showStatus(translations[currentLang].networkError + err.message, 'error');
+                submitBtn.disabled = false;
+            }
+        });
+
+        updateTranslations();
+    </script>
+</body>
+</html>
