@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/(background.jpg)",
+      "dest": "/$1"
+    },
+    {
       "has": [{ "type": "host", "value": "manager.efyoos.com" }],
       "src": "/(.*)",
       "dest": "/dashboard.html"
