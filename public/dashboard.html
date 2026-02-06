@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
+    <script
+  src="https://js.sentry-cdn.com/2f3d7948afb2169c7fcb3c001e2518b5.min.js"
+  crossorigin="anonymous"
+></script>
+
+<script>
+  Sentry.onLoad(function() {
+    Sentry.init({
+      // Captures 100% of performance data while we are testing
+      tracesSampleRate: 1.0,
+      // Captures 100% of user sessions so you can watch replays of your tests
+      replaysSessionSampleRate: 1.0,
+      replaysOnErrorSampleRate: 1.0,
+    });
+  });
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EFYOOS COMMAND | Elite S2</title>
