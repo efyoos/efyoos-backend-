@@ -14,15 +14,9 @@
       "src": "/(.*)",
       "dest": "/guest.html"
     },
-    {
-      "has": [{ "type": "host", "value": "efyoos.com" }],
-      "src": "/(.*)",
-      "dest": "/index.html"
-    },
-    {
-      "has": [{ "type": "host", "value": "www.efyoos.com" }],
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/home.html",      "dest": "/home.html" },
+    { "src": "/dashboard.html", "dest": "/dashboard.html" },
+    { "src": "/guest.html",     "dest": "/guest.html" },
+    { "src": "/(.*)",           "dest": "/index.html" }
   ]
 }
