@@ -120,43 +120,37 @@ serve(async (req) => {
     // FIX #4: Only attempt if secret exists (graceful degradation)
     // ============================================================
 
-    const sendgridKey = Deno.env.get('SENDGRID_API_KEY')
+const resendKey = Deno.env.get('RESEND_API_KEY')
 
-    if (targetEmail && sendgridKey) {
-      try {
-        const emailResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${sendgridKey}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            personalizations: [{ to: [{ email: targetEmail }] }],
-            from: {
-              email: Deno.env.get('ALERT_FROM_EMAIL') || 'alerts@efyoos.com',
-              name: 'Efyoos Alerts'
-            },
-            subject: `${is_escalation ? '🚨 ESCALATED: ' : '⚠️ '}Alert #${alert_id} [${severity.toUpperCase()}]`,
-            content: [{
-              type: 'text/plain',
-              value: `${is_escalation ? 'ESCALATED ALERT\n' : ''}Alert #${alert_id}\nSeverity: ${severity}\n\n${message}\n\nLogin to your dashboard to acknowledge or resolve this alert.`
-            }]
-          })
-        })
+if (targetEmail && resendKey) {
+  try {
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'Efyoos Alerts <alerts@efyoos.com>',
+        to: [targetEmail],
+        subject: `${is_escalation ? '🚨 ESCALATED: ' : '⚠️ '}Alert #${alert_id} [${severity.toUpperCase()}]`,
+        text: `${is_escalation ? 'ESCALATED ALERT\n\n' : ''}Alert #${alert_id}\nSeverity: ${severity.toUpperCase()}\nHotel: ${hotel_id}\n\n${message}\n\nLogin to your dashboard to acknowledge or resolve this alert.`
+      })
+    })
 
-        results.email = emailResponse.ok || emailResponse.status === 202
-          ? { success: true }
-          : { success: false, status: emailResponse.status }
+    const emailData = await emailResponse.json()
+    results.email = emailResponse.ok
+      ? { success: true, id: emailData.id }
+      : { success: false, error: emailData }
 
-        console.log(`${results.email.success ? '✅' : '❌'} Email to ${targetEmail}`)
-      } catch (err) {
-        results.email = { success: false, error: err.message }
-      }
-    } else {
-      // FIX #4: Don't crash, just skip
-      results.email = { success: false, reason: 'SENDGRID_API_KEY not configured' }
-      console.log(`⚠️ Email skipped - SENDGRID_API_KEY not set`)
-    }
+    console.log(`${results.email.success ? '✅' : '❌'} Email to ${targetEmail}`)
+  } catch (err) {
+    results.email = { success: false, error: err.message }
+  }
+} else {
+  results.email = { success: false, reason: 'RESEND_API_KEY not configured' }
+  console.log(`⚠️ Email skipped - RESEND_API_KEY not set`)
+}
 
     // ============================================================
     // SMS VIA TWILIO (escalation only)
