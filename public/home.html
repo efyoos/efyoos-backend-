@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efyoos — Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+
+        :root {
+            --bg:         #0B0E14;
+            --bg-card:    #13181F;
+            --bg-hover:   #181E28;
+            --green:      #00F59B;
+            --green-dim:  rgba(0, 245, 155, 0.08);
+            --green-glow: rgba(0, 245, 155, 0.15);
+            --silver:     #94A3B8;
+            --white:      #F0F4F8;
+            --muted:      #4A5568;
+            --border:     rgba(148, 163, 184, 0.10);
+            --border-hover: rgba(0, 245, 155, 0.25);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            background: var(--bg);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── AMBIENT BACKGROUND ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 10% 0%, rgba(0,245,155,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 90% 100%, rgba(148,163,184,0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── LAYOUT ─── */
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ─── HEADER ─── */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 32px 0 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 10px var(--green);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.6; transform: scale(0.85); }
+        }
+
+        .logo-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+            color: var(--white);
+        }
+
+        .logo-name span { color: var(--green); }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hotel-badge {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--silver);
+            text-transform: uppercase;
+        }
+
+        .sign-out {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .sign-out:hover { color: var(--silver); }
+
+        /* ─── GREETING ─── */
+        .greeting-section {
+            padding: 64px 0 56px;
+        }
+
+        .greeting-eyebrow {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.1s forwards;
+        }
+
+        .greeting-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 54px);
+            font-weight: 600;
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 14px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.2s forwards;
+        }
+
+        .greeting-title em {
+            font-style: italic;
+            color: var(--green);
+        }
+
+        .greeting-sub {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--silver);
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar {
+            display: flex;
+            gap: 1px;
+            background: var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .stat-item {
+            flex: 1;
+            background: var(--bg-card);
+            padding: 18px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: background 0.2s;
+        }
+
+        .stat-item:hover { background: var(--bg-hover); }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .stat-value.green { color: var(--green); }
+
+        /* ─── SECTION LABEL ─── */
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.5s forwards;
+        }
+
+        /* ─── CARDS GRID ─── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .cards-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 56px;
+        }
+
+        /* ─── CARD BASE ─── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.25s, background 0.25s, transform 0.25s;
+            opacity: 0;
+        }
+
+        .card:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0,245,155,0.06), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: 20px;
+        }
+
+        .card:hover::after { opacity: 1; }
+
+        /* ─── CARD ACTIVE (clickable) ─── */
+        .card.active { animation: cardIn 0.5s ease-out forwards; }
+        .card.active:nth-child(1) { animation-delay: 0.55s; }
+        .card.active:nth-child(2) { animation-delay: 0.65s; }
+        .card.active:nth-child(3) { animation-delay: 0.75s; }
+
+        .cards-grid-2 .card.active:nth-child(1) { animation-delay: 0.85s; }
+        .cards-grid-2 .card.active:nth-child(2) { animation-delay: 0.95s; }
+        .cards-grid-2 .card.active:nth-child(3) { animation-delay: 1.05s; }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── CARD LOCKED (coming soon) ─── */
+        .card.locked {
+            opacity: 0;
+            cursor: default;
+            animation: cardIn 0.5s ease-out forwards;
+        }
+
+        .card.locked:hover {
+            transform: none;
+            border-color: var(--border);
+            background: var(--bg-card);
+        }
+
+        .card.locked::after { display: none; }
+
+        /* ─── CARD ICON ─── */
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon-green  { background: var(--green-dim); border: 1px solid rgba(0,245,155,0.2); }
+        .icon-silver { background: rgba(148,163,184,0.06); border: 1px solid rgba(148,163,184,0.15); }
+        .icon-locked { background: rgba(74,85,104,0.15); border: 1px solid rgba(74,85,104,0.2); filter: grayscale(1); opacity: 0.5; }
+
+        /* ─── CARD CONTENT ─── */
+        .card-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-tag.coming { color: var(--muted); }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 10px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card.locked .card-title { color: var(--muted); }
+
+        .card-desc {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--silver);
+            line-height: 1.6;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card.locked .card-desc { color: var(--muted); opacity: 0.7; }
+
+        .card-arrow {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green);
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+            transition: gap 0.2s;
+        }
+
+        .card:hover .card-arrow { gap: 10px; }
+
+        .card-lock {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted);
+            background: rgba(74,85,104,0.1);
+            border: 1px solid rgba(74,85,104,0.2);
+            border-radius: 100px;
+            padding: 5px 12px;
+            width: fit-content;
+        }
+
+        /* ─── LARGE CARD (spans 2 cols) ─── */
+        .card-wide {
+            grid-column: span 2;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .foot-left {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        .foot-right {
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--green);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse-dot 2s infinite;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .cards-grid,
+            .cards-grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .card-wide { grid-column: span 1; }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 1px;
+            }
+
+            .greeting-section { padding: 40px 0 36px; }
+        }
+
+        @media (max-width: 480px) {
+            .page { padding: 0 16px; }
+            header { padding: 20px 0 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-dot"></div>
+            <span class="logo-name">Efyoos <span>COMMAND</span></span>
+        </a>
+        <div class="header-right">
+            <span class="hotel-badge" id="hotelBadge">H01312</span>
+            <button class="sign-out" onclick="signOut()">Sign out</button>
+        </div>
+    </header>
+
+    <!-- GREETING -->
+    <section class="greeting-section">
+        <p class="greeting-eyebrow" id="timeLabel">Good morning</p>
+        <h1 class="greeting-title">
+            Welcome back,<br><em id="adminName">Manager</em>
+        </h1>
+        <p class="greeting-sub" id="dateLabel">Loading...</p>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-label">Active Requests</span>
+            <span class="stat-value green" id="statActive">—</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Completed Today</span>
+            <span class="stat-value" id="statCompleted">—</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Avg. Response</span>
+            <span class="stat-value" id="statResponse">—</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Staff Online</span>
+            <span class="stat-value" id="statStaff">—</span>
+        </div>
+    </div>
+
+    <!-- ACTIVE TOOLS -->
+    <p class="section-label">Your Tools</p>
+
+    <div class="cards-grid">
+
+        <!-- Dashboard -->
+        <a href="dashboard.html" class="card active">
+            <div class="card-icon icon-green">🖥️</div>
+            <p class="card-tag">Live</p>
+            <h2 class="card-title">Manager Dashboard</h2>
+            <p class="card-desc">Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.</p>
+            <div class="card-arrow">Open Dashboard →</div>
+        </a>
+
+        <!-- Guest Page -->
+        <a href="guest.html" class="card active">
+            <div class="card-icon icon-silver">📱</div>
+            <p class="card-tag">Active</p>
+            <h2 class="card-title">Guest Request Page</h2>
+            <p class="card-desc">The page your guests use to submit requests. Share via QR code in rooms or direct link.</p>
+            <div class="card-arrow">Open Page →</div>
+        </a>
+
+        <!-- QR Code -->
+        <div class="card active" onclick="showQR()">
+            <div class="card-icon icon-green">⬛</div>
+            <p class="card-tag">Utility</p>
+            <h2 class="card-title">QR Code Generator</h2>
+            <p class="card-desc">Generate and print a QR code linking guests directly to the request page. Place in each room.</p>
+            <div class="card-arrow">Generate QR →</div>
+        </div>
+
+    </div>
+
+    <!-- COMING SOON -->
+    <p class="section-label" style="margin-top: 32px; animation-delay: 0.8s;">Coming Soon</p>
+
+    <div class="cards-grid-2">
+
+        <!-- Analytics -->
+        <div class="card locked">
+            <div class="card-icon icon-locked">📊</div>
+            <p class="card-tag coming">Coming Soon</p>
+            <h2 class="card-title">Analytics</h2>
+            <p class="card-desc">Weekly and monthly reports. Peak hours, top request types, staff performance, and guest satisfaction trends.</p>
+            <div class="card-lock">🔒 In Development</div>
+        </div>
+
+        <!-- Staff Management -->
+        <div class="card locked">
+            <div class="card-icon icon-locked">👥</div>
+            <p class="card-tag coming">Coming Soon</p>
+            <h2 class="card-title">Staff Management</h2>
+            <p class="card-desc">Add, edit, and manage staff profiles. Set availability, categories, and WhatsApp numbers from one place.</p>
+            <div class="card-lock">🔒 In Development</div>
+        </div>
+
+        <!-- AI Monitor -->
+        <div class="card locked">
+            <div class="card-icon icon-locked">🤖</div>
+            <p class="card-tag coming">Coming Soon</p>
+            <h2 class="card-title">AI Monitor</h2>
+            <p class="card-desc">Intelligent system health monitoring. Detects silent failures, odd patterns, and alerts you before problems escalate.</p>
+            <div class="card-lock">🔒 In Development</div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <span class="foot-left">© 2026 Efyoos Command · <span id="footHotel"></span></span>
+        <div class="foot-right">
+            <span class="status-live">
+                <span class="status-dot"></span>
+                System Live
+            </span>
+        </div>
+    </footer>
+
+</div>
+
+<!-- QR MODAL -->
+<div id="qrModal" style="display:none; position:fixed; inset:0; background:rgba(11,14,20,0.92); backdrop-filter:blur(8px); z-index:100; align-items:center; justify-content:center;">
+    <div style="background:#13181F; border:1px solid rgba(0,245,155,0.2); border-radius:24px; padding:40px; max-width:380px; width:90%; text-align:center; position:relative;">
+        <button onclick="closeQR()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#4A5568; font-size:22px; cursor:pointer; line-height:1;">×</button>
+        <p style="font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#00F59B; margin-bottom:12px;">QR Code</p>
+        <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#F0F4F8; margin-bottom:6px;">Guest Request Page</h3>
+        <p style="font-size:13px; color:#94A3B8; margin-bottom:28px; font-weight:300;">Print and place this in each room</p>
+        <div id="qrContainer" style="display:flex; align-items:center; justify-content:center; margin-bottom:24px; background:#fff; border-radius:12px; padding:20px;">
+            <img id="qrImg" src="" alt="QR Code" style="width:180px; height:180px;">
+        </div>
+        <p style="font-size:12px; color:#4A5568; margin-bottom:20px; font-weight:300; word-break:break-all;" id="qrUrl"></p>
+        <button onclick="printQR()" style="width:100%; background:#00F59B; color:#0B0E14; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:700; cursor:pointer; letter-spacing:0.5px;">
+            🖨️ Print QR Code
+        </button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://swuqyrbknkobamnruurl.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
+    const GUEST_URL    = window.location.origin + '/guest.html';
+
+    const { createClient } = supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ── GREET ──────────────────────────────────────────────
+
+    function initGreeting() {
+        const name    = localStorage.getItem('efyoos-admin-name') || 'Manager';
+        const hotelId = localStorage.getItem('efyoos-hotel-id')   || 'H01312';
+
+        document.getElementById('adminName').textContent   = name;
+        document.getElementById('hotelBadge').textContent  = hotelId;
+        document.getElementById('footHotel').textContent   = hotelId;
+
+        const hour = new Date().getHours();
+        const timeStr = hour < 12 ? 'Good morning'
+                      : hour < 18 ? 'Good afternoon'
+                      :             'Good evening';
+        document.getElementById('timeLabel').textContent = timeStr;
+
+        const date = new Date().toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        document.getElementById('dateLabel').textContent = date;
+    }
+
+    // ── STATS ──────────────────────────────────────────────
+
+    async function loadStats() {
+        try {
+            const hotelId = localStorage.getItem('efyoos-hotel-id') || 'H01312';
+
+            const { data } = await sb
+                .from('guest_requests')
+                .select('status, created_at')
+                .eq('hotel_id', hotelId);
+
+            if (!data) return;
+
+            const today = new Date().toDateString();
+            const active    = data.filter(r => !['completed','failed','cancelled'].includes(r.status)).length;
+            const completed = data.filter(r =>
+                r.status === 'completed' &&
+                new Date(r.created_at).toDateString() === today
+            ).length;
+
+            document.getElementById('statActive').textContent    = active;
+            document.getElementById('statCompleted').textContent = completed;
+            document.getElementById('statResponse').textContent  = '< 2 min';
+
+            // Staff online count
+            const { data: staffData } = await sb
+                .from('staff')
+                .select('id')
+                .eq('hotel_id', hotelId)
+                .eq('is_active', true);
+
+            document.getElementById('statStaff').textContent = staffData?.length ?? '—';
+
+        } catch (e) {
+            console.error('Stats error:', e);
+        }
+    }
+
+    // ── QR CODE ────────────────────────────────────────────
+
+    function showQR() {
+        const url = GUEST_URL;
+        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=0B0E14&bgcolor=ffffff&margin=10`;
+        document.getElementById('qrImg').src = qrApi;
+        document.getElementById('qrUrl').textContent = url;
+        document.getElementById('qrModal').style.display = 'flex';
+    }
+
+    function closeQR() {
+        document.getElementById('qrModal').style.display = 'none';
+    }
+
+    function printQR() {
+        const img = document.getElementById('qrImg').src;
+        const url = document.getElementById('qrUrl').textContent;
+        const win = window.open('', '_blank');
+        win.document.write(`
+            <html><head><title>Efyoos QR Code</title>
+            <style>
+                body { font-family: 'Montserrat', sans-serif; text-align: center; padding: 40px; }
+                img { width: 250px; height: 250px; margin: 20px 0; }
+                h2 { font-size: 24px; margin-bottom: 8px; }
+                p { font-size: 13px; color: #666; margin-bottom: 4px; }
+                @media print { button { display: none; } }
+            </style></head>
+            <body>
+                <h2>Efyoos — Guest Requests</h2>
+                <p>Scan this QR code to submit a request</p>
+                <p style="font-size:11px; color:#999;">${url}</p>
+                <br>
+                <img src="${img}" alt="QR Code">
+                <br>
+                <p style="margin-top:20px; font-size:12px; color:#aaa;">Powered by Efyoos Command</p>
+                <button onclick="window.print()" style="margin-top:24px; padding:10px 24px; font-size:14px; cursor:pointer;">🖨️ Print</button>
+            </body></html>
+        `);
+        win.document.close();
+        setTimeout(() => win.print(), 500);
+    }
+
+    // Close QR modal on outside click
+    document.getElementById('qrModal').addEventListener('click', function(e) {
+        if (e.target === this) closeQR();
+    });
+
+    // ── SIGN OUT ────────────────────────────────────────────
+
+    function signOut() {
+        localStorage.removeItem('efyoos-admin-name');
+        localStorage.removeItem('efyoos-admin-email');
+        localStorage.removeItem('efyoos-hotel-id');
+        window.location.href = 'index.html';
+    }
+
+    // ── INIT ────────────────────────────────────────────────
+
+    initGreeting();
+    loadStats();
+
+    // Refresh stats every 60 seconds
+    setInterval(loadStats, 60000);
+</script>
+
+</body>
+</html>

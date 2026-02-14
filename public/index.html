@@ -1,115 +1,3422 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-
-<script
-  src="https://js.sentry-cdn.com/2f3d7948afb2169c7fcb3c001e2518b5.min.js"
-  crossorigin="anonymous"
-></script>
-
-<script>
-  Sentry.onLoad(function() {
-    Sentry.init({
-      tracesSampleRate: 1.0,
-      replaysSessionSampleRate: 1.0,
-      replaysOnErrorSampleRate: 1.0,
-    });
-  });
-</script>
-
-<script>
-  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-  
-  posthog.init('phc_yEmkchtgwptLNuhegUcLKcccGeS0DZJuzyQ1ZiCye0W', {
-    api_host: 'https://us.i.posthog.com',
-    person_profiles: 'identified_only'
-  });
-</script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EFYOOS | SALAH</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Efyoos Command - Automated Hotel Operations System</title>
+    <meta name="description" content="Revolutionary hotel operations automation system powered by AI and WhatsApp. Streamline housekeeping, maintenance, and guest services with real-time task management.">
+    <meta name="keywords" content="hotel management, hotel automation, WhatsApp hotel system, hospitality technology, hotel operations">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Efyoos Command - Automated Hotel Operations">
+    <meta property="og:description" content="Revolutionary hotel operations automation system powered by AI and WhatsApp">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.efyoos.com">
+    
+    <!-- Sentry Error Tracking -->
+    <script src="https://js.sentry-cdn.com/2f3d7948afb2169c7fcb3c001e2518b5.min.js" crossorigin="anonymous"></script>
+    <script>
+        if (window.Sentry) {
+            Sentry.init({
+                dsn: "https://2f3d7948afb2169c7fcb3c001e2518b5@o4508595757514752.ingest.us.sentry.io/4508595760529408",
+                integrations: [
+                    Sentry.browserTracingIntegration(),
+                    Sentry.replayIntegration(),
+                ],
+                tracesSampleRate: 1.0,
+                replaysSessionSampleRate: 1.0,
+                replaysOnErrorSampleRate: 1.0,
+            });
+        }
+    </script>
+    
+    <!-- PostHog Analytics -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_yEmkchtgwptLNuhegUcLKcccGeS0DZJuzyQ1ZiCye0W',{api_host:'https://us.i.posthog.com'})
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        :root {
+            /* Brand Colors - Luxury Update */
+            --bg-dark: #0B0E14;
+            --bg-card: #161B22;
+            --silver-slate: #94A3B8;
+            --cyber-green: #00F59B;
+            --text-light: #FFFFFF;
+            --text-gray: #A0A0A0;
+            --success: #28A745;
+            --error: #DC3545;
+            
+            /* Spacing */
+            --section-padding: 120px;
+            --container-max: 1280px;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
-            /* Your victory image */
-            background-image: url('/background.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography - Luxury Hierarchy */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        /* Arabic headings use Amiri */
+        body[dir="rtl"] h1,
+        body[dir="rtl"] h2,
+        body[dir="rtl"] h3,
+        body[dir="rtl"] h4,
+        body[dir="rtl"] h5,
+        body[dir="rtl"] h6 {
+            font-family: 'Amiri', serif;
+        }
+        
+        p, .section-description, input, textarea, button {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
+        
+        /* Center all paragraphs */
+        p, .section-description {
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* RTL Support */
+        body[dir="rtl"] {
+            direction: rtl;
+        }
+        
+        body[dir="rtl"] .rtl-flip {
+            transform: scaleX(-1);
+        }
+        
+        /* Container */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(11, 14, 20, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--silver-slate);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+        
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .lang-switcher {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .lang-dropdown-btn {
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .lang-dropdown-btn:hover {
+            background: rgba(148, 163, 184, 0.1);
+        }
+        
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--bg-card);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            min-width: 120px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        
+        .lang-dropdown.active {
+            display: block;
+        }
+        
+        .lang-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: block;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .lang-option:hover {
+            background: rgba(148, 163, 184, 0.2);
+        }
+        
+        .lang-option:first-child {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .lang-option:last-child {
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(0, 245, 155, 0.2);
+            background: var(--bg-card);
+            border-radius: 8px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: white;
-            text-align: center;
+            transition: all 0.3s ease;
         }
-
-        /* Overlay to darken the image slightly for better text contrast */
-        .overlay {
+        
+        .theme-toggle:hover {
+            border-color: var(--cyber-green);
+            transform: scale(1.05);
+        }
+        
+        /* Hero Section - Luxury Hotel Lobby */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+            overflow: hidden;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92)),
+                url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1920&q=80') center/cover no-repeat;
+            background-color: #000000;
+        }
+        
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(148, 163, 184, 0.05), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 245, 155, 0.03), transparent 50%);
+            pointer-events: none;
         }
-
-        .container {
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        
+        .hero-content {
             position: relative;
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            max-width: 90%;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
         }
-
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(148, 163, 184, 0.08);
+            border: 1px solid var(--silver-slate);
+            border-radius: 100px;
+            color: var(--silver-slate);
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Linear.app Style Staggered Blur Animation */
+        @keyframes blurFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0px);
+            }
+        }
+        
+        .hero-animate-1 {
+            opacity: 0;
+            animation: blurFadeIn 0.8s ease-out 0.2s forwards;
+        }
+        
+        .hero-animate-2 {
+            opacity: 0;
+            animation: blurFadeIn 0.8s ease-out 0.4s forwards;
+        }
+        
+        .hero-animate-3 {
+            opacity: 0;
+            animation: blurFadeIn 0.8s ease-out 0.6s forwards;
+        }
+        
+        .hero-animate-4 {
+            opacity: 0;
+            animation: blurFadeIn 0.8s ease-out 0.8s forwards;
+        }
+        
         h1 {
-            font-size: 2.5rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            font-weight: 300;
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            text-align: center;
         }
-
-        p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            font-weight: 300;
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--silver-slate), var(--cyber-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(18px, 2vw, 24px);
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--cyber-green);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 123, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--cyber-green);
+            border: 1px solid var(--cyber-green);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(148, 163, 184, 0.1);
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: var(--section-padding) 0;
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+        }
+        
+        .section-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(148, 163, 184, 0.1);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 100px;
+            color: var(--cyber-green);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        .status-badge {
-            display: inline-block;
-            background: #4caf50;
+        
+        h2 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            text-align: center;
+        }
+        
+        h3 {
+            text-align: center;
+        }
+        
+        .section-description {
+            font-size: 18px;
+            color: var(--text-gray);
+        }
+        
+        /* WhatsApp Mockup */
+        .mockup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 60px 0;
+        }
+        
+        .phone-mockup {
+            width: 360px;
+            height: 720px;
+            background: #1A1A1A;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 
+                0 0 0 12px rgba(0, 245, 155, 0.1),
+                0 40px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: phoneFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #121212;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 28px;
+            background: #1A1A1A;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            z-index: 10;
+        }
+        
+        .whatsapp-header {
+            background: #075E54;
+            padding: 40px 16px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .wa-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--cyber-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #075E54;
+        }
+        
+        .wa-title {
+            flex: 1;
+        }
+        
+        .wa-name {
+            font-size: 16px;
+            font-weight: 600;
             color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
+        }
+        
+        .wa-status {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .wa-chat {
+            padding: 20px 12px;
+            background: #0B141A;
+            height: calc(100% - 80px);
+            overflow-y: auto;
+        }
+        
+        .wa-message {
+            margin-bottom: 12px;
+            animation: messageSlide 0.5s ease-out;
+        }
+        
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .wa-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .wa-message.incoming .wa-bubble {
+            background: #1F2C34;
+            color: white;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .wa-message.outgoing {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .wa-message.outgoing .wa-bubble {
+            background: #005C4B;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .wa-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            text-align: right;
+        }
+        
+        .wa-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .wa-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+        
+        .wa-btn-yes {
+            background: var(--success);
+            color: white;
+        }
+        
+        .wa-btn-no {
+            background: var(--error);
+            color: white;
+        }
+        
+        .wa-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 200, 83, 0.2);
+            border-radius: 100px;
+            font-size: 12px;
+            color: var(--success);
+            margin-top: 8px;
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* Flow Steps */
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 80px;
+        }
+        
+        .flow-step {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            border-color: var(--cyber-green);
+            transform: translateY(-4px);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -16px;
+            left: 32px;
+            width: 40px;
+            height: 40px;
+            background: var(--cyber-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--bg-dark);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .step-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .flow-step {
+            text-align: center;
+        }
+        
+        .flow-step h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .flow-step p {
+            color: var(--text-gray);
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: var(--section-padding) 0;
+            background: rgba(0, 245, 155, 0.02);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.1);
+            border-radius: 20px;
+            padding: 36px;
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--cyber-green);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 245, 155, 0.15);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 245, 155, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px auto;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.7;
+            text-align: center;
+        }
+        
+        /* Screenshots Section */
+        .screenshots {
+            padding: var(--section-padding) 0;
+        }
+        
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .screenshot-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 245, 155, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .screenshot-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 245, 155, 0.2);
+        }
+        
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(11, 14, 20, 0.95), transparent);
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Demo Form Section */
+        .demo-section {
+            padding: var(--section-padding) 0;
+            background: var(--bg-card);
+        }
+        
+        .demo-form {
+            max-width: 600px;
+            margin: 60px auto 0;
+            background: var(--bg-dark);
+            border: 1px solid rgba(0, 245, 155, 0.2);
+            border-radius: 24px;
+            padding: 48px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: transparent;
+            border: 1px solid var(--silver-slate);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cyber-green);
+            box-shadow: 0 0 0 3px rgba(0, 245, 155, 0.15);
+            background: rgba(0, 245, 155, 0.02);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-gray);
+            font-weight: 300;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--cyber-green);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 245, 155, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .form-success {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: var(--section-padding) 0;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        
+        .pricing-card:hover {
+            border-color: var(--cyber-green);
+            transform: translateY(-8px);
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--cyber-green);
+            background: linear-gradient(135deg, rgba(0, 245, 155, 0.1), rgba(0, 168, 232, 0.05));
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            right: 32px;
+            padding: 6px 16px;
+            background: var(--cyber-green);
+            color: var(--bg-dark);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
             text-transform: uppercase;
-            font-weight: bold;
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .pricing-card p {
+            color: var(--text-gray);
+            margin-bottom: 24px;
+        }
+        
+        .price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--cyber-green);
+            margin-bottom: 8px;
+        }
+        
+        .price-period {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 32px 0;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--cyber-green);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid rgba(0, 245, 155, 0.1);
+            padding: 60px 0 32px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--cyber-green);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-gray);
+            font-size: 14px;
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--cyber-green);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0, 245, 155, 0.1);
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.2);
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 24px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 61, 0, 0.1);
+            color: var(--error);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 80px;
+            }
+            
+            .phone-mockup {
+                width: 300px;
+                height: 600px;
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .demo-form {
+                padding: 32px 24px;
+            }
+        }
+        
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+        
+        /* Problem Section */
+        .problem-section {
+            padding: var(--section-padding) 0;
+            background: linear-gradient(180deg, rgba(0, 245, 155, 0.02), rgba(0, 168, 232, 0.02));
+        }
+        
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 61, 0, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .problem-card:hover {
+            border-color: var(--error);
+            transform: translateY(-4px);
+        }
+        
+        .problem-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .problem-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-light);
+            text-align: center;
+        }
+        
+        .problem-card p {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .problem-stat {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 61, 0, 0.1);
+            border-radius: 100px;
+            color: var(--error);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .solution-preview {
+            text-align: center;
+            margin-top: 80px;
+        }
+        
+        .solution-arrow {
+            font-size: 48px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .solution-preview h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--cyber-green);
+            margin-top: 16px;
+        }
+        
+        /* Results Section */
+        .results-section {
+            padding: var(--section-padding) 0;
+            background: var(--bg-dark);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.2);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--cyber-green);
+            transform: scale(1.05);
+            box-shadow: 0 16px 48px rgba(0, 245, 155, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--cyber-green);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        
+        .stat-desc {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        
+        .before-after {
+            margin-top: 80px;
+            padding: 48px;
+            background: rgba(0, 245, 155, 0.05);
+            border-radius: 24px;
+            border: 1px solid rgba(0, 245, 155, 0.1);
+        }
+        
+        .comparison-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 48px;
+        }
+        
+        .before-column h3,
+        .after-column h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .before-column h3 {
+            color: var(--error);
+        }
+        
+        .after-column h3 {
+            color: var(--cyber-green);
+        }
+        
+        .before-column ul,
+        .after-column ul {
+            list-style: none;
+        }
+        
+        .before-column li,
+        .after-column li {
+            padding: 12px 0;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Comparison Table Section */
+        .comparison-section {
+            padding: var(--section-padding) 0;
+            background: rgba(0, 168, 232, 0.02);
+        }
+        
+        .comparison-table-wrapper {
+            margin-top: 60px;
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 245, 155, 0.1);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+        }
+        
+        .comparison-table th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(0, 245, 155, 0.05);
+            border-bottom: 2px solid rgba(0, 245, 155, 0.2);
+        }
+        
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 245, 155, 0.05);
+            font-size: 15px;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(0, 245, 155, 0.03);
+        }
+        
+        .comparison-table .highlight-col {
+            background: rgba(0, 245, 155, 0.08);
+            border-left: 2px solid var(--cyber-green);
+        }
+        
+        .comparison-table .yes {
+            color: var(--success);
+            font-size: 18px;
+        }
+        
+        .comparison-table .no {
+            color: var(--error);
+            font-size: 18px;
+        }
+        
+        .comparison-table .partial {
+            color: #FFA500;
+            font-size: 18px;
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            padding: var(--section-padding) 0;
+            background: var(--bg-dark);
+        }
+        
+        .timeline {
+            max-width: 800px;
+            margin: 60px auto 0;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--cyber-green), var(--silver-slate));
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 48px;
+            position: relative;
+        }
+        
+        .timeline-marker {
+            flex-shrink: 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline-number {
+            width: 60px;
+            height: 60px;
+            background: var(--cyber-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            margin-bottom: 12px;
+            box-shadow: 0 8px 24px rgba(0, 245, 155, 0.3);
+        }
+        
+        .timeline-icon {
+            font-size: 32px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 245, 155, 0.1);
+        }
+        
+        .timeline-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-duration {
+            color: var(--cyber-green);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .timeline-content p {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .timeline-guarantee {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(0, 245, 155, 0.1), rgba(0, 168, 232, 0.1));
+            border-radius: 20px;
+            border: 1px solid var(--cyber-green);
+        }
+        
+        .guarantee-badge {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .timeline-guarantee h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--cyber-green);
+            margin-bottom: 12px;
+        }
+        
+        .timeline-guarantee p {
+            color: var(--text-gray);
+            font-size: 16px;
+        }
+        
+        /* Early Adopter Banner */
+        .early-adopter-banner {
+            display: flex;
+            gap: 24px;
+            padding: 32px;
+            background: linear-gradient(135deg, rgba(0, 245, 155, 0.15), rgba(0, 168, 232, 0.1));
+            border: 2px solid var(--cyber-green);
+            border-radius: 20px;
+            margin-bottom: 48px;
+            align-items: center;
+        }
+        
+        .banner-icon {
+            font-size: 64px;
+            flex-shrink: 0;
+        }
+        
+        .banner-content h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--cyber-green);
+        }
+        
+        .banner-content p {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .early-benefits {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .benefit-tag {
+            padding: 6px 16px;
+            background: rgba(0, 245, 155, 0.2);
+            border-radius: 100px;
+            color: var(--cyber-green);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        /* Integrations Section */
+        .integrations-section {
+            padding: var(--section-padding) 0;
+            background: rgba(0, 245, 155, 0.02);
+        }
+        
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .integration-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .integration-card:hover {
+            border-color: var(--cyber-green);
+            transform: translateY(-4px);
+        }
+        
+        .int-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .integration-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .integration-card p {
+            color: var(--text-gray);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .int-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .int-status.ready {
+            background: rgba(0, 200, 83, 0.2);
+            color: var(--success);
+        }
+        
+        .int-status.coming {
+            background: rgba(0, 168, 232, 0.2);
+            color: var(--silver-slate);
+        }
+        
+        .custom-integration {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 155, 0.1);
+        }
+        
+        .custom-integration h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .custom-integration p {
+            color: var(--text-gray);
+            font-size: 16px;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: var(--section-padding) 0;
+            background: var(--bg-dark);
+        }
+        
+        /* Trust Signals Section */
+        .trust-section {
+            padding: 60px 0;
+            background: rgba(0, 123, 255, 0.03);
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .trust-badge:hover {
+            border-color: var(--cyber-green);
+            transform: translateY(-2px);
+        }
+        
+        .trust-icon {
+            font-size: 32px;
+        }
+        
+        .trust-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .trust-label {
+            font-size: 12px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .trust-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        /* Video Demo Section */
+        .video-section {
+            padding: var(--section-padding) 0;
+            background: var(--bg-dark);
+        }
+        
+        .video-container {
+            max-width: 900px;
+            margin: 60px auto 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 20px 60px rgba(148, 163, 184, 0.1);
+        }
+        
+        .video-placeholder {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--bg-card), rgba(148, 163, 184, 0.1));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .video-placeholder-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        
+        .video-placeholder-text {
+            font-size: 18px;
+            color: var(--text-gray);
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 155, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--cyber-green);
+        }
+        
+        .faq-question {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--cyber-green);
+        }
+        
+        .faq-answer {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        .faq-cta {
+            text-align: center;
+            margin-top: 60px;
+            padding: 48px;
+            background: linear-gradient(135deg, rgba(0, 245, 155, 0.08), rgba(0, 168, 232, 0.05));
+            border-radius: 24px;
+        }
+        
+        .faq-cta h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .faq-cta p {
+            color: var(--text-gray);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .early-adopter-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .banner-content h3 {
+                font-size: 20px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-number {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            
+            .comparison-table {
+                font-size: 13px;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px;
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    
-    <div class="container">
-        <div class="status-badge">System Core Online</div>
-        <h1>EFYOOS SYSTEM | SALAH INSPIRATION</h1>
-        <p>The Future of Hospitality Management.</p>
-        <p style="margin-top: 10px; font-size: 0.9rem; color: #ccc;">Marketing and Login Gateway Coming Soon</p>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <img src="efyoos-logo.png" alt="Efyoos Logo" class="logo-img">
+                    <span data-i18n="brandName">EFYOOS</span>
+                </a>
+                
+                <div class="nav-controls">
+                    <div class="lang-switcher">
+                        <button class="lang-dropdown-btn" onclick="toggleLangDropdown()">
+                            <span id="currentLang">EN</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="lang-dropdown" id="langDropdown">
+                            <button class="lang-option" data-lang="en" onclick="switchLanguage('en')">English</button>
+                            <button class="lang-option" data-lang="fr" onclick="switchLanguage('fr')">Français</button>
+                            <button class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
+                        </div>
+                    </div>
+                    
+                    <button class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                    
+                    <button class="btn btn-primary" onclick="openLoginModal()" data-i18n="login">
+                        Login
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge hero-animate-1" data-i18n="heroBadge">
+                    ⚡ Revolutionary Hotel Automation
+                </div>
+                
+                <h1 class="hero-animate-2">
+                    <span data-i18n="heroTitle1">Automate Your Hotel</span><br>
+                    <span class="gradient-text" data-i18n="heroTitle2">Operations with AI</span>
+                </h1>
+                
+                <p class="hero-subtitle hero-animate-3" data-i18n="heroSubtitle">
+                    Transform guest requests into instant WhatsApp tasks. AI-powered classification, real-time staff dispatch, and complete visibility in one automated system.
+                </p>
+                
+                <div class="cta-group hero-animate-4">
+                    <a href="#demo" class="btn btn-primary" data-i18n="ctaDemo">
+                        Request a Demo →
+                    </a>
+                    <a href="#how-it-works" class="btn btn-secondary" data-i18n="ctaHow">
+                        See How It Works
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Signals Section -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <div class="trust-icon">🔒</div>
+                    <div class="trust-text">
+                        <div class="trust-label" data-i18n="trustSecurity">Security</div>
+                        <div class="trust-title" data-i18n="trustEncrypted">Secure & Encrypted</div>
+                    </div>
+                </div>
+                
+                <div class="trust-badge">
+                    <div class="trust-icon">✓</div>
+                    <div class="trust-text">
+                        <div class="trust-label" data-i18n="trustCompliance">Compliance</div>
+                        <div class="trust-title" data-i18n="trustGDPR">GDPR Compliant</div>
+                    </div>
+                </div>
+                
+                <div class="trust-badge">
+                    <div class="trust-icon">🚀</div>
+                    <div class="trust-text">
+                        <div class="trust-label" data-i18n="trustDeployment">Deployment</div>
+                        <div class="trust-title" data-i18n="trust48Hours">Live in 48 Hours</div>
+                    </div>
+                </div>
+                
+                <div class="trust-badge">
+                    <div class="trust-icon">💬</div>
+                    <div class="trust-text">
+                        <div class="trust-label" data-i18n="trustSupport">Support</div>
+                        <div class="trust-title" data-i18n="trust24Support">24/7 Available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section" id="problem">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="problemBadge">The Challenge</div>
+                <h2 data-i18n="problemTitle">Hotel Operations Shouldn't Be This Hard</h2>
+                <p class="section-description" data-i18n="problemDesc">
+                    Every day, hotel managers face the same operational chaos
+                </p>
+            </div>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">😤</div>
+                    <h3 data-i18n="prob1Title">Lost Requests</h3>
+                    <p data-i18n="prob1Desc">Guest requests get lost in phone calls, papers, and verbal messages. Nobody knows who's handling what.</p>
+                    <div class="problem-stat" data-i18n="prob1Stat">30% of requests delayed or forgotten</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">⏰</div>
+                    <h3 data-i18n="prob2Title">Slow Response Times</h3>
+                    <p data-i18n="prob2Desc">Staff waste time walking to find managers, managers waste time tracking down staff. Guest satisfaction suffers.</p>
+                    <div class="problem-stat" data-i18n="prob2Stat">Average 45-minute response time</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">📞</div>
+                    <h3 data-i18n="prob3Title">Communication Chaos</h3>
+                    <p data-i18n="prob3Desc">Multiple channels - walkie-talkies, phone calls, WhatsApp groups, sticky notes. Nothing is organized or tracked.</p>
+                    <div class="problem-stat" data-i18n="prob3Stat">15+ hours/week wasted on coordination</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">📊</div>
+                    <h3 data-i18n="prob4Title">Zero Visibility</h3>
+                    <p data-i18n="prob4Desc">Managers have no idea what's happening in real-time. Can't measure performance. Can't optimize operations.</p>
+                    <div class="problem-stat" data-i18n="prob4Stat">No data = No improvement</div>
+                </div>
+            </div>
+            
+            <div class="solution-preview">
+                <div class="solution-arrow">⬇️</div>
+                <h3 data-i18n="solutionPreview">There's a Better Way</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="howBadge">The Process</div>
+                <h2 data-i18n="howTitle">From Request to Resolution in Seconds</h2>
+                <p class="section-description" data-i18n="howDesc">
+                    Watch how Efyoos transforms traditional hotel operations into a seamless, automated workflow
+                </p>
+            </div>
+            
+            <!-- WhatsApp Mockup -->
+            <div class="mockup-container">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="phone-notch"></div>
+                        
+                        <div class="whatsapp-header">
+                            <div class="wa-avatar">E</div>
+                            <div class="wa-title">
+                                <div class="wa-name" data-i18n="waName">Efyoos Command</div>
+                                <div class="wa-status" data-i18n="waStatus">online</div>
+                            </div>
+                        </div>
+                        
+                        <div class="wa-chat" id="whatsappChat">
+                            <div class="wa-message incoming">
+                                <div class="wa-bubble">
+                                    <span data-i18n="waMsg1">🔔 New Request from Room 301</span>
+                                    <div class="wa-time">10:24</div>
+                                </div>
+                            </div>
+                            
+                            <div class="wa-message incoming" id="taskMessage" style="display: none;">
+                                <div class="wa-bubble">
+                                    <strong data-i18n="waTask">Task:</strong> <span data-i18n="waTaskDesc">Housekeeping needed</span><br>
+                                    <strong data-i18n="waGuest">Guest:</strong> Sarah Johnson<br>
+                                    <strong data-i18n="waRoom">Room:</strong> 301
+                                    <div class="wa-buttons">
+                                        <button class="wa-btn wa-btn-yes" onclick="handleYes()" data-i18n="waYes">✓ YES</button>
+                                        <button class="wa-btn wa-btn-no" onclick="handleNo()" data-i18n="waNo">✗ NO</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="wa-message outgoing" id="responseMessage" style="display: none;">
+                                <div class="wa-bubble">
+                                    <span data-i18n="waConfirm">✓ Task accepted</span>
+                                    <div class="status-indicator">
+                                        <span class="status-dot"></span>
+                                        <span data-i18n="waProgress">In Progress</span>
+                                    </div>
+                                    <div class="wa-time">10:25</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flow Steps -->
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📱</div>
+                    <h3 data-i18n="step1Title">Guest Submits Request</h3>
+                    <p data-i18n="step1Desc">Guest uses the intuitive interface to submit any request - housekeeping, maintenance, room service, or reception inquiry.</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🤖</div>
+                    <h3 data-i18n="step2Title">AI Classifies & Dispatches</h3>
+                    <p data-i18n="step2Desc">AI instantly classifies the request type and sends it directly to the right staff member via WhatsApp notification.</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">✅</div>
+                    <h3 data-i18n="step3Title">Staff Responds Instantly</h3>
+                    <p data-i18n="step3Desc">Staff receives the task on WhatsApp, taps YES or NO, and the system updates in real-time. No app switching required.</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">📊</div>
+                    <h3 data-i18n="step4Title">Manager Monitors Live</h3>
+                    <p data-i18n="step4Desc">Complete visibility with the live dashboard showing all tasks, performance metrics, and team status in real-time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo Section -->
+    <section class="video-section" id="video-demo">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="videoBadge">Video Demo</div>
+                <h2 data-i18n="videoTitle">See Efyoos in Action</h2>
+                <p class="section-description" data-i18n="videoDesc">
+                    Watch a 60-second walkthrough of how Efyoos transforms hotel operations
+                </p>
+            </div>
+            
+            <div class="video-container">
+                <!-- Placeholder for future video embed -->
+                <div class="video-placeholder">
+                    <div class="video-placeholder-icon">▶</div>
+                    <div class="video-placeholder-text" data-i18n="videoPlaceholder">Video demo coming soon</div>
+                </div>
+                <!-- When ready, replace with:
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="YOUR_VIDEO_URL" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Results/Impact Section -->
+    <section class="results-section" id="results">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="resultsBadge">The Impact</div>
+                <h2 data-i18n="resultsTitle">Transform Your Operations</h2>
+                <p class="section-description" data-i18n="resultsDesc">
+                    Based on typical hotel operations benchmarks
+                </p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-i18n="stat1Number">80%</div>
+                    <div class="stat-label" data-i18n="stat1Label">Faster Response Time</div>
+                    <p class="stat-desc" data-i18n="stat1Desc">From 45 minutes to under 9 minutes average</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-i18n="stat2Number">15+</div>
+                    <div class="stat-label" data-i18n="stat2Label">Hours Saved Weekly</div>
+                    <p class="stat-desc" data-i18n="stat2Desc">Eliminate coordination time and manual tracking</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-i18n="stat3Number">100%</div>
+                    <div class="stat-label" data-i18n="stat3Label">Request Tracking</div>
+                    <p class="stat-desc" data-i18n="stat3Desc">Nothing falls through the cracks ever again</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-i18n="stat4Number">98%</div>
+                    <div class="stat-label" data-i18n="stat4Label">Task Completion Rate</div>
+                    <p class="stat-desc" data-i18n="stat4Desc">Real-time visibility drives accountability</p>
+                </div>
+            </div>
+            
+            <div class="before-after">
+                <div class="comparison-columns">
+                    <div class="before-column">
+                        <h3 data-i18n="beforeTitle">❌ Without Efyoos</h3>
+                        <ul>
+                            <li data-i18n="before1">Requests lost in communication</li>
+                            <li data-i18n="before2">Manual tracking with paper/spreadsheets</li>
+                            <li data-i18n="before3">Staff constantly interrupted</li>
+                            <li data-i18n="before4">No performance metrics</li>
+                            <li data-i18n="before5">Guest complaints increase</li>
+                        </ul>
+                    </div>
+                    <div class="after-column">
+                        <h3 data-i18n="afterTitle">✅ With Efyoos</h3>
+                        <ul>
+                            <li data-i18n="after1">Every request tracked automatically</li>
+                            <li data-i18n="after2">Real-time dashboard visibility</li>
+                            <li data-i18n="after3">Efficient WhatsApp notifications</li>
+                            <li data-i18n="after4">Complete performance analytics</li>
+                            <li data-i18n="after5">Guest satisfaction soars</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="featBadge">Capabilities</div>
+                <h2 data-i18n="featTitle">Powerful Features for Modern Hotels</h2>
+                <p class="section-description" data-i18n="featDesc">
+                    Everything you need to run seamless hotel operations
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 data-i18n="feat1Title">AI Request Classification</h3>
+                    <p data-i18n="feat1Desc">Intelligent AI automatically categorizes every guest request and routes it to the appropriate department instantly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3 data-i18n="feat2Title">WhatsApp Integration</h3>
+                    <p data-i18n="feat2Desc">Staff receive and manage tasks directly through WhatsApp - the tool they already use every day.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 data-i18n="feat3Title">Real-Time Dispatch</h3>
+                    <p data-i18n="feat3Desc">Tasks are dispatched to available staff members in real-time based on workload and location.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 data-i18n="feat4Title">Live Dashboard</h3>
+                    <p data-i18n="feat4Desc">Complete operational visibility with real-time task tracking, team performance, and analytics.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 data-i18n="feat5Title">Multi-Language Support</h3>
+                    <p data-i18n="feat5Desc">Seamless guest experience in English, French, Arabic, and more - with automatic translation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 data-i18n="feat6Title">Enterprise Security</h3>
+                    <p data-i18n="feat6Desc">Bank-level encryption, SOC 2 compliance, and role-based access control to protect your data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table Section -->
+    <section class="comparison-section" id="comparison">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="compBadge">Comparison</div>
+                <h2 data-i18n="compTitle">Efyoos vs Traditional Methods</h2>
+                <p class="section-description" data-i18n="compDesc">
+                    See how Efyoos eliminates operational bottlenecks
+                </p>
+            </div>
+            
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="compFeature">Feature</th>
+                            <th data-i18n="compManual">Manual Operations</th>
+                            <th data-i18n="compOther">Other Systems</th>
+                            <th class="highlight-col" data-i18n="compEfyoos">Efyoos Command</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-i18n="compRow1">Request Tracking</td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow1Manual">Paper/verbal</span></td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow1Other">Requires app install</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow1Efyoos">Automatic via WhatsApp</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow2">Staff Communication</td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow2Manual">Walkie-talkies/calls</span></td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow2Other">New app to learn</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow2Efyoos">Uses existing WhatsApp</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow3">Setup Time</td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow3Manual">N/A</span></td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow3Other">2-4 weeks</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow3Efyoos">48 hours</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow4">Staff Training</td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow4Manual">Ongoing confusion</span></td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow4Other">Days of training</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow4Efyoos">5 minutes (WhatsApp)</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow5">Real-Time Dashboard</td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow5Manual">No visibility</span></td>
+                            <td><span class="yes">✅</span> <span data-i18n="compRow5Other">Yes</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow5Efyoos">Live + Analytics</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow6">AI Classification</td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow6Manual">Manual routing</span></td>
+                            <td><span class="no">❌</span> <span data-i18n="compRow6Other">Manual routing</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow6Efyoos">Automatic</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow7">Multi-Language</td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow7Manual">Staff dependent</span></td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow7Other">Limited languages</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow7Efyoos">EN/FR/AR + more</span></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="compRow8">Cost</td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow8Manual">Hidden inefficiency</span></td>
+                            <td><span class="partial">⚠️</span> <span data-i18n="compRow8Other">$$$ expensive</span></td>
+                            <td class="highlight-col"><span class="yes">✅</span> <span data-i18n="compRow8Efyoos">Transparent pricing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="ssBadge">Live System</div>
+                <h2 data-i18n="ssTitle">Real Screenshots, Real Results</h2>
+                <p class="section-description" data-i18n="ssDesc">
+                    This is not a mockup - Efyoos is running live in hotels today
+                </p>
+            </div>
+            
+            <div class="screenshots-grid">
+                <div class="screenshot-item">
+                    <img src="/mnt/user-data/uploads/1000080460.jpg" alt="Manager Dashboard" loading="lazy">
+                    <div class="screenshot-label" data-i18n="ssLabel1">Manager Dashboard - Live Task Monitoring</div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <img src="/mnt/user-data/uploads/1000080461.jpg" alt="Guest Interface" loading="lazy">
+                    <div class="screenshot-label" data-i18n="ssLabel2">Guest Interface - Request Submission</div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <img src="/mnt/user-data/uploads/1000080473.jpg" alt="Staff WhatsApp" loading="lazy">
+                    <div class="screenshot-label" data-i18n="ssLabel3">Staff Interface - Maintenance Requests</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Timeline Section -->
+    <section class="timeline-section" id="timeline">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="timelineBadge">Get Started</div>
+                <h2 data-i18n="timelineTitle">Live in 48 Hours, Not Weeks</h2>
+                <p class="section-description" data-i18n="timelineDesc">
+                    Our streamlined onboarding gets you operational in 2 days
+                </p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-icon">📞</div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 data-i18n="time1Title">Day 1 - Setup Call</h3>
+                        <p class="timeline-duration" data-i18n="time1Duration">30 minutes</p>
+                        <p data-i18n="time1Desc">Quick call to understand your hotel, gather staff WhatsApp numbers, and configure your dashboard. No technical knowledge required.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-icon">⚙️</div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 data-i18n="time2Title">Day 1 - System Configuration</h3>
+                        <p class="timeline-duration" data-i18n="time2Duration">2 hours (our team)</p>
+                        <p data-i18n="time2Desc">We set up your hotel profile, guest interface, staff WhatsApp integration, and manager dashboard. You just wait for the "ready" email.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-icon">👥</div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 data-i18n="time3Title">Day 2 - Staff Training</h3>
+                        <p class="timeline-duration" data-i18n="time3Duration">5 minutes per person</p>
+                        <p data-i18n="time3Desc">Staff training is simple: "When you get a WhatsApp message, tap YES or NO." That's it. They already know WhatsApp.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-icon">🚀</div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 data-i18n="time4Title">Day 2 - Go Live</h3>
+                        <p class="timeline-duration" data-i18n="time4Duration">Instant</p>
+                        <p data-i18n="time4Desc">Start accepting guest requests immediately. We monitor the first week to ensure everything runs smoothly. Support is one message away.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-guarantee">
+                <div class="guarantee-badge">⚡</div>
+                <h3 data-i18n="guaranteeTitle">48-Hour Guarantee</h3>
+                <p data-i18n="guaranteeDesc">If we can't get you live and operational within 48 hours, your first month is free. We're that confident.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Request Section -->
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="demoBadge">Get Started</div>
+                <h2 data-i18n="demoTitle">Request a Personalized Demo</h2>
+                <p class="section-description" data-i18n="demoDesc">
+                    See Efyoos in action. Schedule a demo with our team and discover how we can transform your hotel operations.
+                </p>
+            </div>
+            
+            <!-- Early Adopter Section -->
+            <div class="early-adopter-banner">
+                <div class="banner-icon">🎯</div>
+                <div class="banner-content">
+                    <h3 data-i18n="earlyTitle">Join Our Early Adopters Program</h3>
+                    <p data-i18n="earlyDesc">We're accepting our first 50 hotels. Get premium onboarding support, influence product development, and lock in founder's pricing forever.</p>
+                    <div class="early-benefits">
+                        <span class="benefit-tag" data-i18n="earlyBenefit1">✓ Priority Support</span>
+                        <span class="benefit-tag" data-i18n="earlyBenefit2">✓ No Setup Fees</span>
+                        <span class="benefit-tag" data-i18n="earlyBenefit3">✓ Lifetime Discount</span>
+                        <span class="benefit-tag" data-i18n="earlyBenefit4">✓ Feature Requests</span>
+                    </div>
+                </div>
+            </div>
+            
+            <form class="demo-form" id="demoForm">
+                <div class="form-group">
+                    <label for="hotelName" data-i18n="formHotel">Hotel Name *</label>
+                    <input type="text" id="hotelName" name="hotelName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" data-i18n="formEmail">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country" data-i18n="formCountry">Country *</label>
+                    <input type="text" id="country" name="country" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" data-i18n="formMessage">Message (Optional)</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" data-i18n="formSubmit">
+                    Request Demo →
+                </button>
+            </form>
+            
+            <div class="form-success" id="formSuccess" style="display: none;">
+                <div class="success-icon">✅</div>
+                <h3 data-i18n="successTitle">Thank You!</h3>
+                <p data-i18n="successMsg">We've received your demo request. Our team will contact you within 24 hours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Showcase Section -->
+    <section class="integrations-section" id="integrations">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="intBadge">Integrations</div>
+                <h2 data-i18n="intTitle">Works With Your Existing Tools</h2>
+                <p class="section-description" data-i18n="intDesc">
+                    Efyoos integrates seamlessly with systems you already use
+                </p>
+            </div>
+            
+            <div class="integrations-grid">
+                <div class="integration-card">
+                    <div class="int-icon">💬</div>
+                    <h3 data-i18n="int1Title">WhatsApp Business</h3>
+                    <p data-i18n="int1Desc">Native integration with WhatsApp Business API for instant staff notifications</p>
+                    <div class="int-status ready" data-i18n="intReady">✓ Ready</div>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="int-icon">🏨</div>
+                    <h3 data-i18n="int2Title">Property Management Systems</h3>
+                    <p data-i18n="int2Desc">Connect with Opera, Cloudbeds, Mews, and other leading PMS platforms</p>
+                    <div class="int-status ready" data-i18n="intReady">✓ Ready</div>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="int-icon">📧</div>
+                    <h3 data-i18n="int3Title">Email & Calendar</h3>
+                    <p data-i18n="int3Desc">Sync with Google Calendar, Outlook, and email systems for scheduling</p>
+                    <div class="int-status ready" data-i18n="intReady">✓ Ready</div>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="int-icon">📊</div>
+                    <h3 data-i18n="int4Title">Analytics & Reporting</h3>
+                    <p data-i18n="int4Desc">Export data to Excel, Google Sheets, or connect to your BI tools</p>
+                    <div class="int-status ready" data-i18n="intReady">✓ Ready</div>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="int-icon">🔐</div>
+                    <h3 data-i18n="int5Title">Access Control Systems</h3>
+                    <p data-i18n="int5Desc">Integration with smart locks and room access systems</p>
+                    <div class="int-status coming" data-i18n="intComing">Coming Q2 2026</div>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="int-icon">💳</div>
+                    <h3 data-i18n="int6Title">Payment Processing</h3>
+                    <p data-i18n="int6Desc">Connect with your payment gateway for in-room service billing</p>
+                    <div class="int-status coming" data-i18n="intComing">Coming Q2 2026</div>
+                </div>
+            </div>
+            
+            <div class="custom-integration">
+                <h3 data-i18n="customIntTitle">Need a Custom Integration?</h3>
+                <p data-i18n="customIntDesc">Our API makes it easy to connect Efyoos with any system. Enterprise customers get dedicated integration support.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="faqBadge">FAQ</div>
+                <h2 data-i18n="faqTitle">Frequently Asked Questions</h2>
+                <p class="section-description" data-i18n="faqDesc">
+                    Everything you need to know about Efyoos
+                </p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq1Q">How long does it take to implement?</h3>
+                    <p class="faq-answer" data-i18n="faq1A">48 hours from signup to going live. Day 1: setup call and configuration. Day 2: quick staff training (5 min/person) and launch. We guarantee it.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq2Q">Do my staff need to download an app?</h3>
+                    <p class="faq-answer" data-i18n="faq2A">No! Staff use WhatsApp, which they already have on their phones. They just receive task notifications and tap YES or NO. That's it. No new apps, no training headaches.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq3Q">What if my staff don't speak English?</h3>
+                    <p class="faq-answer" data-i18n="faq3A">Efyoos supports English, French, Arabic, and we're adding more languages monthly. Staff see messages in their preferred language automatically.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq4Q">Is my data secure?</h3>
+                    <p class="faq-answer" data-i18n="faq4A">Yes. We use bank-level encryption (AES-256), host on secure servers, and comply with GDPR. Your guest data and operations are protected with enterprise-grade security.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq5Q">Can I try it before committing?</h3>
+                    <p class="faq-answer" data-i18n="faq5A">Absolutely. We offer a 14-day free trial with full features and support. No credit card required. See if Efyoos works for your hotel with zero risk.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq6Q">What happens if I need help?</h3>
+                    <p class="faq-answer" data-i18n="faq6A">Email support responds within 4 hours. Early adopters get priority support with 1-hour response time. Plus, we proactively monitor your system during the first month.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq7Q">Will this work for a small hotel?</h3>
+                    <p class="faq-answer" data-i18n="faq7A">Yes! Efyoos works for hotels of any size - from 10 rooms to 500+ rooms. The system scales with you. Small hotels often see the biggest impact because efficiency gains are immediate.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3 class="faq-question" data-i18n="faq8Q">Can I cancel anytime?</h3>
+                    <p class="faq-answer" data-i18n="faq8A">Yes, no long-term contracts. Cancel anytime with 30 days notice. We're confident you'll love Efyoos, but we don't believe in locking customers in.</p>
+                </div>
+            </div>
+            
+            <div class="faq-cta">
+                <h3 data-i18n="faqCtaTitle">Still have questions?</h3>
+                <p data-i18n="faqCtaDesc">Talk to our team. We're here to help.</p>
+                <a href="#demo" class="btn btn-primary" data-i18n="faqCtaBtn">Schedule a Call →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge" data-i18n="priceBadge">Pricing</div>
+                <h2 data-i18n="priceTitle">Simple, Transparent Pricing</h2>
+                <p class="section-description" data-i18n="priceDesc">
+                    Choose the plan that fits your hotel's needs
+                </p>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3 data-i18n="planDemo">Demo Access</h3>
+                    <p data-i18n="planDemoDesc">Try Efyoos with full features</p>
+                    <div class="price" data-i18n="planDemoPrice">Free</div>
+                    <div class="price-period" data-i18n="planDemoPeriod">14-day trial</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="planDemoFeat1">Full system access</li>
+                        <li data-i18n="planDemoFeat2">Up to 5 users</li>
+                        <li data-i18n="planDemoFeat3">Email support</li>
+                        <li data-i18n="planDemoFeat4">Training session</li>
+                    </ul>
+                    <a href="#demo" class="btn btn-secondary" style="width: 100%; justify-content: center;" data-i18n="planDemoCta">
+                        Start Free Trial
+                    </a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge" data-i18n="planPopular">Popular</div>
+                    <h3 data-i18n="planPro">Professional</h3>
+                    <p data-i18n="planProDesc">Perfect for medium hotels</p>
+                    <div class="price" data-i18n="planProPrice">Custom</div>
+                    <div class="price-period" data-i18n="planProPeriod">Contact for pricing</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="planProFeat1">Unlimited users</li>
+                        <li data-i18n="planProFeat2">All features included</li>
+                        <li data-i18n="planProFeat3">Priority support</li>
+                        <li data-i18n="planProFeat4">Custom integrations</li>
+                        <li data-i18n="planProFeat5">Dedicated account manager</li>
+                    </ul>
+                    <a href="#demo" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="planProCta">
+                        Contact Sales
+                    </a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3 data-i18n="planEnt">Enterprise</h3>
+                    <p data-i18n="planEntDesc">For hotel chains</p>
+                    <div class="price" data-i18n="planEntPrice">Custom</div>
+                    <div class="price-period" data-i18n="planEntPeriod">Contact for pricing</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="planEntFeat1">Multi-property support</li>
+                        <li data-i18n="planEntFeat2">Advanced analytics</li>
+                        <li data-i18n="planEntFeat3">24/7 support</li>
+                        <li data-i18n="planEntFeat4">Custom development</li>
+                        <li data-i18n="planEntFeat5">SLA guarantee</li>
+                    </ul>
+                    <a href="#demo" class="btn btn-secondary" style="width: 100%; justify-content: center;" data-i18n="planEntCta">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 data-i18n="footAbout">About Efyoos</h4>
+                    <p data-i18n="footAboutDesc">
+                        Efyoos Command is a revolutionary hotel operations automation system that transforms how hotels manage guest requests, staff tasks, and operational efficiency.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-i18n="footProduct">Product</h4>
+                    <a href="#features" data-i18n="footFeatures">Features</a>
+                    <a href="#how-it-works" data-i18n="footHow">How It Works</a>
+                    <a href="#pricing" data-i18n="footPricing">Pricing</a>
+                    <a href="#demo" data-i18n="footDemo">Request Demo</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-i18n="footCompany">Company</h4>
+                    <a href="#" data-i18n="footAboutLink">About Us</a>
+                    <a href="#" data-i18n="footContact">Contact</a>
+                    <a href="#" data-i18n="footPrivacy">Privacy Policy</a>
+                    <a href="#" data-i18n="footTerms">Terms of Service</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 data-i18n="footContactTitle">Contact</h4>
+                    <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f49d9a929bb491928d9b9b87da979b99">[email&#160;protected]</a></p>
+                    <p data-i18n="footSupport">Support: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f0c0a0f0f100d0b3f1a190610100c511c1012">[email&#160;protected]</a></p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Efyoos System. <span data-i18n="footRights">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()" aria-label="Close modal">×</button>
+            
+            <h2 style="margin-bottom: 24px;" data-i18n="loginTitle">Hotel Login</h2>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="hotelId" data-i18n="loginHotelId">Hotel ID *</label>
+                    <input type="text" id="hotelId" name="hotelId" placeholder="H001" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginEmail" data-i18n="loginEmail">Email *</label>
+                    <input type="email" id="loginEmail" name="loginEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-i18n="loginPassword">Password *</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="submit-btn" data-i18n="loginSubmit">
+                    Login to Dashboard →
+                </button>
+                
+                <div id="loginError" style="display:none; margin-top:12px; padding:10px 14px; background:rgba(220,53,69,0.15); border:1px solid rgba(220,53,69,0.4); border-radius:8px; color:#ff6b6b; font-size:13px; text-align:center;"></div>
+            </form>
+        </div>
     </div>
-</body>
-</html>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const { createClient } = supabase;
+        const sbClient = createClient(
+            'https://swuqyrbknkobamnruurl.supabase.co',
+            'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5'
+        );
+    </script>
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                brandName: "EFYOOS",
+                login: "Login",
+                heroBadge: "⚡ Revolutionary Hotel Automation",
+                heroTitle1: "Automate Your Hotel",
+                heroTitle2: "Operations with AI",
+                heroSubtitle: "Transform guest requests into instant WhatsApp tasks. AI-powered classification, real-time staff dispatch, and complete visibility in one automated system.",
+                ctaDemo: "Request a Demo →",
+                ctaHow: "See How It Works",
+                
+                // Problem Section
+                problemBadge: "The Challenge",
+                problemTitle: "Hotel Operations Shouldn't Be This Hard",
+                problemDesc: "Every day, hotel managers face the same operational chaos",
+                prob1Title: "Lost Requests",
+                prob1Desc: "Guest requests get lost in phone calls, papers, and verbal messages. Nobody knows who's handling what.",
+                prob1Stat: "30% of requests delayed or forgotten",
+                prob2Title: "Slow Response Times",
+                prob2Desc: "Staff waste time walking to find managers, managers waste time tracking down staff. Guest satisfaction suffers.",
+                prob2Stat: "Average 45-minute response time",
+                prob3Title: "Communication Chaos",
+                prob3Desc: "Multiple channels - walkie-talkies, phone calls, WhatsApp groups, sticky notes. Nothing is organized or tracked.",
+                prob3Stat: "15+ hours/week wasted on coordination",
+                prob4Title: "Zero Visibility",
+                prob4Desc: "Managers have no idea what's happening in real-time. Can't measure performance. Can't optimize operations.",
+                prob4Stat: "No data = No improvement",
+                solutionPreview: "There's a Better Way",
+                
+                // How It Works
+                howBadge: "The Process",
+                howTitle: "From Request to Resolution in Seconds",
+                howDesc: "Watch how Efyoos transforms traditional hotel operations into a seamless, automated workflow",
+                waName: "Efyoos Command",
+                waStatus: "online",
+                waMsg1: "🔔 New Request from Room 301",
+                waTask: "Task:",
+                waTaskDesc: "Housekeeping needed",
+                waGuest: "Guest:",
+                waRoom: "Room:",
+                waYes: "✓ YES",
+                waNo: "✗ NO",
+                waConfirm: "✓ Task accepted",
+                waProgress: "In Progress",
+                step1Title: "Guest Submits Request",
+                step1Desc: "Guest uses the intuitive interface to submit any request - housekeeping, maintenance, room service, or reception inquiry.",
+                step2Title: "AI Classifies & Dispatches",
+                step2Desc: "AI instantly classifies the request type and sends it directly to the right staff member via WhatsApp notification.",
+                step3Title: "Staff Responds Instantly",
+                step3Desc: "Staff receives the task on WhatsApp, taps YES or NO, and the system updates in real-time. No app switching required.",
+                step4Title: "Manager Monitors Live",
+                step4Desc: "Complete visibility with the live dashboard showing all tasks, performance metrics, and team status in real-time.",
+                
+                // Results Section
+                resultsBadge: "The Impact",
+                resultsTitle: "Transform Your Operations",
+                resultsDesc: "Based on typical hotel operations benchmarks",
+                stat1Number: "80%",
+                stat1Label: "Faster Response Time",
+                stat1Desc: "From 45 minutes to under 9 minutes average",
+                stat2Number: "15+",
+                stat2Label: "Hours Saved Weekly",
+                stat2Desc: "Eliminate coordination time and manual tracking",
+                stat3Number: "100%",
+                stat3Label: "Request Tracking",
+                stat3Desc: "Nothing falls through the cracks ever again",
+                stat4Number: "98%",
+                stat4Label: "Task Completion Rate",
+                stat4Desc: "Real-time visibility drives accountability",
+                beforeTitle: "❌ Without Efyoos",
+                before1: "Requests lost in communication",
+                before2: "Manual tracking with paper/spreadsheets",
+                before3: "Staff constantly interrupted",
+                before4: "No performance metrics",
+                before5: "Guest complaints increase",
+                afterTitle: "✅ With Efyoos",
+                after1: "Every request tracked automatically",
+                after2: "Real-time dashboard visibility",
+                after3: "Efficient WhatsApp notifications",
+                after4: "Complete performance analytics",
+                after5: "Guest satisfaction soars",
+                featBadge: "Capabilities",
+                featTitle: "Powerful Features for Modern Hotels",
+                featDesc: "Everything you need to run seamless hotel operations",
+                feat1Title: "AI Request Classification",
+                feat1Desc: "Intelligent AI automatically categorizes every guest request and routes it to the appropriate department instantly.",
+                feat2Title: "WhatsApp Integration",
+                feat2Desc: "Staff receive and manage tasks directly through WhatsApp - the tool they already use every day.",
+                feat3Title: "Real-Time Dispatch",
+                feat3Desc: "Tasks are dispatched to available staff members in real-time based on workload and location.",
+                feat4Title: "Live Dashboard",
+                feat4Desc: "Complete operational visibility with real-time task tracking, team performance, and analytics.",
+                feat5Title: "Multi-Language Support",
+                feat5Desc: "Seamless guest experience in English, French, Arabic, and more - with automatic translation.",
+                feat6Title: "Enterprise Security",
+                feat6Desc: "Bank-level encryption, SOC 2 compliance, and role-based access control to protect your data.",
+                
+                // Comparison Section
+                compBadge: "Comparison",
+                compTitle: "Efyoos vs Traditional Methods",
+                compDesc: "See how Efyoos eliminates operational bottlenecks",
+                compFeature: "Feature",
+                compManual: "Manual Operations",
+                compOther: "Other Systems",
+                compEfyoos: "Efyoos Command",
+                compRow1: "Request Tracking",
+                compRow1Manual: "Paper/verbal",
+                compRow1Other: "Requires app install",
+                compRow1Efyoos: "Automatic via WhatsApp",
+                compRow2: "Staff Communication",
+                compRow2Manual: "Walkie-talkies/calls",
+                compRow2Other: "New app to learn",
+                compRow2Efyoos: "Uses existing WhatsApp",
+                compRow3: "Setup Time",
+                compRow3Manual: "N/A",
+                compRow3Other: "2-4 weeks",
+                compRow3Efyoos: "48 hours",
+                compRow4: "Staff Training",
+                compRow4Manual: "Ongoing confusion",
+                compRow4Other: "Days of training",
+                compRow4Efyoos: "5 minutes (WhatsApp)",
+                compRow5: "Real-Time Dashboard",
+                compRow5Manual: "No visibility",
+                compRow5Other: "Yes",
+                compRow5Efyoos: "Live + Analytics",
+                compRow6: "AI Classification",
+                compRow6Manual: "Manual routing",
+                compRow6Other: "Manual routing",
+                compRow6Efyoos: "Automatic",
+                compRow7: "Multi-Language",
+                compRow7Manual: "Staff dependent",
+                compRow7Other: "Limited languages",
+                compRow7Efyoos: "EN/FR/AR + more",
+                compRow8: "Cost",
+                compRow8Manual: "Hidden inefficiency",
+                compRow8Other: "$$$ expensive",
+                compRow8Efyoos: "Transparent pricing",
+                
+                // Timeline Section
+                timelineBadge: "Get Started",
+                timelineTitle: "Live in 48 Hours, Not Weeks",
+                timelineDesc: "Our streamlined onboarding gets you operational in 2 days",
+                time1Title: "Day 1 - Setup Call",
+                time1Duration: "30 minutes",
+                time1Desc: "Quick call to understand your hotel, gather staff WhatsApp numbers, and configure your dashboard. No technical knowledge required.",
+                time2Title: "Day 1 - System Configuration",
+                time2Duration: "2 hours (our team)",
+                time2Desc: "We set up your hotel profile, guest interface, staff WhatsApp integration, and manager dashboard. You just wait for the 'ready' email.",
+                time3Title: "Day 2 - Staff Training",
+                time3Duration: "5 minutes per person",
+                time3Desc: "Staff training is simple: 'When you get a WhatsApp message, tap YES or NO.' That's it. They already know WhatsApp.",
+                time4Title: "Day 2 - Go Live",
+                time4Duration: "Instant",
+                time4Desc: "Start accepting guest requests immediately. We monitor the first week to ensure everything runs smoothly. Support is one message away.",
+                guaranteeTitle: "48-Hour Guarantee",
+                guaranteeDesc: "If we can't get you live and operational within 48 hours, your first month is free. We're that confident.",
+                
+                // Demo/Early Adopter
+                earlyTitle: "Join Our Early Adopters Program",
+                earlyDesc: "We're accepting our first 50 hotels. Get premium onboarding support, influence product development, and lock in founder's pricing forever.",
+                earlyBenefit1: "✓ Priority Support",
+                earlyBenefit2: "✓ No Setup Fees",
+                earlyBenefit3: "✓ Lifetime Discount",
+                earlyBenefit4: "✓ Feature Requests",
+                
+                // Integrations
+                intBadge: "Integrations",
+                intTitle: "Works With Your Existing Tools",
+                intDesc: "Efyoos integrates seamlessly with systems you already use",
+                int1Title: "WhatsApp Business",
+                int1Desc: "Native integration with WhatsApp Business API for instant staff notifications",
+                int2Title: "Property Management Systems",
+                int2Desc: "Connect with Opera, Cloudbeds, Mews, and other leading PMS platforms",
+                int3Title: "Email & Calendar",
+                int3Desc: "Sync with Google Calendar, Outlook, and email systems for scheduling",
+                int4Title: "Analytics & Reporting",
+                int4Desc: "Export data to Excel, Google Sheets, or connect to your BI tools",
+                int5Title: "Access Control Systems",
+                int5Desc: "Integration with smart locks and room access systems",
+                int6Title: "Payment Processing",
+                int6Desc: "Connect with your payment gateway for in-room service billing",
+                intReady: "✓ Ready",
+                intComing: "Coming Q2 2026",
+                customIntTitle: "Need a Custom Integration?",
+                customIntDesc: "Our API makes it easy to connect Efyoos with any system. Enterprise customers get dedicated integration support.",
+                
+                // FAQ
+                faqBadge: "FAQ",
+                faqTitle: "Frequently Asked Questions",
+                faqDesc: "Everything you need to know about Efyoos",
+                faq1Q: "How long does it take to implement?",
+                faq1A: "48 hours from signup to going live. Day 1: setup call and configuration. Day 2: quick staff training (5 min/person) and launch. We guarantee it.",
+                faq2Q: "Do my staff need to download an app?",
+                faq2A: "No! Staff use WhatsApp, which they already have on their phones. They just receive task notifications and tap YES or NO. That's it. No new apps, no training headaches.",
+                faq3Q: "What if my staff don't speak English?",
+                faq3A: "Efyoos supports English, French, Arabic, and we're adding more languages monthly. Staff see messages in their preferred language automatically.",
+                faq4Q: "Is my data secure?",
+                faq4A: "Yes. We use bank-level encryption (AES-256), host on secure servers, and comply with GDPR. Your guest data and operations are protected with enterprise-grade security.",
+                faq5Q: "Can I try it before committing?",
+                faq5A: "Absolutely. We offer a 14-day free trial with full features and support. No credit card required. See if Efyoos works for your hotel with zero risk.",
+                faq6Q: "What happens if I need help?",
+                faq6A: "Email support responds within 4 hours. Early adopters get priority support with 1-hour response time. Plus, we proactively monitor your system during the first month.",
+                faq7Q: "Will this work for a small hotel?",
+                faq7A: "Yes! Efyoos works for hotels of any size - from 10 rooms to 500+ rooms. The system scales with you. Small hotels often see the biggest impact because efficiency gains are immediate.",
+                faq8Q: "Can I cancel anytime?",
+                faq8A: "Yes, no long-term contracts. Cancel anytime with 30 days notice. We're confident you'll love Efyoos, but we don't believe in locking customers in.",
+                faqCtaTitle: "Still have questions?",
+                faqCtaDesc: "Talk to our team. We're here to help.",
+                faqCtaBtn: "Schedule a Call →",
+                
+                // Trust Signals
+                trustSecurity: "Security",
+                trustEncrypted: "Secure & Encrypted",
+                trustCompliance: "Compliance",
+                trustGDPR: "GDPR Compliant",
+                trustDeployment: "Deployment",
+                trust48Hours: "Live in 48 Hours",
+                trustSupport: "Support",
+                trust24Support: "24/7 Available",
+                
+                // Video Demo
+                videoBadge: "Video Demo",
+                videoTitle: "See Efyoos in Action",
+                videoDesc: "Watch a 60-second walkthrough of how Efyoos transforms hotel operations",
+                videoPlaceholder: "Video demo coming soon",
+                
+                // Screenshots/Demo/Pricing/Footer (unchanged)
+                ssBadge: "Live System",
+                ssTitle: "Real Screenshots, Real Results",
+                ssDesc: "This is not a mockup - Efyoos is running live in hotels today",
+                ssLabel1: "Manager Dashboard - Live Task Monitoring",
+                ssLabel2: "Guest Interface - Request Submission",
+                ssLabel3: "Staff Interface - Maintenance Requests",
+                demoBadge: "Get Started",
+                demoTitle: "Request a Personalized Demo",
+                demoDesc: "See Efyoos in action. Schedule a demo with our team and discover how we can transform your hotel operations.",
+                formHotel: "Hotel Name *",
+                formEmail: "Email Address *",
+                formCountry: "Country *",
+                formMessage: "Message (Optional)",
+                formSubmit: "Request Demo →",
+                successTitle: "Thank You!",
+                successMsg: "We've received your demo request. Our team will contact you within 24 hours.",
+                priceBadge: "Pricing",
+                priceTitle: "Simple, Transparent Pricing",
+                priceDesc: "Choose the plan that fits your hotel's needs",
+                planDemo: "Demo Access",
+                planDemoDesc: "Try Efyoos with full features",
+                planDemoPrice: "Free",
+                planDemoPeriod: "14-day trial",
+                planDemoFeat1: "Full system access",
+                planDemoFeat2: "Up to 5 users",
+                planDemoFeat3: "Email support",
+                planDemoFeat4: "Training session",
+                planDemoCta: "Start Free Trial",
+                planPopular: "Popular",
+                planPro: "Professional",
+                planProDesc: "Perfect for medium hotels",
+                planProPrice: "Custom",
+                planProPeriod: "Contact for pricing",
+                planProFeat1: "Unlimited users",
+                planProFeat2: "All features included",
+                planProFeat3: "Priority support",
+                planProFeat4: "Custom integrations",
+                planProFeat5: "Dedicated account manager",
+                planProCta: "Contact Sales",
+                planEnt: "Enterprise",
+                planEntDesc: "For hotel chains",
+                planEntPrice: "Custom",
+                planEntPeriod: "Contact for pricing",
+                planEntFeat1: "Multi-property support",
+                planEntFeat2: "Advanced analytics",
+                planEntFeat3: "24/7 support",
+                planEntFeat4: "Custom development",
+                planEntFeat5: "SLA guarantee",
+                planEntCta: "Contact Sales",
+                footAbout: "About Efyoos",
+                footAboutDesc: "Efyoos Command is a revolutionary hotel operations automation system that transforms how hotels manage guest requests, staff tasks, and operational efficiency.",
+                footProduct: "Product",
+                footFeatures: "Features",
+                footHow: "How It Works",
+                footPricing: "Pricing",
+                footDemo: "Request Demo",
+                footCompany: "Company",
+                footAboutLink: "About Us",
+                footContact: "Contact",
+                footPrivacy: "Privacy Policy",
+                footTerms: "Terms of Service",
+                footContactTitle: "Contact",
+                footSupport: "Support: support@efyoos.com",
+                footRights: "All rights reserved.",
+                loginTitle: "Hotel Login",
+                loginHotelId: "Hotel ID *",
+                loginEmail: "Email *",
+                loginPassword: "Password *",
+                loginSubmit: "Login to Dashboard →"
+            },
+            fr: {
+                brandName: "EFYOOS",
+                login: "Connexion",
+                heroBadge: "⚡ Automatisation Hôtelière Révolutionnaire",
+                heroTitle1: "Automatisez Votre Hôtel",
+                heroTitle2: "Opérations avec l'IA",
+                heroSubtitle: "Transformez les demandes des clients en tâches WhatsApp instantanées. Classification par IA, envoi en temps réel au personnel et visibilité complète dans un système automatisé.",
+                ctaDemo: "Demander une Démo →",
+                ctaHow: "Voir Comment Ça Marche",
+                howBadge: "Le Processus",
+                howTitle: "De la Demande à la Résolution en Secondes",
+                howDesc: "Découvrez comment Efyoos transforme les opérations hôtelières traditionnelles en un flux de travail automatisé",
+                waName: "Efyoos Command",
+                waStatus: "en ligne",
+                waMsg1: "🔔 Nouvelle demande de la chambre 301",
+                waTask: "Tâche:",
+                waTaskDesc: "Ménage nécessaire",
+                waGuest: "Client:",
+                waRoom: "Chambre:",
+                waYes: "✓ OUI",
+                waNo: "✗ NON",
+                waConfirm: "✓ Tâche acceptée",
+                waProgress: "En cours",
+                step1Title: "Le Client Soumet une Demande",
+                step1Desc: "Le client utilise l'interface intuitive pour soumettre toute demande - ménage, maintenance, service en chambre ou réception.",
+                step2Title: "L'IA Classe et Envoie",
+                step2Desc: "L'IA classe instantanément le type de demande et l'envoie directement au bon membre du personnel via WhatsApp.",
+                step3Title: "Le Personnel Répond Instantanément",
+                step3Desc: "Le personnel reçoit la tâche sur WhatsApp, tape OUI ou NON, et le système se met à jour en temps réel.",
+                step4Title: "Le Manager Surveille en Direct",
+                step4Desc: "Visibilité complète avec le tableau de bord en direct montrant toutes les tâches et les performances de l'équipe.",
+                featBadge: "Capacités",
+                featTitle: "Fonctionnalités Puissantes pour Hôtels Modernes",
+                featDesc: "Tout ce dont vous avez besoin pour des opérations hôtelières fluides",
+                feat1Title: "Classification IA des Demandes",
+                feat1Desc: "L'IA intelligente catégorise automatiquement chaque demande et la route vers le bon département.",
+                feat2Title: "Intégration WhatsApp",
+                feat2Desc: "Le personnel reçoit et gère les tâches directement via WhatsApp.",
+                feat3Title: "Envoi en Temps Réel",
+                feat3Desc: "Les tâches sont envoyées au personnel disponible en temps réel.",
+                feat4Title: "Tableau de Bord en Direct",
+                feat4Desc: "Visibilité opérationnelle complète avec suivi des tâches en temps réel.",
+                feat5Title: "Support Multilingue",
+                feat5Desc: "Expérience client fluide en anglais, français, arabe et plus.",
+                feat6Title: "Sécurité Entreprise",
+                feat6Desc: "Cryptage de niveau bancaire et contrôle d'accès basé sur les rôles.",
+                ssBadge: "Système en Direct",
+                ssTitle: "Vraies Captures, Vrais Résultats",
+                ssDesc: "Ce n'est pas une maquette - Efyoos fonctionne dans des hôtels aujourd'hui",
+                ssLabel1: "Tableau de Bord Manager",
+                ssLabel2: "Interface Client",
+                ssLabel3: "Interface Personnel",
+                demoBadge: "Commencer",
+                demoTitle: "Demander une Démo Personnalisée",
+                demoDesc: "Voyez Efyoos en action et découvrez comment transformer vos opérations.",
+                formHotel: "Nom de l'Hôtel *",
+                formEmail: "Adresse Email *",
+                formCountry: "Pays *",
+                formMessage: "Message (Optionnel)",
+                formSubmit: "Demander une Démo →",
+                successTitle: "Merci!",
+                successMsg: "Nous avons reçu votre demande. Notre équipe vous contactera dans 24 heures.",
+                priceBadge: "Tarification",
+                priceTitle: "Tarification Simple et Transparente",
+                priceDesc: "Choisissez le plan adapté à votre hôtel",
+                planDemo: "Accès Démo",
+                planDemoDesc: "Essayez Efyoos avec toutes les fonctionnalités",
+                planDemoPrice: "Gratuit",
+                planDemoPeriod: "Essai de 14 jours",
+                planDemoFeat1: "Accès complet au système",
+                planDemoFeat2: "Jusqu'à 5 utilisateurs",
+                planDemoFeat3: "Support par email",
+                planDemoFeat4: "Session de formation",
+                planDemoCta: "Commencer l'Essai Gratuit",
+                planPopular: "Populaire",
+                planPro: "Professionnel",
+                planProDesc: "Parfait pour les hôtels moyens",
+                planProPrice: "Personnalisé",
+                planProPeriod: "Contactez pour les prix",
+                planProFeat1: "Utilisateurs illimités",
+                planProFeat2: "Toutes les fonctionnalités",
+                planProFeat3: "Support prioritaire",
+                planProFeat4: "Intégrations personnalisées",
+                planProFeat5: "Gestionnaire de compte dédié",
+                planProCta: "Contacter les Ventes",
+                planEnt: "Entreprise",
+                planEntDesc: "Pour les chaînes hôtelières",
+                planEntPrice: "Personnalisé",
+                planEntPeriod: "Contactez pour les prix",
+                planEntFeat1: "Support multi-propriétés",
+                planEntFeat2: "Analytiques avancées",
+                planEntFeat3: "Support 24/7",
+                planEntFeat4: "Développement personnalisé",
+                planEntFeat5: "Garantie SLA",
+                planEntCta: "Contacter les Ventes",
+                footAbout: "À Propos d'Efyoos",
+                footAboutDesc: "Efyoos Command est un système révolutionnaire d'automatisation des opérations hôtelières.",
+                footProduct: "Produit",
+                footFeatures: "Fonctionnalités",
+                footHow: "Comment Ça Marche",
+                footPricing: "Tarification",
+                footDemo: "Demander une Démo",
+                footCompany: "Société",
+                footAboutLink: "À Propos",
+                footContact: "Contact",
+                footPrivacy: "Politique de Confidentialité",
+                footTerms: "Conditions d'Utilisation",
+                footContactTitle: "Contact",
+                footSupport: "Support: support@efyoos.com",
+                footRights: "Tous droits réservés.",
+                loginTitle: "Connexion Hôtel",
+                loginHotelId: "ID Hôtel *",
+                loginEmail: "Email *",
+                loginPassword: "Mot de Passe *",
+                loginSubmit: "Se Connecter →"
+            },
+            ar: {
+                brandName: "إيفيوس",
+                login: "تسجيل الدخول",
+                heroBadge: "⚡ أتمتة فندقية ثورية",
+                heroTitle1: "أتمت عمليات فندقك",
+                heroTitle2: "بالذكاء الاصطناعي",
+                heroSubtitle: "حوّل طلبات النزلاء إلى مهام واتساب فورية. تصنيف مدعوم بالذكاء الاصطناعي، إرسال فوري للموظفين، ورؤية كاملة في نظام آلي واحد.",
+                ctaDemo: "اطلب عرضًا توضيحيًا ←",
+                ctaHow: "شاهد كيف يعمل",
+                howBadge: "العملية",
+                howTitle: "من الطلب إلى الحل في ثوانٍ",
+                howDesc: "شاهد كيف يحوّل إيفيوس العمليات الفندقية التقليدية إلى سير عمل آلي سلس",
+                waName: "إيفيوس كوماند",
+                waStatus: "متصل",
+                waMsg1: "🔔 طلب جديد من الغرفة 301",
+                waTask: "المهمة:",
+                waTaskDesc: "تنظيف مطلوب",
+                waGuest: "النزيل:",
+                waRoom: "الغرفة:",
+                waYes: "✓ نعم",
+                waNo: "✗ لا",
+                waConfirm: "✓ تم قبول المهمة",
+                waProgress: "قيد التنفيذ",
+                step1Title: "النزيل يقدم طلبًا",
+                step1Desc: "يستخدم النزيل الواجهة السهلة لتقديم أي طلب - تنظيف، صيانة، خدمة الغرف، أو استفسار الاستقبال.",
+                step2Title: "الذكاء الاصطناعي يصنف ويرسل",
+                step2Desc: "يصنف الذكاء الاصطناعي نوع الطلب فورًا ويرسله مباشرة إلى الموظف المناسب عبر واتساب.",
+                step3Title: "الموظف يستجيب فورًا",
+                step3Desc: "يتلقى الموظف المهمة على واتساب، ينقر نعم أو لا، ويتحدث النظام في الوقت الفعلي.",
+                step4Title: "المدير يراقب مباشرة",
+                step4Desc: "رؤية كاملة مع لوحة التحكم المباشرة التي تظهر جميع المهام ومقاييس الأداء.",
+                featBadge: "القدرات",
+                featTitle: "ميزات قوية للفنادق الحديثة",
+                featDesc: "كل ما تحتاجه لتشغيل عمليات فندقية سلسة",
+                feat1Title: "تصنيف الطلبات بالذكاء الاصطناعي",
+                feat1Desc: "الذكاء الاصطناعي يصنف تلقائيًا كل طلب نزيل ويوجهه إلى القسم المناسب فورًا.",
+                feat2Title: "تكامل واتساب",
+                feat2Desc: "يتلقى الموظفون المهام ويديرونها مباشرة عبر واتساب.",
+                feat3Title: "إرسال فوري",
+                feat3Desc: "ترسل المهام إلى الموظفين المتاحين في الوقت الفعلي.",
+                feat4Title: "لوحة تحكم مباشرة",
+                feat4Desc: "رؤية تشغيلية كاملة مع تتبع المهام في الوقت الفعلي.",
+                feat5Title: "دعم متعدد اللغات",
+                feat5Desc: "تجربة نزيل سلسة بالإنجليزية والفرنسية والعربية وأكثر.",
+                feat6Title: "أمان المؤسسات",
+                feat6Desc: "تشفير مستوى البنوك والتحكم في الوصول القائم على الأدوار.",
+                ssBadge: "النظام المباشر",
+                ssTitle: "لقطات شاشة حقيقية، نتائج حقيقية",
+                ssDesc: "هذا ليس نموذجًا - إيفيوس يعمل في الفنادق اليوم",
+                ssLabel1: "لوحة تحكم المدير",
+                ssLabel2: "واجهة النزيل",
+                ssLabel3: "واجهة الموظفين",
+                demoBadge: "ابدأ",
+                demoTitle: "اطلب عرضًا توضيحيًا مخصصًا",
+                demoDesc: "شاهد إيفيوس أثناء العمل واكتشف كيف يمكننا تحويل عمليات فندقك.",
+                formHotel: "اسم الفندق *",
+                formEmail: "البريد الإلكتروني *",
+                formCountry: "البلد *",
+                formMessage: "رسالة (اختياري)",
+                formSubmit: "اطلب عرضًا توضيحيًا ←",
+                successTitle: "شكرًا لك!",
+                successMsg: "تلقينا طلب العرض التوضيحي. سيتصل بك فريقنا خلال 24 ساعة.",
+                priceBadge: "التسعير",
+                priceTitle: "تسعير بسيط وشفاف",
+                priceDesc: "اختر الخطة التي تناسب احتياجات فندقك",
+                planDemo: "الوصول التجريبي",
+                planDemoDesc: "جرب إيفيوس بجميع الميزات",
+                planDemoPrice: "مجاني",
+                planDemoPeriod: "تجربة 14 يومًا",
+                planDemoFeat1: "وصول كامل للنظام",
+                planDemoFeat2: "حتى 5 مستخدمين",
+                planDemoFeat3: "دعم البريد الإلكتروني",
+                planDemoFeat4: "جلسة تدريب",
+                planDemoCta: "ابدأ التجربة المجانية",
+                planPopular: "شائع",
+                planPro: "محترف",
+                planProDesc: "مثالي للفنادق المتوسطة",
+                planProPrice: "مخصص",
+                planProPeriod: "اتصل للتسعير",
+                planProFeat1: "مستخدمون غير محدودين",
+                planProFeat2: "جميع الميزات مشمولة",
+                planProFeat3: "دعم ذو أولوية",
+                planProFeat4: "تكاملات مخصصة",
+                planProFeat5: "مدير حساب مخصص",
+                planProCta: "اتصل بالمبيعات",
+                planEnt: "مؤسسة",
+                planEntDesc: "لسلاسل الفنادق",
+                planEntPrice: "مخصص",
+                planEntPeriod: "اتصل للتسعير",
+                planEntFeat1: "دعم متعدد الفنادق",
+                planEntFeat2: "تحليلات متقدمة",
+                planEntFeat3: "دعم 24/7",
+                planEntFeat4: "تطوير مخصص",
+                planEntFeat5: "ضمان اتفاقية مستوى الخدمة",
+                planEntCta: "اتصل بالمبيعات",
+                footAbout: "حول إيفيوس",
+                footAboutDesc: "إيفيوس كوماند هو نظام ثوري لأتمتة العمليات الفندقية.",
+                footProduct: "المنتج",
+                footFeatures: "الميزات",
+                footHow: "كيف يعمل",
+                footPricing: "التسعير",
+                footDemo: "اطلب عرضًا توضيحيًا",
+                footCompany: "الشركة",
+                footAboutLink: "من نحن",
+                footContact: "اتصل بنا",
+                footPrivacy: "سياسة الخصوصية",
+                footTerms: "شروط الخدمة",
+                footContactTitle: "اتصل بنا",
+                footSupport: "الدعم: support@efyoos.com",
+                footRights: "جميع الحقوق محفوظة.",
+                loginTitle: "تسجيل دخول الفندق",
+                loginHotelId: "معرف الفندق *",
+                loginEmail: "البريد الإلكتروني *",
+                loginPassword: "كلمة المرور *",
+                loginSubmit: "تسجيل الدخول ←"
+            }
+        };
+
+        // Language switching
+        let currentLang = 'en';
+        
+        function toggleLangDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('active');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const langSwitcher = document.querySelector('.lang-switcher');
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown && !langSwitcher.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // Update dropdown button text
+            const langNames = { en: 'EN', fr: 'FR', ar: 'AR' };
+            document.getElementById('currentLang').textContent = langNames[lang];
+            
+            // Close dropdown
+            document.getElementById('langDropdown').classList.remove('active');
+            
+            // Handle RTL
+            if (lang === 'ar') {
+                document.body.setAttribute('dir', 'rtl');
+            } else {
+                document.body.removeAttribute('dir');
+            }
+            
+            // Update all translated elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Save preference
+            localStorage.setItem('efyoos-lang', lang);
+        }
+        
+        // Remove old language button listeners
+        // Language dropdown is handled by onclick in HTML
+        
+        // Load saved language
+        const savedLang = localStorage.getItem('efyoos-lang');
+        if (savedLang) {
+            switchLanguage(savedLang);
+        }
+        
+        // WhatsApp Animation
+        let animationTimeout;
+        
+        function startWhatsAppAnimation() {
+            clearTimeout(animationTimeout);
+            
+            // Reset
+            document.getElementById('taskMessage').style.display = 'none';
+            document.getElementById('responseMessage').style.display = 'none';
+            
+            // Show task after 1s
+            animationTimeout = setTimeout(() => {
+                document.getElementById('taskMessage').style.display = 'block';
+            }, 1000);
+        }
+        
+        function handleYes() {
+            document.getElementById('responseMessage').style.display = 'block';
+            
+            // Track interaction
+            if (window.posthog) {
+                posthog.capture('whatsapp_demo_interaction', {
+                    action: 'yes_clicked'
+                });
+            }
+            
+            // Restart animation after 3s
+            setTimeout(startWhatsAppAnimation, 3000);
+        }
+        
+        function handleNo() {
+            if (window.posthog) {
+                posthog.capture('whatsapp_demo_interaction', {
+                    action: 'no_clicked'
+                });
+            }
+            
+            // Restart animation
+            setTimeout(startWhatsAppAnimation, 1000);
+        }
+        
+        // Start animation on load
+        window.addEventListener('load', () => {
+            setTimeout(startWhatsAppAnimation, 500);
+        });
+        
+        // Demo Form Submission
+        document.getElementById('demoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                hotelName: document.getElementById('hotelName').value,
+                email: document.getElementById('email').value,
+                country: document.getElementById('country').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Track with PostHog
+            if (window.posthog) {
+                posthog.identify(formData.email, {
+                    hotel_name: formData.hotelName,
+                    country: formData.country
+                });
+                
+                posthog.capture('demo_form_submitted', formData);
+            }
+            
+            // Hide form, show success
+            document.getElementById('demoForm').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+            
+            console.log('Demo request submitted:', formData);
+        });
+        
+        // Login Modal
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+        
+        // Login Form - Real Supabase Auth
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const hotelId    = document.getElementById('hotelId').value.trim().toUpperCase();
+            const loginEmail = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password   = document.getElementById('password').value;
+            const submitBtn  = this.querySelector('button[type="submit"]');
+            const errorDiv   = document.getElementById('loginError');
+
+            // Clear previous error
+            if (errorDiv) errorDiv.style.display = 'none';
+
+            // Loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...';
+
+            try {
+                // Call RPC that verifies credentials server-side
+                const { data, error } = await sbClient.rpc('check_admin_login', {
+                    p_email: loginEmail,
+                    p_hotel_id: hotelId,
+                    p_password: password
+                });
+
+                if (error || !data || !data.success) {
+                    // Show error in modal
+                    if (errorDiv) {
+                        errorDiv.textContent = 'Invalid Hotel ID, email or password.';
+                        errorDiv.style.display = 'block';
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = translations[currentLang]?.loginSubmit || 'Login to Dashboard →';
+                    return;
+                }
+
+                // Track login
+                if (window.posthog) {
+                    posthog.identify(loginEmail, { hotel_id: hotelId });
+                    posthog.capture('admin_login_success', { hotel_id: hotelId });
+                }
+
+                // Save session
+                localStorage.setItem('efyoos-hotel-id', hotelId);
+                localStorage.setItem('efyoos-admin-name', data.admin_name || '');
+                localStorage.setItem('efyoos-admin-email', loginEmail);
+
+                // Redirect to hub
+                window.location.href = 'home.html';
+
+            } catch (err) {
+                if (errorDiv) {
+                    errorDiv.textContent = 'Connection error. Please try again.';
+                    errorDiv.style.display = 'block';
+                }
+                submitBtn.disabled = false;
+                submitBtn.textContent = translations[currentLang]?.loginSubmit || 'Login to Dashboard →';
+            }
+        });
+        
+        // Close modal on outside click
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDef
