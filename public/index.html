@@ -14,9 +14,6 @@
     <meta property="og:description" content="Revolutionary hotel operations automation system powered by AI and WhatsApp">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.efyoos.com">
-    
-    </script>
-    
     <!-- PostHog Analytics -->
     <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -26,6 +23,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -2647,22 +2645,12 @@
                 <button type="submit" class="submit-btn" data-i18n="loginSubmit">
                     Login to Dashboard →
                 </button>
-                
                 <div id="loginError" style="display:none; margin-top:12px; padding:10px 14px; background:rgba(220,53,69,0.15); border:1px solid rgba(220,53,69,0.4); border-radius:8px; color:#ff6b6b; font-size:13px; text-align:center;"></div>
             </form>
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const { createClient } = supabase;
-        const sbClient = createClient(
-            'https://swuqyrbknkobamnruurl.supabase.co',
-            'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5'
-        );
-    </script>
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Translations
         const translations = {
             en: {
@@ -3344,23 +3332,24 @@
             const submitBtn  = this.querySelector('button[type="submit"]');
             const errorDiv   = document.getElementById('loginError');
 
-            // Clear previous error
             if (errorDiv) errorDiv.style.display = 'none';
-
-            // Loading state
             submitBtn.disabled = true;
             submitBtn.textContent = '...';
 
             try {
-                // Call RPC that verifies credentials server-side
-                const { data, error } = await sbClient.rpc('check_admin_login', {
+                const { createClient } = window.supabase;
+                const sb = createClient(
+                    'https://swuqyrbknkobamnruurl.supabase.co',
+                    'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5'
+                );
+
+                const { data, error } = await sb.rpc('check_admin_login', {
                     p_email: loginEmail,
                     p_hotel_id: hotelId,
                     p_password: password
                 });
 
                 if (error || !data || !data.success) {
-                    // Show error in modal
                     if (errorDiv) {
                         errorDiv.textContent = 'Invalid Hotel ID, email or password.';
                         errorDiv.style.display = 'block';
@@ -3370,18 +3359,9 @@
                     return;
                 }
 
-                // Track login
-                if (window.posthog) {
-                    posthog.identify(loginEmail, { hotel_id: hotelId });
-                    posthog.capture('admin_login_success', { hotel_id: hotelId });
-                }
-
-                // Save session
                 localStorage.setItem('efyoos-hotel-id', hotelId);
                 localStorage.setItem('efyoos-admin-name', data.admin_name || '');
                 localStorage.setItem('efyoos-admin-email', loginEmail);
-
-                // Redirect to hub
                 window.location.href = 'home.html';
 
             } catch (err) {
