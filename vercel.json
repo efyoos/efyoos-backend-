@@ -1,22 +1,23 @@
 {
+  "cleanUrls": true,
   "routes": [
     {
-      "src": "/(background.jpeg)",
+      "src": "/(background.jpeg|efyoos_logo.png)",
       "dest": "/$1"
     },
     {
       "has": [{ "type": "host", "value": "manager.efyoos.com" }],
       "src": "/(.*)",
-      "dest": "/dashboard.html"
+      "dest": "/dashboard"
     },
     {
       "has": [{ "type": "host", "value": "guest.efyoos.com" }],
       "src": "/(.*)",
-      "dest": "/guest.html"
+      "dest": "/guest"
     },
-    { "src": "/home.html",      "dest": "/home.html" },
-    { "src": "/dashboard.html", "dest": "/dashboard.html" },
-    { "src": "/guest.html",     "dest": "/guest.html" },
-    { "src": "/(.*)",           "dest": "/index.html" }
+    { "src": "/home",      "dest": "/home.html" },
+    { "src": "/dashboard", "dest": "/dashboard.html" },
+    { "src": "/guest",     "dest": "/guest.html" },
+    { "src": "/(.*)",      "dest": "/index.html" }
   ]
 }
