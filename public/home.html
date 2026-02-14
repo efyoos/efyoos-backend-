@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/efyoos_logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efyoos — Home</title>
+    <title>efyoos.com | MANAGER DASHBOARD</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -463,6 +464,15 @@
             .page { padding: 0 16px; }
             header { padding: 20px 0 0; }
         }
+
+        /* Lang Switcher */
+        .lang-switcher { position:relative; }
+        .lang-btn { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; color:var(--silver); padding:7px 14px; cursor:pointer; font-size:12px; font-weight:600; letter-spacing:1px; display:flex; align-items:center; gap:6px; }
+        .lang-btn:hover { border-color:var(--border-hover); color:var(--white); }
+        .lang-drop { display:none; position:absolute; top:calc(100% + 8px); right:0; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; min-width:130px; box-shadow:0 8px 24px rgba(0,0,0,0.4); z-index:100; overflow:hidden; }
+        .lang-drop.open { display:block; }
+        .lang-opt { display:block; width:100%; padding:10px 16px; background:none; border:none; color:var(--silver); font-size:13px; cursor:pointer; text-align:left; transition:background 0.15s; }
+        .lang-opt:hover { background:var(--bg-hover); color:var(--white); }
     </style>
 </head>
 <body>
@@ -476,14 +486,22 @@
             <span class="logo-name">Efyoos <span>COMMAND</span></span>
         </a>
         <div class="header-right">
+            <div class="lang-switcher">
+                <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN ▾</button>
+                <div class="lang-drop" id="langDrop">
+                    <button class="lang-opt" onclick="setLang('en')">🇬🇧 English</button>
+                    <button class="lang-opt" onclick="setLang('fr')">🇫🇷 Français</button>
+                    <button class="lang-opt" onclick="setLang('ar')">🇸🇦 العربية</button>
+                </div>
+            </div>
             <span class="hotel-badge" id="hotelBadge">H01312</span>
-            <button class="sign-out" onclick="signOut()">Sign out</button>
+            <button class="sign-out" onclick="signOut()" data-i18n="signOut">Sign out</button>
         </div>
     </header>
 
     <!-- GREETING -->
     <section class="greeting-section">
-        <p class="greeting-eyebrow" id="timeLabel">Good morning</p>
+        <p class="greeting-eyebrow" id="timeLabel" data-i18n="greeting">Good morning</p>
         <h1 class="greeting-title">
             Welcome back,<br><em id="adminName">Manager</em>
         </h1>
@@ -511,7 +529,7 @@
     </div>
 
     <!-- ACTIVE TOOLS -->
-    <p class="section-label">Your Tools</p>
+    <p class="section-label" data-i18n="toolsLabel">Your Tools</p>
 
     <div class="cards-grid">
 
@@ -519,40 +537,40 @@
         <a href="dashboard.html" class="card active">
             <div class="card-icon icon-green">🖥️</div>
             <p class="card-tag">Live</p>
-            <h2 class="card-title">Manager Dashboard</h2>
+            <h2 class="card-title" data-i18n="dashTitle">Manager Dashboard</h2>
             <p class="card-desc">Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.</p>
-            <div class="card-arrow">Open Dashboard →</div>
+            <div class="card-arrow" data-i18n="openDash">Open Dashboard →</div>
         </a>
 
         <!-- Guest Page -->
         <a href="guest.html" class="card active">
             <div class="card-icon icon-silver">📱</div>
             <p class="card-tag">Active</p>
-            <h2 class="card-title">Guest Request Page</h2>
+            <h2 class="card-title" data-i18n="guestTitle">Guest Request Page</h2>
             <p class="card-desc">The page your guests use to submit requests. Share via QR code in rooms or direct link.</p>
-            <div class="card-arrow">Open Page →</div>
+            <div class="card-arrow" data-i18n="openGuest">Open Page →</div>
         </a>
 
         <!-- QR Code -->
         <div class="card active" onclick="showQR()">
             <div class="card-icon icon-green">⬛</div>
             <p class="card-tag">Utility</p>
-            <h2 class="card-title">QR Code Generator</h2>
+            <h2 class="card-title" data-i18n="qrTitle">QR Code Generator</h2>
             <p class="card-desc">Generate and print a QR code linking guests directly to the request page. Place in each room.</p>
-            <div class="card-arrow">Generate QR →</div>
+            <div class="card-arrow" data-i18n="genQR">Generate QR →</div>
         </div>
 
     </div>
 
     <!-- COMING SOON -->
-    <p class="section-label" style="margin-top: 32px; animation-delay: 0.8s;">Coming Soon</p>
+    <p class="section-label" style="margin-top: 32px; animation-delay: 0.8s;" data-i18n="comingSoon">Coming Soon</p>
 
     <div class="cards-grid-2">
 
         <!-- Analytics -->
         <div class="card locked">
             <div class="card-icon icon-locked">📊</div>
-            <p class="card-tag coming">Coming Soon</p>
+            <p class="card-tag coming" data-i18n="comingSoon">Coming Soon</p>
             <h2 class="card-title">Analytics</h2>
             <p class="card-desc">Weekly and monthly reports. Peak hours, top request types, staff performance, and guest satisfaction trends.</p>
             <div class="card-lock">🔒 In Development</div>
@@ -561,7 +579,7 @@
         <!-- Staff Management -->
         <div class="card locked">
             <div class="card-icon icon-locked">👥</div>
-            <p class="card-tag coming">Coming Soon</p>
+            <p class="card-tag coming" data-i18n="comingSoon">Coming Soon</p>
             <h2 class="card-title">Staff Management</h2>
             <p class="card-desc">Add, edit, and manage staff profiles. Set availability, categories, and WhatsApp numbers from one place.</p>
             <div class="card-lock">🔒 In Development</div>
@@ -570,7 +588,7 @@
         <!-- AI Monitor -->
         <div class="card locked">
             <div class="card-icon icon-locked">🤖</div>
-            <p class="card-tag coming">Coming Soon</p>
+            <p class="card-tag coming" data-i18n="comingSoon">Coming Soon</p>
             <h2 class="card-title">AI Monitor</h2>
             <p class="card-desc">Intelligent system health monitoring. Detects silent failures, odd patterns, and alerts you before problems escalate.</p>
             <div class="card-lock">🔒 In Development</div>
@@ -596,7 +614,7 @@
     <div style="background:#13181F; border:1px solid rgba(0,245,155,0.2); border-radius:24px; padding:40px; max-width:380px; width:90%; text-align:center; position:relative;">
         <button onclick="closeQR()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#4A5568; font-size:22px; cursor:pointer; line-height:1;">×</button>
         <p style="font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#00F59B; margin-bottom:12px;">QR Code</p>
-        <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#F0F4F8; margin-bottom:6px;">Guest Request Page</h3>
+        <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#F0F4F8; margin-bottom:6px;" data-i18n="guestTitle">Guest Request Page</h3>
         <p style="font-size:13px; color:#94A3B8; margin-bottom:28px; font-weight:300;">Print and place this in each room</p>
         <div id="qrContainer" style="display:flex; align-items:center; justify-content:center; margin-bottom:24px; background:#fff; border-radius:12px; padding:20px;">
             <img id="qrImg" src="" alt="QR Code" style="width:180px; height:180px;">
@@ -732,6 +750,201 @@
         localStorage.removeItem('efyoos-hotel-id');
         window.location.href = 'index.html';
     }
+
+    // ── TRANSLATIONS ────────────────────────────────────────────
+    const homeT = {
+        en: {
+            greeting: null, // handled by time
+            signOut: 'Sign out',
+            toolsLabel: 'Your Tools',
+            comingSoon: 'Coming Soon',
+            dashTitle: 'Manager Dashboard',
+            dashDesc: 'Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.',
+            dashTag: 'Live',
+            dashCta: 'Open Dashboard →',
+            guestTitle: 'Guest Request Page',
+            guestDesc: 'The page your guests use to submit requests. Share via QR code in rooms or direct link.',
+            guestTag: 'Active',
+            guestCta: 'Open Page →',
+            qrTitle: 'QR Code Generator',
+            qrDesc: 'Generate and print a QR code linking guests directly to the request page.',
+            qrTag: 'Utility',
+            qrCta: 'Generate QR →',
+            analyticsTitle: 'Analytics',
+            analyticsDesc: 'Weekly and monthly reports. Peak hours, staff performance, and guest satisfaction trends.',
+            staffTitle: 'Staff Management',
+            staffDesc: 'Add, edit, and manage staff profiles. Set availability and WhatsApp numbers.',
+            aiTitle: 'AI Monitor',
+            aiDesc: 'Intelligent system health monitoring. Detects silent failures before problems escalate.',
+            locked: '🔒 In Development',
+            statActive: 'Active Requests',
+            statCompleted: 'Completed Today',
+            statResponse: 'Avg. Response',
+            statStaff: 'Staff Online',
+            qrModalTitle: 'Guest Request Page',
+            qrModalDesc: 'Print and place this in each room',
+            qrPrint: '🖨️ Print QR Code',
+            sysLive: 'System Live',
+            greetMorn: 'Good morning',
+            greetAfter: 'Good afternoon',
+            greetEvening: 'Good evening',
+        },
+        fr: {
+            signOut: 'Déconnexion',
+            toolsLabel: 'Vos Outils',
+            comingSoon: 'Bientôt Disponible',
+            dashTitle: 'Tableau de Bord Manager',
+            dashDesc: 'Surveillez toutes les demandes en temps réel. Suivez les assignations et les temps de réponse.',
+            dashTag: 'En Direct',
+            dashCta: 'Ouvrir →',
+            guestTitle: 'Page des Demandes Clients',
+            guestDesc: 'La page que vos clients utilisent pour soumettre des demandes. Partagez via QR code.',
+            guestTag: 'Actif',
+            guestCta: 'Ouvrir →',
+            qrTitle: 'Générateur de QR Code',
+            qrDesc: 'Générez et imprimez un QR code pour les chambres.',
+            qrTag: 'Utilitaire',
+            qrCta: 'Générer QR →',
+            analyticsTitle: 'Analytiques',
+            analyticsDesc: 'Rapports hebdomadaires et mensuels. Heures de pointe et tendances de satisfaction.',
+            staffTitle: 'Gestion du Personnel',
+            staffDesc: 'Ajoutez et gérez les profils du personnel. Définissez les disponibilités.',
+            aiTitle: 'Moniteur IA',
+            aiDesc: 'Surveillance intelligente de la santé du système. Détecte les défaillances silencieuses.',
+            locked: '🔒 En Développement',
+            statActive: 'Demandes Actives',
+            statCompleted: 'Complétées Aujourd'hui',
+            statResponse: 'Rép. Moyenne',
+            statStaff: 'Personnel En Ligne',
+            qrModalTitle: 'Page des Demandes Clients',
+            qrModalDesc: 'Imprimez et placez dans chaque chambre',
+            qrPrint: '🖨️ Imprimer QR Code',
+            sysLive: 'Système Actif',
+            greetMorn: 'Bonjour',
+            greetAfter: 'Bon après-midi',
+            greetEvening: 'Bonsoir',
+        },
+        ar: {
+            signOut: 'تسجيل الخروج',
+            toolsLabel: 'أدواتك',
+            comingSoon: 'قريباً',
+            dashTitle: 'لوحة تحكم المدير',
+            dashDesc: 'راقب جميع طلبات النزلاء في الوقت الفعلي. تتبع التعيينات وأوقات الاستجابة.',
+            dashTag: 'مباشر',
+            dashCta: 'فتح →',
+            guestTitle: 'صفحة طلبات النزلاء',
+            guestDesc: 'الصفحة التي يستخدمها نزلاؤك لتقديم الطلبات. شاركها عبر رمز QR.',
+            guestTag: 'نشط',
+            guestCta: 'فتح →',
+            qrTitle: 'مولّد رمز QR',
+            qrDesc: 'أنشئ واطبع رمز QR يربط النزلاء بصفحة الطلبات.',
+            qrTag: 'أداة',
+            qrCta: 'إنشاء QR →',
+            analyticsTitle: 'التحليلات',
+            analyticsDesc: 'تقارير أسبوعية وشهرية. أوقات الذروة واتجاهات رضا النزلاء.',
+            staffTitle: 'إدارة الموظفين',
+            staffDesc: 'أضف وأدر ملفات الموظفين. حدد التوفر وأرقام واتساب.',
+            aiTitle: 'مراقب الذكاء الاصطناعي',
+            aiDesc: 'مراقبة ذكية لصحة النظام. يكتشف الأعطال الصامتة قبل تصاعدها.',
+            locked: '🔒 قيد التطوير',
+            statActive: 'الطلبات النشطة',
+            statCompleted: 'مكتملة اليوم',
+            statResponse: 'متوسط الرد',
+            statStaff: 'الموظفون متصلون',
+            qrModalTitle: 'صفحة طلبات النزلاء',
+            qrModalDesc: 'اطبع وضع في كل غرفة',
+            qrPrint: '🖨️ طباعة رمز QR',
+            sysLive: 'النظام مباشر',
+            greetMorn: 'صباح الخير',
+            greetAfter: 'مساء الخير',
+            greetEvening: 'مساء النور',
+        }
+    };
+
+    let currentLang = localStorage.getItem('efyoos-lang') || 'en';
+
+    function toggleLang() {
+        document.getElementById('langDrop').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+        const ls = document.querySelector('.lang-switcher');
+        if (ls && !ls.contains(e.target)) {
+            document.getElementById('langDrop').classList.remove('open');
+        }
+    });
+
+    function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('efyoos-lang', lang);
+        document.getElementById('langBtn').textContent = lang.toUpperCase() + ' ▾';
+        document.getElementById('langDrop').classList.remove('open');
+
+        // RTL
+        document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+        const t = homeT[lang];
+
+        // Update greeting
+        const hour = new Date().getHours();
+        const greet = hour < 12 ? t.greetMorn : hour < 18 ? t.greetAfter : t.greetEvening;
+        document.getElementById('timeLabel').textContent = greet;
+
+        // Update sign out
+        document.querySelector('.sign-out').textContent = t.signOut;
+
+        // Update section labels
+        document.querySelectorAll('.section-label').forEach((el, i) => {
+            el.textContent = i === 0 ? t.toolsLabel : t.comingSoon;
+        });
+
+        // Update system live
+        const sysEl = document.querySelector('.status-live');
+        if (sysEl) sysEl.innerHTML = '<span class="status-dot"></span>' + t.sysLive;
+
+        // Update stat labels
+        const statLabels = document.querySelectorAll('.stat-label');
+        const labelKeys = ['statActive','statCompleted','statResponse','statStaff'];
+        statLabels.forEach((el, i) => { if(t[labelKeys[i]]) el.textContent = t[labelKeys[i]]; });
+
+        // Update active cards
+        const activeCards = document.querySelectorAll('.cards-grid .card.active');
+        if (activeCards[0]) {
+            activeCards[0].querySelector('.card-title').textContent = t.dashTitle;
+            activeCards[0].querySelector('.card-desc').textContent = t.dashDesc;
+            activeCards[0].querySelector('.card-tag').textContent = t.dashTag;
+            activeCards[0].querySelector('.card-arrow').textContent = t.dashCta;
+        }
+        if (activeCards[1]) {
+            activeCards[1].querySelector('.card-title').textContent = t.guestTitle;
+            activeCards[1].querySelector('.card-desc').textContent = t.guestDesc;
+            activeCards[1].querySelector('.card-tag').textContent = t.guestTag;
+            activeCards[1].querySelector('.card-arrow').textContent = t.guestCta;
+        }
+        if (activeCards[2]) {
+            activeCards[2].querySelector('.card-title').textContent = t.qrTitle;
+            activeCards[2].querySelector('.card-desc').textContent = t.qrDesc;
+            activeCards[2].querySelector('.card-tag').textContent = t.qrTag;
+            activeCards[2].querySelector('.card-arrow').textContent = t.qrCta;
+        }
+
+        // Update locked cards
+        const lockedCards = document.querySelectorAll('.cards-grid-2 .card.locked');
+        const lockedData = [
+            {title: t.analyticsTitle, desc: t.analyticsDesc},
+            {title: t.staffTitle, desc: t.staffDesc},
+            {title: t.aiTitle, desc: t.aiDesc},
+        ];
+        lockedCards.forEach((card, i) => {
+            card.querySelector('.card-title').textContent = lockedData[i].title;
+            card.querySelector('.card-desc').textContent = lockedData[i].desc;
+            card.querySelector('.card-lock').textContent = t.locked;
+        });
+    }
+
+    // Init language
+    if (currentLang !== 'en') setLang(currentLang);
+    document.getElementById('langBtn').textContent = currentLang.toUpperCase() + ' ▾';
 
     // ── INIT ────────────────────────────────────────────────
 

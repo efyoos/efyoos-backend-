@@ -2,10 +2,12 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/efyoos_logo.png">
+    <link rel="apple-touch-icon" href="/efyoos_logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>Efyoos Command - Automated Hotel Operations System</title>
+    <title>efyoos.com | EFYOOS SYSTEM</title>
     <meta name="description" content="Revolutionary hotel operations automation system powered by AI and WhatsApp. Streamline housekeeping, maintenance, and guest services with real-time task management.">
     <meta name="keywords" content="hotel management, hotel automation, WhatsApp hotel system, hospitality technology, hotel operations">
     
@@ -1763,6 +1765,9 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Prevent text selection */
+        body { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
+        input, textarea { -webkit-user-select:text; -moz-user-select:text; user-select:text; }
     </style>
 </head>
 <body>
@@ -1771,7 +1776,7 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo">
-                    <img src="efyoos-logo.png" alt="Efyoos Logo" class="logo-img">
+                    <img src="/efyoos_logo.png" alt="Efyoos Logo" class="logo-img">
                     <span data-i18n="brandName">EFYOOS</span>
                 </a>
                 
@@ -1787,10 +1792,6 @@
                             <button class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
                         </div>
                     </div>
-                    
-                    <button class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
-                    </button>
                     
                     <button class="btn btn-primary" onclick="openLoginModal()" data-i18n="login">
                         Login
@@ -3063,7 +3064,176 @@
                 loginHotelId: "ID Hôtel *",
                 loginEmail: "Email *",
                 loginPassword: "Mot de Passe *",
-                loginSubmit: "Se Connecter →"
+                loginSubmit: "Se Connecter →",
+                // Problem Section
+                problemBadge: "Le Défi",
+                problemTitle: "Les Opérations Hôtelières Ne Devraient Pas Être Si Difficiles",
+                problemDesc: "Chaque jour, les gestionnaires d'hôtel font face au même chaos opérationnel",
+                prob1Title: "Demandes Perdues",
+                prob1Desc: "Les demandes des clients se perdent dans les appels téléphoniques, les papiers et les messages verbaux.",
+                prob1Stat: "30% des demandes retardées ou oubliées",
+                prob2Title: "Temps de Réponse Lents",
+                prob2Desc: "Le personnel perd du temps à chercher les managers. La satisfaction des clients en souffre.",
+                prob2Stat: "Temps de réponse moyen de 45 minutes",
+                prob3Title: "Chaos de Communication",
+                prob3Desc: "Multiples canaux - talkies-walkies, appels, groupes WhatsApp. Rien n'est organisé.",
+                prob3Stat: "15+ heures/semaine gaspillées en coordination",
+                prob4Title: "Zéro Visibilité",
+                prob4Desc: "Les managers n'ont aucune idée de ce qui se passe en temps réel.",
+                prob4Stat: "Pas de données = Pas d'amélioration",
+                solutionPreview: "Il Existe Une Meilleure Façon",
+                resultsBadge: "L'Impact",
+                resultsTitle: "Transformez Vos Opérations",
+                resultsDesc: "Basé sur les références typiques des opérations hôtelières",
+                stat1Number: "80%",
+                stat1Label: "Temps de Réponse Plus Rapide",
+                stat1Desc: "De 45 minutes à moins de 9 minutes en moyenne",
+                stat2Number: "15+",
+                stat2Label: "Heures Économisées Par Semaine",
+                stat2Desc: "Éliminez le temps de coordination et le suivi manuel",
+                stat3Number: "100%",
+                stat3Label: "Suivi des Demandes",
+                stat3Desc: "Plus rien ne passe à travers les mailles du filet",
+                stat4Number: "98%",
+                stat4Label: "Taux de Complétion",
+                stat4Desc: "La visibilité en temps réel favorise la responsabilité",
+                beforeTitle: "❌ Sans Efyoos",
+                before1: "Demandes perdues dans la communication",
+                before2: "Suivi manuel avec papier/tableurs",
+                before3: "Personnel constamment interrompu",
+                before4: "Aucune métrique de performance",
+                before5: "Augmentation des plaintes des clients",
+                afterTitle: "✅ Avec Efyoos",
+                after1: "Chaque demande suivie automatiquement",
+                after2: "Visibilité du tableau de bord en temps réel",
+                after3: "Notifications WhatsApp efficaces",
+                after4: "Analytiques de performance complètes",
+                after5: "Satisfaction des clients en hausse",
+                featBadge: "Capacités",
+                featTitle: "Fonctionnalités Puissantes pour les Hôtels Modernes",
+                featDesc: "Tout ce dont vous avez besoin pour des opérations hôtelières fluides",
+                feat1Title: "Classification IA des Demandes",
+                feat1Desc: "L'IA catégorise automatiquement chaque demande et la route vers le département approprié.",
+                feat2Title: "Intégration WhatsApp",
+                feat2Desc: "Le personnel reçoit et gère les tâches directement via WhatsApp.",
+                feat3Title: "Dispatch en Temps Réel",
+                feat3Desc: "Les tâches sont envoyées aux membres du personnel disponibles en temps réel.",
+                feat4Title: "Tableau de Bord en Direct",
+                feat4Desc: "Visibilité opérationnelle complète avec suivi des tâches en temps réel.",
+                feat5Title: "Support Multilingue",
+                feat5Desc: "Expérience client en anglais, français, arabe et plus.",
+                feat6Title: "Sécurité Entreprise",
+                feat6Desc: "Chiffrement de niveau bancaire et contrôle d'accès basé sur les rôles.",
+                compBadge: "Comparaison",
+                compTitle: "Efyoos vs Méthodes Traditionnelles",
+                compDesc: "Voyez comment Efyoos élimine les goulots d'étranglement opérationnels",
+                compFeature: "Fonctionnalité",
+                compManual: "Opérations Manuelles",
+                compOther: "Autres Systèmes",
+                compEfyoos: "Efyoos Command",
+                compRow1: "Suivi des Demandes",
+                compRow1Manual: "Papier/verbal",
+                compRow1Other: "Nécessite une app",
+                compRow1Efyoos: "Automatique via WhatsApp",
+                compRow2: "Communication du Personnel",
+                compRow2Manual: "Talkies-walkies/appels",
+                compRow2Other: "Nouvelle app à apprendre",
+                compRow2Efyoos: "Utilise WhatsApp existant",
+                compRow3: "Temps d'Installation",
+                compRow3Manual: "N/A",
+                compRow3Other: "2-4 semaines",
+                compRow3Efyoos: "48 heures",
+                compRow4: "Formation du Personnel",
+                compRow4Manual: "Confusion continue",
+                compRow4Other: "Jours de formation",
+                compRow4Efyoos: "5 minutes (WhatsApp)",
+                compRow5: "Tableau de Bord",
+                compRow5Manual: "Aucune visibilité",
+                compRow5Other: "Oui",
+                compRow5Efyoos: "En direct + Analytiques",
+                compRow6: "Classification IA",
+                compRow6Manual: "Routage manuel",
+                compRow6Other: "Routage manuel",
+                compRow6Efyoos: "Automatique",
+                compRow7: "Multilingue",
+                compRow7Manual: "Dépend du personnel",
+                compRow7Other: "Langues limitées",
+                compRow7Efyoos: "EN/FR/AR + plus",
+                compRow8: "Coût",
+                compRow8Manual: "Inefficacité cachée",
+                compRow8Other: "$$$ cher",
+                compRow8Efyoos: "Tarification transparente",
+                timelineBadge: "Commencer",
+                timelineTitle: "En Direct en 48 Heures, Pas des Semaines",
+                timelineDesc: "Notre intégration rationalisée vous rend opérationnel en 2 jours",
+                time1Title: "Jour 1 - Appel de Configuration",
+                time1Duration: "30 minutes",
+                time1Desc: "Appel rapide pour comprendre votre hôtel et configurer votre tableau de bord.",
+                time2Title: "Jour 1 - Configuration du Système",
+                time2Duration: "2 heures (notre équipe)",
+                time2Desc: "Nous configurons votre profil d'hôtel, l'interface client et le tableau de bord.",
+                time3Title: "Jour 2 - Formation du Personnel",
+                time3Duration: "5 minutes par personne",
+                time3Desc: "Simple: 'Quand vous recevez un message WhatsApp, appuyez sur OUI ou NON.'",
+                time4Title: "Jour 2 - Lancement",
+                time4Duration: "Instantané",
+                time4Desc: "Commencez à accepter les demandes immédiatement. Nous surveillons la première semaine.",
+                guaranteeTitle: "Garantie 48 Heures",
+                guaranteeDesc: "Si nous ne pouvons pas vous mettre en ligne dans les 48 heures, votre premier mois est gratuit.",
+                earlyTitle: "Rejoignez Notre Programme des Premiers Adoptants",
+                earlyDesc: "Nous acceptons nos 50 premiers hôtels. Obtenez un support premium et la tarification du fondateur.",
+                earlyBenefit1: "✓ Support Prioritaire",
+                earlyBenefit2: "✓ Pas de Frais de Configuration",
+                earlyBenefit3: "✓ Réduction à Vie",
+                earlyBenefit4: "✓ Demandes de Fonctionnalités",
+                intBadge: "Intégrations",
+                intTitle: "Fonctionne Avec Vos Outils Existants",
+                intDesc: "Efyoos s'intègre parfaitement avec les systèmes que vous utilisez déjà",
+                int1Title: "WhatsApp Business",
+                int1Desc: "Intégration native avec l'API WhatsApp Business pour les notifications instantanées",
+                int2Title: "Systèmes de Gestion Hôtelière",
+                int2Desc: "Connectez-vous avec Opera, Cloudbeds, Mews et autres plateformes PMS",
+                int3Title: "Email & Calendrier",
+                int3Desc: "Synchronisez avec Google Calendar, Outlook et systèmes de messagerie",
+                int4Title: "Analytiques & Rapports",
+                int4Desc: "Exportez vers Excel, Google Sheets ou connectez vos outils BI",
+                int5Title: "Contrôle d'Accès",
+                int5Desc: "Intégration avec les serrures intelligentes et systèmes d'accès",
+                int6Title: "Traitement des Paiements",
+                int6Desc: "Connectez votre passerelle de paiement pour la facturation en chambre",
+                intReady: "✓ Prêt",
+                intComing: "Disponible T2 2026",
+                customIntTitle: "Besoin d'une Intégration Personnalisée?",
+                customIntDesc: "Notre API facilite la connexion d'Efyoos avec n'importe quel système.",
+                faqBadge: "FAQ",
+                faqTitle: "Questions Fréquemment Posées",
+                faqDesc: "Tout ce que vous devez savoir sur Efyoos",
+                faq1Q: "Combien de temps faut-il pour implémenter?",
+                faq1A: "48 heures de l'inscription au lancement. Jour 1: configuration. Jour 2: formation et lancement.",
+                faq2Q: "Mon personnel doit-il télécharger une application?",
+                faq2A: "Non! Le personnel utilise WhatsApp qu'ils ont déjà. Ils appuient sur OUI ou NON. C'est tout.",
+                faq3Q: "Et si mon personnel ne parle pas anglais?",
+                faq3A: "Efyoos prend en charge l'anglais, le français, l'arabe et plus de langues mensuellement.",
+                faq4Q: "Mes données sont-elles sécurisées?",
+                faq4A: "Oui. Chiffrement AES-256, serveurs sécurisés, conforme RGPD.",
+                faq5Q: "Puis-je essayer avant de m'engager?",
+                faq5A: "Essai gratuit de 14 jours, toutes fonctionnalités incluses. Sans carte de crédit.",
+                faq6Q: "Que se passe-t-il si j'ai besoin d'aide?",
+                faq6A: "Support email en 4 heures. Premiers adoptants: 1 heure. Surveillance proactive le premier mois.",
+                faq7Q: "Cela fonctionnera-t-il pour un petit hôtel?",
+                faq7A: "Oui! De 10 à 500+ chambres. Les petits hôtels voient souvent le plus grand impact.",
+                faq8Q: "Puis-je annuler à tout moment?",
+                faq8A: "Oui, sans contrat. Annulez avec 30 jours de préavis.",
+                faqCtaTitle: "Vous avez encore des questions?",
+                faqCtaDesc: "Parlez à notre équipe. Nous sommes là pour vous aider.",
+                faqCtaBtn: "Planifier un Appel →",
+                videoBadge: "Démo Vidéo",
+                videoTitle: "Voir Efyoos en Action",
+                videoDesc: "Regardez une présentation de 60 secondes d'Efyoos",
+                videoPlaceholder: "Démo vidéo bientôt disponible",
+                ssBadge: "Système en Direct",
+                ssTitle: "Vraies Captures d'Écran, Vrais Résultats",
+                ssDesc: "Ce n'est pas une maquette - Efyoos fonctionne en direct dans les hôtels aujourd'hui",
             },
             ar: {
                 brandName: "إيفيوس",
@@ -3179,7 +3349,176 @@
                 loginHotelId: "معرف الفندق *",
                 loginEmail: "البريد الإلكتروني *",
                 loginPassword: "كلمة المرور *",
-                loginSubmit: "تسجيل الدخول ←"
+                loginSubmit: "تسجيل الدخول ←",
+                // Problem Section
+                problemBadge: "التحدي",
+                problemTitle: "عمليات الفنادق لا يجب أن تكون بهذه الصعوبة",
+                problemDesc: "كل يوم، يواجه مديرو الفنادق نفس الفوضى التشغيلية",
+                prob1Title: "طلبات مفقودة",
+                prob1Desc: "تضيع طلبات النزلاء في المكالمات الهاتفية والأوراق والرسائل الشفهية.",
+                prob1Stat: "30% من الطلبات متأخرة أو منسية",
+                prob2Title: "أوقات استجابة بطيئة",
+                prob2Desc: "يضيع الموظفون الوقت في البحث عن المديرين. رضا النزلاء يعاني.",
+                prob2Stat: "متوسط وقت الاستجابة 45 دقيقة",
+                prob3Title: "فوضى الاتصالات",
+                prob3Desc: "قنوات متعددة - أجهزة لاسلكية، مكالمات، مجموعات واتساب. لا شيء منظم.",
+                prob3Stat: "15+ ساعة/أسبوع ضائعة في التنسيق",
+                prob4Title: "رؤية صفرية",
+                prob4Desc: "المديرون ليس لديهم فكرة عما يحدث في الوقت الفعلي.",
+                prob4Stat: "لا بيانات = لا تحسين",
+                solutionPreview: "هناك طريقة أفضل",
+                resultsBadge: "التأثير",
+                resultsTitle: "حوّل عملياتك",
+                resultsDesc: "بناءً على معايير عمليات الفنادق النموذجية",
+                stat1Number: "80%",
+                stat1Label: "وقت استجابة أسرع",
+                stat1Desc: "من 45 دقيقة إلى أقل من 9 دقائق",
+                stat2Number: "15+",
+                stat2Label: "ساعات موفرة أسبوعيًا",
+                stat2Desc: "إزالة وقت التنسيق والتتبع اليدوي",
+                stat3Number: "100%",
+                stat3Label: "تتبع الطلبات",
+                stat3Desc: "لا شيء يفلت من الرقابة مرة أخرى",
+                stat4Number: "98%",
+                stat4Label: "معدل إتمام المهام",
+                stat4Desc: "الرؤية الفورية تدفع المساءلة",
+                beforeTitle: "❌ بدون إيفيوس",
+                before1: "طلبات مفقودة في الاتصالات",
+                before2: "تتبع يدوي بالورق",
+                before3: "الموظفون مقاطعون باستمرار",
+                before4: "لا مقاييس أداء",
+                before5: "شكاوى النزلاء تزداد",
+                afterTitle: "✅ مع إيفيوس",
+                after1: "كل طلب يُتابع تلقائيًا",
+                after2: "رؤية لوحة التحكم الفورية",
+                after3: "إشعارات واتساب فعالة",
+                after4: "تحليلات أداء كاملة",
+                after5: "رضا النزلاء يرتفع",
+                featBadge: "الإمكانيات",
+                featTitle: "ميزات قوية للفنادق الحديثة",
+                featDesc: "كل ما تحتاجه لعمليات فندقية سلسة",
+                feat1Title: "تصنيف الطلبات بالذكاء الاصطناعي",
+                feat1Desc: "الذكاء الاصطناعي يصنف كل طلب ويوجهه للقسم المناسب فوراً.",
+                feat2Title: "تكامل واتساب",
+                feat2Desc: "الموظفون يستلمون ويديرون المهام مباشرة عبر واتساب.",
+                feat3Title: "إرسال فوري",
+                feat3Desc: "المهام ترسل للموظفين المتاحين في الوقت الفعلي.",
+                feat4Title: "لوحة تحكم مباشرة",
+                feat4Desc: "رؤية تشغيلية كاملة مع تتبع المهام الفوري.",
+                feat5Title: "دعم متعدد اللغات",
+                feat5Desc: "تجربة نزيل سلسة بالعربية والفرنسية والإنجليزية.",
+                feat6Title: "أمان على مستوى المؤسسات",
+                feat6Desc: "تشفير بمستوى البنوك وتحكم في الوصول.",
+                compBadge: "المقارنة",
+                compTitle: "إيفيوس مقابل الطرق التقليدية",
+                compDesc: "شاهد كيف يزيل إيفيوس الاختناقات التشغيلية",
+                compFeature: "الميزة",
+                compManual: "العمليات اليدوية",
+                compOther: "أنظمة أخرى",
+                compEfyoos: "إيفيوس كوماند",
+                compRow1: "تتبع الطلبات",
+                compRow1Manual: "ورق/شفهي",
+                compRow1Other: "يتطلب تثبيت تطبيق",
+                compRow1Efyoos: "تلقائي عبر واتساب",
+                compRow2: "اتصالات الموظفين",
+                compRow2Manual: "أجهزة لاسلكية/مكالمات",
+                compRow2Other: "تطبيق جديد للتعلم",
+                compRow2Efyoos: "يستخدم واتساب الموجود",
+                compRow3: "وقت الإعداد",
+                compRow3Manual: "غير متاح",
+                compRow3Other: "2-4 أسابيع",
+                compRow3Efyoos: "48 ساعة",
+                compRow4: "تدريب الموظفين",
+                compRow4Manual: "ارتباك مستمر",
+                compRow4Other: "أيام من التدريب",
+                compRow4Efyoos: "5 دقائق (واتساب)",
+                compRow5: "لوحة تحكم فورية",
+                compRow5Manual: "لا رؤية",
+                compRow5Other: "نعم",
+                compRow5Efyoos: "مباشر + تحليلات",
+                compRow6: "تصنيف بالذكاء الاصطناعي",
+                compRow6Manual: "توجيه يدوي",
+                compRow6Other: "توجيه يدوي",
+                compRow6Efyoos: "تلقائي",
+                compRow7: "متعدد اللغات",
+                compRow7Manual: "يعتمد على الموظفين",
+                compRow7Other: "لغات محدودة",
+                compRow7Efyoos: "EN/FR/AR + المزيد",
+                compRow8: "التكلفة",
+                compRow8Manual: "عدم كفاءة مخفية",
+                compRow8Other: "$$$ باهظ",
+                compRow8Efyoos: "تسعير شفاف",
+                timelineBadge: "ابدأ",
+                timelineTitle: "مباشر في 48 ساعة، وليس أسابيع",
+                timelineDesc: "عملية التأهيل المبسطة تجعلك تعمل في يومين",
+                time1Title: "اليوم 1 - مكالمة الإعداد",
+                time1Duration: "30 دقيقة",
+                time1Desc: "مكالمة سريعة لفهم فندقك وتكوين لوحة التحكم.",
+                time2Title: "اليوم 1 - تكوين النظام",
+                time2Duration: "ساعتان (فريقنا)",
+                time2Desc: "نعد ملف فندقك وواجهة النزيل ولوحة التحكم.",
+                time3Title: "اليوم 2 - تدريب الموظفين",
+                time3Duration: "5 دقائق لكل شخص",
+                time3Desc: "بسيط: عند تلقي رسالة واتساب، انقر نعم أو لا.",
+                time4Title: "اليوم 2 - الانطلاق",
+                time4Duration: "فوري",
+                time4Desc: "ابدأ في قبول طلبات النزلاء فوراً. نراقب الأسبوع الأول.",
+                guaranteeTitle: "ضمان 48 ساعة",
+                guaranteeDesc: "إذا لم نتمكن من تشغيلك خلال 48 ساعة، الشهر الأول مجاني.",
+                earlyTitle: "انضم إلى برنامج المتبنين الأوائل",
+                earlyDesc: "نقبل أول 50 فندقاً. احصل على دعم متميز وتسعير المؤسس للأبد.",
+                earlyBenefit1: "✓ دعم ذو أولوية",
+                earlyBenefit2: "✓ بدون رسوم إعداد",
+                earlyBenefit3: "✓ خصم مدى الحياة",
+                earlyBenefit4: "✓ طلبات الميزات",
+                intBadge: "التكاملات",
+                intTitle: "يعمل مع أدواتك الحالية",
+                intDesc: "يتكامل إيفيوس بسلاسة مع الأنظمة التي تستخدمها بالفعل",
+                int1Title: "واتساب بيزنس",
+                int1Desc: "تكامل أصلي مع واتساب بيزنس API للإشعارات الفورية",
+                int2Title: "أنظمة إدارة الممتلكات",
+                int2Desc: "اتصل مع Opera وCloudbeds وMews وغيرها",
+                int3Title: "البريد الإلكتروني والتقويم",
+                int3Desc: "مزامنة مع Google Calendar وOutlook",
+                int4Title: "التحليلات والتقارير",
+                int4Desc: "تصدير البيانات إلى Excel أو Google Sheets",
+                int5Title: "أنظمة التحكم في الوصول",
+                int5Desc: "التكامل مع الأقفال الذكية وأنظمة الوصول",
+                int6Title: "معالجة الدفع",
+                int6Desc: "اتصل ببوابة الدفع لفوترة الخدمة في الغرفة",
+                intReady: "✓ جاهز",
+                intComing: "قادم الربع الثاني 2026",
+                customIntTitle: "هل تحتاج إلى تكامل مخصص؟",
+                customIntDesc: "تجعل API الخاصة بنا من السهل ربط إيفيوس مع أي نظام.",
+                faqBadge: "الأسئلة الشائعة",
+                faqTitle: "الأسئلة المتكررة",
+                faqDesc: "كل ما تحتاج معرفته عن إيفيوس",
+                faq1Q: "كم من الوقت يستغرق التنفيذ؟",
+                faq1A: "48 ساعة من التسجيل إلى الانطلاق. نضمن ذلك.",
+                faq2Q: "هل يحتاج موظفي لتحميل تطبيق؟",
+                faq2A: "لا! يستخدمون واتساب الموجود. ينقرون نعم أو لا. هذا كل شيء.",
+                faq3Q: "ماذا لو كان موظفي لا يتحدثون الإنجليزية؟",
+                faq3A: "إيفيوس يدعم العربية والفرنسية والإنجليزية وغيرها.",
+                faq4Q: "هل بياناتي آمنة؟",
+                faq4A: "نعم. تشفير AES-256، خوادم آمنة، متوافق مع GDPR.",
+                faq5Q: "هل يمكنني التجربة قبل الالتزام؟",
+                faq5A: "تجربة مجانية 14 يوماً بجميع الميزات. بدون بطاقة ائتمان.",
+                faq6Q: "ماذا يحدث إذا احتجت مساعدة؟",
+                faq6A: "دعم البريد الإلكتروني في 4 ساعات. المتبنون الأوائل: ساعة واحدة.",
+                faq7Q: "هل سيعمل هذا لفندق صغير؟",
+                faq7A: "نعم! من 10 إلى 500+ غرفة. الفنادق الصغيرة ترى أكبر تأثير.",
+                faq8Q: "هل يمكنني الإلغاء في أي وقت؟",
+                faq8A: "نعم. ألغِ في أي وقت مع إشعار 30 يوماً.",
+                faqCtaTitle: "مازال لديك أسئلة؟",
+                faqCtaDesc: "تحدث مع فريقنا. نحن هنا للمساعدة.",
+                faqCtaBtn: "جدولة مكالمة ←",
+                videoBadge: "عرض فيديو",
+                videoTitle: "شاهد إيفيوس في العمل",
+                videoDesc: "شاهد عرضاً توضيحياً لمدة 60 ثانية",
+                videoPlaceholder: "عرض الفيديو قريباً",
+                ssBadge: "النظام المباشر",
+                ssTitle: "لقطات حقيقية، نتائج حقيقية",
+                ssDesc: "هذا ليس نموذجاً - إيفيوس يعمل في الفنادق اليوم",
             }
         };
 
@@ -3222,7 +3561,10 @@
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
+                    // Only update if element has no child elements (to avoid breaking icons etc)
+                    if (element.children.length === 0) {
+                        element.textContent = translations[lang][key];
+                    }
                 }
             });
             
@@ -3316,6 +3658,10 @@
         // Login Modal
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('active');
+            const savedEmail = localStorage.getItem('efyoos-saved-email');
+            const savedPwd   = localStorage.getItem('efyoos-saved-password');
+            if (savedEmail) document.getElementById('loginEmail').value = savedEmail;
+            if (savedPwd)   document.getElementById('password').value = savedPwd;
         }
         
         function closeLoginModal() {
@@ -3360,6 +3706,8 @@
                 }
 
                 localStorage.setItem('efyoos-hotel-id', hotelId);
+                localStorage.setItem('efyoos-saved-email', loginEmail);
+                localStorage.setItem('efyoos-saved-password', password);
                 localStorage.setItem('efyoos-admin-name', data.admin_name || '');
                 localStorage.setItem('efyoos-admin-email', loginEmail);
                 window.location.href = 'home.html';
@@ -3381,6 +3729,12 @@
             }
         });
         
+        // Prevent copy/inspect
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey||e.metaKey) && ['c','u','s','a','p'].includes(e.key.toLowerCase())) e.preventDefault();
+        });
+
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
