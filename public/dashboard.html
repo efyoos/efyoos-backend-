@@ -30,7 +30,7 @@
     <title>EFYOOS COMMAND | Elite S2</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -404,9 +404,7 @@
                             handledBy: 'Handled by', complete: 'COMPLETE', confirmComplete: 'CONFIRM COMPLETION', signOff: 'Staff Signature',
                             staffName: 'Staff Member Name', namePlaceholder: 'Enter your name...', noRequests: 'All caught up! No active requests.',
                             noData: 'No completed tasks yet', searchPlaceholder: 'Search room, code, or details...',
-                            completed: 'Completed', pending: 'Pending', in_progress: 'In Progress',
-                            assigned: 'Assigned', processing: 'Processing', reported: 'Issue Reported',
-                            failed: 'Failed', cancelled: 'Cancelled',
+                            completed: 'Completed', pending: 'Pending',
                             all: 'All', hk: 'Housekeeping', maint: 'Maintenance', food: 'Room Service', fo: 'Front Desk'
                         },
                         fr: {
@@ -415,9 +413,7 @@
                             handledBy: 'Traité par', complete: 'TERMINER', confirmComplete: 'CONFIRMER', signOff: 'Signature Staff',
                             staffName: 'Nom de l\'agent', namePlaceholder: 'Votre nom...', noRequests: 'Tout est à jour !',
                             noData: 'Aucune tâche terminée', searchPlaceholder: 'Rechercher...',
-                            completed: 'Terminé', pending: 'En Attente', in_progress: 'En Cours',
-                            assigned: 'Assigné', processing: 'Traitement', reported: 'Problème Signalé',
-                            failed: 'Échoué', cancelled: 'Annulé',
+                            completed: 'Terminé', pending: 'En Attente',
                             all: 'Tout', hk: 'Ménage', maint: 'Maintenance', food: 'Restauration', fo: 'Réception'
                         },
                         ar: {
@@ -426,9 +422,7 @@
                             handledBy: 'بواسطة', complete: 'إنجاز', confirmComplete: 'تأكيد الإنجاز', signOff: 'توقيع الموظف',
                             staffName: 'اسم الموظف', namePlaceholder: 'أدخل اسمك...', noRequests: 'لا توجد طلبات نشطة حالياً',
                             noData: 'لا توجد بيانات', searchPlaceholder: 'بحث...',
-                            completed: 'مكتمل', pending: 'قيد الانتظار', in_progress: 'جاري التنفيذ',
-                            assigned: 'تم التعيين', processing: 'قيد المعالجة', reported: 'تم الإبلاغ',
-                            failed: 'فشل', cancelled: 'ملغي',
+                            completed: 'مكتمل', pending: 'قيد الانتظار',
                             all: 'الكل', hk: 'تدبير منزلي', maint: 'صيانة', food: 'خدمة غرف', fo: 'استقبال'
                         }
                     }
@@ -437,10 +431,10 @@
             computed: {
                 rtl() { return this.currentLang === 'ar'; },
                 stats() {
-                    const active = this.requests.filter(r => !['completed', 'failed', 'cancelled'].includes(r.status));
-                    const late = active.filter(r => this.isLate(r.created_at)).length;
-                    const urgent = active.filter(r => r.urgency === 'high' || r.urgency === 'urgent').length;
-                    return { pending: active.length, urgent, late };
+                    const pending = this.requests.filter(r => r.status !== 'completed');
+                    const late = pending.filter(r => this.isLate(r.created_at)).length;
+                    const urgent = pending.filter(r => r.urgency === 'high').length;
+                    return { pending: pending.length, urgent, late };
                 },
                 topPerformers() {
                     const scores = {};
@@ -541,17 +535,8 @@
                     return 'row-base border-l-brand-500';
                 },
                 getStatusClass(status) {
-                    const map = {
-                        completed:   'bg-green-500/10 text-green-400 border-green-500/20',
-                        in_progress: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-                        assigned:    'bg-purple-500/10 text-purple-400 border-purple-500/20',
-                        processing:  'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-                        reported:    'bg-orange-500/10 text-orange-400 border-orange-500/20',
-                        failed:      'bg-red-500/10 text-red-400 border-red-500/20',
-                        cancelled:   'bg-slate-600/10 text-slate-500 border-slate-600/20',
-                        pending:     'bg-slate-500/10 text-slate-400 border-slate-500/20'
-                    };
-                    return map[status] || map.pending;
+                    if (status === 'completed') return 'bg-green-500/10 text-green-500 border-green-500/20';
+                    return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
                 },
 
                 // Actions
@@ -565,30 +550,21 @@
                 async confirmCompletion() {
                     if (!this.staffName.trim()) return;
 
+                    // Optimistic update
                     const id = this.selectedRequest.id;
-                    const staffName = this.staffName.trim();
-
-                    // Optimistic update in UI
                     const idx = this.requests.findIndex(r => r.id === id);
                     if (idx !== -1) {
                         this.requests[idx].status = 'completed';
-                        this.requests[idx].completed_by = staffName;
+                        this.requests[idx].completed_by = this.staffName;
                     }
                     this.closeModal();
 
-                    // GATE #2: Use RPC for status change (direct update is blocked)
-                    await supabaseClient.rpc('safe_update_status', {
-                        p_request_id: id,
-                        p_new_status: 'completed',
-                        p_actor: staffName,
-                        p_notes: 'Completed via manager dashboard'
-                    });
-
-                    // completed_by is NOT a status field - direct update is allowed
+                    // DB Update
                     await supabaseClient
                         .from('guest_requests')
                         .update({
-                            completed_by: staffName,
+                            status: 'completed',
+                            completed_by: this.staffName,
                             updated_at: new Date().toISOString()
                         })
                         .eq('id', id);
