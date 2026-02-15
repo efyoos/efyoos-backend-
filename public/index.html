@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/efyoos_logo.png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
@@ -16,14 +17,15 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.efyoos.com">
     
+    <!-- Sentry Error Tracking -->
+    <script src="https://js.sentry-cdn.com/2f3d7948afb2169c7fcb3c001e2518b5.min.js" crossorigin="anonymous"></script>
+    
     <!-- PostHog Analytics -->
     <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
         posthog.init('phc_yEmkchtgwptLNuhegUcLKcccGeS0DZJuzyQ1ZiCye0W',{api_host:'https://us.i.posthog.com'})
     </script>
     
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1776,7 +1778,7 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo">
-                    <img src="efyoos-logo.png" alt="Efyoos Logo" class="logo-img">
+                    <img src="/efyoos_logo.png" alt="Efyoos Logo" class="logo-img">
                     <span data-i18n="brandName">EFYOOS</span>
                 </a>
                 
@@ -1792,10 +1794,6 @@
                             <button class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
                         </div>
                     </div>
-                    
-                    <button class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
-                    </button>
                     
                     <button class="btn btn-primary" onclick="openLoginModal()" data-i18n="login">
                         Login
@@ -3331,7 +3329,7 @@
             document.getElementById('loginModal').classList.remove('active');
         }
         
-        // Login Form - Supabase Auth
+        // Login Form
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const hotelId    = document.getElementById('hotelId').value.trim().toUpperCase();
@@ -3373,12 +3371,6 @@
         
         // Close modal on outside click
         document.getElementById('loginModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeLoginModal();
-            }
-
-        // Close modal on outside click
-        document.getElementById('loginModal').addEventListener('click', function(e) {
             if (e.target === this) closeLoginModal();
         });
 
@@ -3396,10 +3388,6 @@
                 if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
-
-        // Load saved language
-        const savedLang = localStorage.getItem('efyoos-lang');
-        if (savedLang) switchLanguage(savedLang);
 
     </script>
 </body>
