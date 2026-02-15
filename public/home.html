@@ -630,15 +630,10 @@
 <script>
     const SUPABASE_URL = 'https://swuqyrbknkobamnruurl.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
-    const GUEST_URL    = window.location.origin + '/guest';
+    const GUEST_URL    = window.location.origin + '/guest.html';
 
-    let sb = null;
-    try {
-        const { createClient } = window.supabase;
-        sb = createClient(SUPABASE_URL, SUPABASE_KEY);
-    } catch(e) {
-        console.warn('Supabase init failed:', e);
-    }
+    const { createClient } = supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // ── GREET ──────────────────────────────────────────────
 
@@ -669,7 +664,6 @@
     // ── STATS ──────────────────────────────────────────────
 
     async function loadStats() {
-        if (!sb) return;
         try {
             const hotelId = localStorage.getItem('efyoos-hotel-id') || 'H01312';
 
@@ -964,11 +958,6 @@
     // Init language
     if (currentLang !== 'en') setLang(currentLang);
     document.getElementById('langBtn').textContent = currentLang.toUpperCase() + ' ▾';
-
-    // Clear stuck state on page show (back button)
-    window.addEventListener('pageshow', function() {
-        document.body.style.overflow = '';
-    });
 
     // ── INIT ────────────────────────────────────────────────
 
