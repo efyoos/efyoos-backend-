@@ -1,13 +1,10 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "headers": [
-    {
-      "source": "/efyoos_logo.png",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
-    }
-  ],
   "routes": [
+    {
+      "src": "/efyoos_logo.png",
+      "dest": "/efyoos_logo.png"
+    },
     {
       "has": [{ "type": "host", "value": "manager.efyoos.com" }],
       "src": "/(.*)",
@@ -21,8 +18,6 @@
     { "src": "/home",      "dest": "/home.html" },
     { "src": "/dashboard", "dest": "/dashboard.html" },
     { "src": "/guest",     "dest": "/guest.html" },
-    { "src": "/efyoos_logo.png", "dest": "/efyoos_logo.png" },
-    { "src": "/(.*)\\.html", "dest": "/$1" },
     { "src": "/(.*)",      "dest": "/index.html" }
   ]
 }
