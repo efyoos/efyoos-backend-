@@ -487,7 +487,7 @@
         </a>
         <div class="header-right">
             <div class="lang-switcher">
-                <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN ▾</button>
+                <button class="lang-btn" onclick="event.stopPropagation(); toggleLang()" id="langBtn">EN ▾</button>
                 <div class="lang-drop" id="langDrop">
                     <button class="lang-opt" onclick="setLang('en')">🇬🇧 English</button>
                     <button class="lang-opt" onclick="setLang('fr')">🇫🇷 Français</button>
@@ -534,7 +534,7 @@
     <div class="cards-grid">
 
         <!-- Dashboard -->
-        <a href="dashboard.html" class="card active">
+        <a href="/dashboard" class="card active">
             <div class="card-icon icon-green">🖥️</div>
             <p class="card-tag">Live</p>
             <h2 class="card-title" data-i18n="dashTitle">Manager Dashboard</h2>
@@ -543,7 +543,7 @@
         </a>
 
         <!-- Guest Page -->
-        <a href="guest.html" class="card active">
+        <a href="/guest" class="card active">
             <div class="card-icon icon-silver">📱</div>
             <p class="card-tag">Active</p>
             <h2 class="card-title" data-i18n="guestTitle">Guest Request Page</h2>
@@ -651,10 +651,14 @@
                       :             'Good evening';
         document.getElementById('timeLabel').textContent = timeStr;
 
-        const date = new Date().toLocaleDateString('en-US', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        });
-        document.getElementById('dateLabel').textContent = date;
+        const dateEl = document.getElementById('dateLabel');
+        if (dateEl) {
+            const lang = localStorage.getItem('efyoos-lang') || 'en';
+            const localeMap = { en: 'en-US', fr: 'fr-FR', ar: 'ar-SA' };
+            dateEl.textContent = new Date().toLocaleDateString(localeMap[lang] || 'en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
     }
 
     // ── STATS ──────────────────────────────────────────────
@@ -748,7 +752,7 @@
         localStorage.removeItem('efyoos-admin-name');
         localStorage.removeItem('efyoos-admin-email');
         localStorage.removeItem('efyoos-hotel-id');
-        window.location.href = 'index.html';
+        window.location.href = '/';
     }
 
     // ── TRANSLATIONS ────────────────────────────────────────────
@@ -890,6 +894,15 @@
         const greet = hour < 12 ? t.greetMorn : hour < 18 ? t.greetAfter : t.greetEvening;
         document.getElementById('timeLabel').textContent = greet;
 
+        // Update date locale
+        const dateEl = document.getElementById('dateLabel');
+        if (dateEl) {
+            const localeMap = { en: 'en-US', fr: 'fr-FR', ar: 'ar-SA' };
+            dateEl.textContent = new Date().toLocaleDateString(localeMap[lang] || 'en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+
         // Update sign out
         document.querySelector('.sign-out').textContent = t.signOut;
 
@@ -947,6 +960,11 @@
     document.getElementById('langBtn').textContent = currentLang.toUpperCase() + ' ▾';
 
     // ── INIT ────────────────────────────────────────────────
+
+    // Fix modal stuck when navigating back
+    window.addEventListener('pageshow', function() {
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+    });
 
     initGreeting();
     loadStats();

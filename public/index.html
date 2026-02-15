@@ -3710,7 +3710,7 @@
                 localStorage.setItem('efyoos-saved-password', password);
                 localStorage.setItem('efyoos-admin-name', data.admin_name || '');
                 localStorage.setItem('efyoos-admin-email', loginEmail);
-                window.location.href = 'home.html';
+                window.open('/home', '_blank');
 
             } catch (err) {
                 if (errorDiv) {
@@ -3729,6 +3729,12 @@
             }
         });
         
+
+    window.addEventListener('pageshow', function() {
+        const modal = document.getElementById('loginModal');
+        if (modal) modal.classList.remove('active');
+    });
+
         // Prevent copy/inspect
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', function(e) {
