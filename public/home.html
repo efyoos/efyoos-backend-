@@ -634,11 +634,10 @@
 
     let sb = null;
     try {
-        const { createClient } = window.supabase;
-        sb = createClient(SUPABASE_URL, SUPABASE_KEY);
-    } catch(e) {
-        console.warn('Supabase init failed:', e);
-    }
+        if (window.supabase && window.supabase.createClient) {
+            sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+    } catch(e) { console.warn("Supabase init failed:", e); }
 
     // ── GREET ──────────────────────────────────────────────
 
