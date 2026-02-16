@@ -7,22 +7,10 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     }
   ],
-  "routes": [
-    {
-      "has": [{ "type": "host", "value": "manager.efyoos.com" }],
-      "src": "/(.*)",
-      "dest": "/dashboard.html"
-    },
-    {
-      "has": [{ "type": "host", "value": "guest.efyoos.com" }],
-      "src": "/(.*)",
-      "dest": "/guest.html"
-    },
-    { "src": "/home",      "dest": "/home.html" },
-    { "src": "/dashboard", "dest": "/dashboard.html" },
-    { "src": "/guest",     "dest": "/guest.html" },
-    { "src": "/efyoos_logo.png", "dest": "/efyoos_logo.png" },
-    { "src": "/(.*)\\.html", "dest": "/$1" },
-    { "src": "/(.*)",      "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/home",      "destination": "/home.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/guest",     "destination": "/guest.html" },
+    { "source": "/(.*)",      "destination": "/index.html" }
   ]
 }
