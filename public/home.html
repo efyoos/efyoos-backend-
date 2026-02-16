@@ -4,468 +4,37 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/efyoos_logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>efyoos.com | MANAGER DASHBOARD</title>
-
+    <title>efyoos.com | MANAGER HUB</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
     <style>
-        *, *::before, *::after {
-            margin: 0; padding: 0; box-sizing: border-box;
-        }
-
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
         :root {
-            --bg:         #0B0E14;
-            --bg-card:    #13181F;
-            --bg-hover:   #181E28;
-            --green:      #00F59B;
-            --green-dim:  rgba(0, 245, 155, 0.08);
-            --green-glow: rgba(0, 245, 155, 0.15);
-            --silver:     #94A3B8;
-            --white:      #F0F4F8;
-            --muted:      #4A5568;
-            --border:     rgba(148, 163, 184, 0.10);
-            --border-hover: rgba(0, 245, 155, 0.25);
+            --bg:#0B0E14; --bg-card:#13181F; --bg-hover:#181E28;
+            --green:#00F59B; --green-dim:rgba(0,245,155,0.08); --green-glow:rgba(0,245,155,0.15);
+            --silver:#94A3B8; --white:#F0F4F8; --muted:#4A5568;
+            --border:rgba(148,163,184,0.10); --border-hover:rgba(0,245,155,0.25);
         }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Montserrat',sans-serif; font-weight:300; background:var(--bg); color:var(--white); min-height:100vh; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse 80% 50% at 10% 0%,rgba(0,245,155,0.04) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 90% 100%,rgba(148,163,184,0.03) 0%,transparent 60%); pointer-events:none; z-index:0; }
+        .page { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 28px; }
 
-        html { scroll-behavior: smooth; }
+        /* HEADER */
+        header { display:flex; align-items:center; justify-content:space-between; padding:32px 0 0; }
+        .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .logo-dot { width:10px; height:10px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green); animation:pulse-dot 2s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.85)} }
+        .logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:20px; letter-spacing:0.5px; color:var(--white); }
+        .logo-name span { color:var(--green); }
+        .header-right { display:flex; align-items:center; gap:20px; }
+        .hotel-badge { padding:6px 14px; border:1px solid var(--border); border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1.5px; color:var(--silver); text-transform:uppercase; }
+        .sign-out { font-size:12px; font-weight:500; color:var(--muted); cursor:pointer; background:none; border:none; transition:color 0.2s; letter-spacing:0.5px; }
+        .sign-out:hover { color:var(--silver); }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            background: var(--bg);
-            color: var(--white);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* ─── AMBIENT BACKGROUND ─── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 80% 50% at 10% 0%, rgba(0,245,155,0.04) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 40% at 90% 100%, rgba(148,163,184,0.03) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ─── LAYOUT ─── */
-        .page {
-            position: relative;
-            z-index: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 28px;
-        }
-
-        /* ─── HEADER ─── */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 32px 0 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 10px var(--green);
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%       { opacity: 0.6; transform: scale(0.85); }
-        }
-
-        .logo-name {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 20px;
-            letter-spacing: 0.5px;
-            color: var(--white);
-        }
-
-        .logo-name span { color: var(--green); }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .hotel-badge {
-            padding: 6px 14px;
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            color: var(--silver);
-            text-transform: uppercase;
-        }
-
-        .sign-out {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--muted);
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: color 0.2s;
-            letter-spacing: 0.5px;
-        }
-
-        .sign-out:hover { color: var(--silver); }
-
-        /* ─── GREETING ─── */
-        .greeting-section {
-            padding: 64px 0 56px;
-        }
-
-        .greeting-eyebrow {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--green);
-            margin-bottom: 16px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease-out 0.1s forwards;
-        }
-
-        .greeting-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(36px, 5vw, 54px);
-            font-weight: 600;
-            line-height: 1.15;
-            color: var(--white);
-            margin-bottom: 14px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease-out 0.2s forwards;
-        }
-
-        .greeting-title em {
-            font-style: italic;
-            color: var(--green);
-        }
-
-        .greeting-sub {
-            font-size: 15px;
-            font-weight: 300;
-            color: var(--silver);
-            opacity: 0;
-            animation: fadeUp 0.6s ease-out 0.3s forwards;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ─── STATS BAR ─── */
-        .stats-bar {
-            display: flex;
-            gap: 1px;
-            background: var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 48px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease-out 0.4s forwards;
-        }
-
-        .stat-item {
-            flex: 1;
-            background: var(--bg-card);
-            padding: 18px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            transition: background 0.2s;
-        }
-
-        .stat-item:hover { background: var(--bg-hover); }
-
-        .stat-label {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .stat-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .stat-value.green { color: var(--green); }
-
-        /* ─── SECTION LABEL ─── */
-        .section-label {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease-out 0.5s forwards;
-        }
-
-        /* ─── CARDS GRID ─── */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .cards-grid-2 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 56px;
-        }
-
-        /* ─── CARD BASE ─── */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.25s, background 0.25s, transform 0.25s;
-            opacity: 0;
-        }
-
-        .card:hover {
-            background: var(--bg-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-3px);
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(0,245,155,0.06), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 20px;
-        }
-
-        .card:hover::after { opacity: 1; }
-
-        /* ─── CARD ACTIVE (clickable) ─── */
-        .card.active { animation: cardIn 0.5s ease-out forwards; }
-        .card.active:nth-child(1) { animation-delay: 0.55s; }
-        .card.active:nth-child(2) { animation-delay: 0.65s; }
-        .card.active:nth-child(3) { animation-delay: 0.75s; }
-
-        .cards-grid-2 .card.active:nth-child(1) { animation-delay: 0.85s; }
-        .cards-grid-2 .card.active:nth-child(2) { animation-delay: 0.95s; }
-        .cards-grid-2 .card.active:nth-child(3) { animation-delay: 1.05s; }
-
-        @keyframes cardIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ─── CARD LOCKED (coming soon) ─── */
-        .card.locked {
-            opacity: 0;
-            cursor: default;
-            animation: cardIn 0.5s ease-out forwards;
-        }
-
-        .card.locked:hover {
-            transform: none;
-            border-color: var(--border);
-            background: var(--bg-card);
-        }
-
-        .card.locked::after { display: none; }
-
-        /* ─── CARD ICON ─── */
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .icon-green  { background: var(--green-dim); border: 1px solid rgba(0,245,155,0.2); }
-        .icon-silver { background: rgba(148,163,184,0.06); border: 1px solid rgba(148,163,184,0.15); }
-        .icon-locked { background: rgba(74,85,104,0.15); border: 1px solid rgba(74,85,104,0.2); filter: grayscale(1); opacity: 0.5; }
-
-        /* ─── CARD CONTENT ─── */
-        .card-tag {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--green);
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-tag.coming { color: var(--muted); }
-
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 10px;
-            line-height: 1.2;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card.locked .card-title { color: var(--muted); }
-
-        .card-desc {
-            font-size: 13px;
-            font-weight: 300;
-            color: var(--silver);
-            line-height: 1.6;
-            flex: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card.locked .card-desc { color: var(--muted); opacity: 0.7; }
-
-        .card-arrow {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--green);
-            letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1;
-            transition: gap 0.2s;
-        }
-
-        .card:hover .card-arrow { gap: 10px; }
-
-        .card-lock {
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--muted);
-            background: rgba(74,85,104,0.1);
-            border: 1px solid rgba(74,85,104,0.2);
-            border-radius: 100px;
-            padding: 5px 12px;
-            width: fit-content;
-        }
-
-        /* ─── LARGE CARD (spans 2 cols) ─── */
-        .card-wide {
-            grid-column: span 2;
-        }
-
-        /* ─── FOOTER ─── */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 24px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .foot-left {
-            font-size: 12px;
-            color: var(--muted);
-            font-weight: 300;
-        }
-
-        .foot-right {
-            font-size: 11px;
-            color: var(--muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-live {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--green);
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: pulse-dot 2s infinite;
-        }
-
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 768px) {
-            .cards-grid,
-            .cards-grid-2 {
-                grid-template-columns: 1fr;
-            }
-
-            .card-wide { grid-column: span 1; }
-
-            .stats-bar {
-                flex-direction: column;
-                gap: 1px;
-            }
-
-            .greeting-section { padding: 40px 0 36px; }
-        }
-
-        @media (max-width: 480px) {
-            .page { padding: 0 16px; }
-            header { padding: 20px 0 0; }
-        }
-
-        /* Lang Switcher */
+        /* LANG SWITCHER */
         .lang-switcher { position:relative; }
         .lang-btn { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; color:var(--silver); padding:7px 14px; cursor:pointer; font-size:12px; font-weight:600; letter-spacing:1px; display:flex; align-items:center; gap:6px; }
         .lang-btn:hover { border-color:var(--border-hover); color:var(--white); }
@@ -473,35 +42,118 @@
         .lang-drop.open { display:block; }
         .lang-opt { display:block; width:100%; padding:10px 16px; background:none; border:none; color:var(--silver); font-size:13px; cursor:pointer; text-align:left; transition:background 0.15s; }
         .lang-opt:hover { background:var(--bg-hover); color:var(--white); }
+
+        /* GREETING */
+        .greeting-section { padding:64px 0 56px; }
+        .greeting-eyebrow { font-size:12px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--green); margin-bottom:16px; opacity:0; animation:fadeUp 0.6s ease-out 0.1s forwards; }
+        .greeting-title { font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,54px); font-weight:600; line-height:1.15; color:var(--white); margin-bottom:14px; opacity:0; animation:fadeUp 0.6s ease-out 0.2s forwards; }
+        .greeting-title em { font-style:italic; color:var(--green); }
+        .greeting-sub { font-size:15px; font-weight:300; color:var(--silver); opacity:0; animation:fadeUp 0.6s ease-out 0.3s forwards; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+        /* STATS BAR */
+        .stats-bar { display:flex; gap:1px; background:var(--border); border-radius:16px; overflow:hidden; margin-bottom:48px; opacity:0; animation:fadeUp 0.6s ease-out 0.4s forwards; }
+        .stat-item { flex:1; background:var(--bg-card); padding:18px 24px; display:flex; flex-direction:column; gap:4px; transition:background 0.2s; }
+        .stat-item:hover { background:var(--bg-hover); }
+        .stat-label { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+        .stat-value { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--white); }
+        .stat-value.green { color:var(--green); }
+
+        /* SECTION LABEL */
+        .section-label { font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:20px; opacity:0; animation:fadeUp 0.6s ease-out 0.5s forwards; }
+
+        /* CARDS */
+        .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:16px; }
+        .cards-grid-2 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:56px; }
+        .card { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:28px; cursor:pointer; text-decoration:none; display:flex; flex-direction:column; gap:0; position:relative; overflow:hidden; transition:border-color 0.25s,background 0.25s,transform 0.25s; opacity:0; color:var(--white); }
+        .card:hover { background:var(--bg-hover); border-color:var(--border-hover); transform:translateY(-3px); }
+        .card::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 0%,rgba(0,245,155,0.06),transparent 70%); opacity:0; transition:opacity 0.3s; border-radius:20px; }
+        .card:hover::after { opacity:1; }
+
+        .card.active { animation:cardIn 0.5s ease-out forwards; }
+        .card.active:nth-child(1) { animation-delay:0.55s; }
+        .card.active:nth-child(2) { animation-delay:0.65s; }
+        .card.active:nth-child(3) { animation-delay:0.75s; }
+        .cards-grid-2 .card.active:nth-child(1) { animation-delay:0.85s; }
+        .cards-grid-2 .card.active:nth-child(2) { animation-delay:0.95s; }
+        .cards-grid-2 .card.active:nth-child(3) { animation-delay:1.05s; }
+        @keyframes cardIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+        .card.locked { opacity:0; cursor:default; animation:cardIn 0.5s ease-out forwards; }
+        .card.locked:hover { transform:none; border-color:var(--border); background:var(--bg-card); }
+        .card.locked::after { display:none; }
+
+        .card-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:20px; position:relative; z-index:1; }
+        .icon-green  { background:var(--green-dim); border:1px solid rgba(0,245,155,0.2); }
+        .icon-silver { background:rgba(148,163,184,0.06); border:1px solid rgba(148,163,184,0.15); }
+        .icon-locked { background:rgba(74,85,104,0.15); border:1px solid rgba(74,85,104,0.2); filter:grayscale(1); opacity:0.5; }
+
+        .card-tag { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:8px; position:relative; z-index:1; }
+        .card-tag.coming { color:var(--muted); }
+        .card-title { font-family:'Playfair Display',serif; font-size:20px; font-weight:600; color:var(--white); margin-bottom:10px; line-height:1.2; position:relative; z-index:1; }
+        .card.locked .card-title { color:var(--muted); }
+        .card-desc { font-size:13px; font-weight:300; color:var(--silver); line-height:1.6; flex:1; position:relative; z-index:1; }
+        .card.locked .card-desc { color:var(--muted); opacity:0.7; }
+        .card-arrow { margin-top:20px; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:var(--green); letter-spacing:0.5px; position:relative; z-index:1; transition:gap 0.2s; }
+        .card:hover .card-arrow { gap:10px; }
+        .card-lock { margin-top:20px; display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:500; color:var(--muted); background:rgba(74,85,104,0.1); border:1px solid rgba(74,85,104,0.2); border-radius:100px; padding:5px 12px; width:fit-content; }
+
+        /* FOOTER */
+        footer { border-top:1px solid var(--border); padding:24px 0; display:flex; align-items:center; justify-content:space-between; }
+        .foot-left { font-size:12px; color:var(--muted); font-weight:300; }
+        .foot-right { font-size:11px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+        .status-live { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--green); }
+        .status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse-dot 2s infinite; }
+
+        /* QR MODAL */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(11,14,20,0.92); backdrop-filter:blur(8px); z-index:100; align-items:center; justify-content:center; }
+        .modal-overlay.open { display:flex; }
+        .modal-box { background:#13181F; border:1px solid rgba(0,245,155,0.2); border-radius:24px; padding:40px; max-width:380px; width:90%; text-align:center; position:relative; }
+        .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; color:#4A5568; font-size:22px; cursor:pointer; line-height:1; }
+        .modal-close:hover { color:var(--white); }
+        .qr-tag { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+        .qr-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:var(--white); margin-bottom:6px; }
+        .qr-desc { font-size:13px; color:var(--silver); margin-bottom:28px; font-weight:300; }
+        .qr-frame { display:flex; align-items:center; justify-content:center; margin-bottom:24px; background:#fff; border-radius:12px; padding:20px; }
+        .qr-frame img { width:180px; height:180px; }
+        .qr-url { font-size:12px; color:#4A5568; margin-bottom:20px; font-weight:300; word-break:break-all; }
+        .qr-print-btn { width:100%; background:var(--green); color:#0B0E14; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:700; cursor:pointer; letter-spacing:0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width:768px) {
+            .cards-grid, .cards-grid-2 { grid-template-columns:1fr; }
+            .stats-bar { flex-direction:column; gap:1px; }
+            .greeting-section { padding:40px 0 36px; }
+        }
+        @media (max-width:480px) { .page { padding:0 16px; } header { padding:20px 0 0; } }
     </style>
 </head>
 <body>
-
 <div class="page">
 
     <!-- HEADER -->
     <header>
-        <a href="index.html" class="logo">
+        <a href="/" class="logo">
             <div class="logo-dot"></div>
             <span class="logo-name">Efyoos <span>COMMAND</span></span>
         </a>
         <div class="header-right">
             <div class="lang-switcher">
-                <button class="lang-btn" onclick="event.stopPropagation(); toggleLang()" id="langBtn">EN ▾</button>
+                <button class="lang-btn" id="langBtn">EN ▾</button>
                 <div class="lang-drop" id="langDrop">
-                    <button class="lang-opt" onclick="setLang('en')">🇬🇧 English</button>
-                    <button class="lang-opt" onclick="setLang('fr')">🇫🇷 Français</button>
-                    <button class="lang-opt" onclick="setLang('ar')">🇸🇦 العربية</button>
+                    <button class="lang-opt">🇬🇧 English</button>
+                    <button class="lang-opt">🇫🇷 Français</button>
+                    <button class="lang-opt">🇸🇦 العربية</button>
                 </div>
             </div>
             <span class="hotel-badge" id="hotelBadge">H01312</span>
-            <button class="sign-out" onclick="signOut()" data-i18n="signOut">Sign out</button>
+            <button class="sign-out" id="signOutBtn">Sign out</button>
         </div>
     </header>
 
     <!-- GREETING -->
     <section class="greeting-section">
-        <p class="greeting-eyebrow" id="timeLabel" data-i18n="greeting">Good morning</p>
+        <p class="greeting-eyebrow" id="timeLabel">Good morning</p>
         <h1 class="greeting-title">
             Welcome back,<br><em id="adminName">Manager</em>
         </h1>
@@ -511,96 +163,86 @@
     <!-- STATS BAR -->
     <div class="stats-bar">
         <div class="stat-item">
-            <span class="stat-label">Active Requests</span>
+            <span class="stat-label" id="lblActive">Active Requests</span>
             <span class="stat-value green" id="statActive">—</span>
         </div>
         <div class="stat-item">
-            <span class="stat-label">Completed Today</span>
+            <span class="stat-label" id="lblCompleted">Completed Today</span>
             <span class="stat-value" id="statCompleted">—</span>
         </div>
         <div class="stat-item">
-            <span class="stat-label">Avg. Response</span>
+            <span class="stat-label" id="lblResponse">Avg. Response</span>
             <span class="stat-value" id="statResponse">—</span>
         </div>
         <div class="stat-item">
-            <span class="stat-label">Staff Online</span>
+            <span class="stat-label" id="lblStaff">Staff Online</span>
             <span class="stat-value" id="statStaff">—</span>
         </div>
     </div>
 
-    <!-- ACTIVE TOOLS -->
-    <p class="section-label" data-i18n="toolsLabel">Your Tools</p>
+    <!-- TOOLS -->
+    <p class="section-label" id="lblTools">Your Tools</p>
 
     <div class="cards-grid">
-
-        <!-- Dashboard -->
         <a href="/dashboard" class="card active">
             <div class="card-icon icon-green">🖥️</div>
-            <p class="card-tag">Live</p>
-            <h2 class="card-title" data-i18n="dashTitle">Manager Dashboard</h2>
-            <p class="card-desc">Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.</p>
-            <div class="card-arrow" data-i18n="openDash">Open Dashboard →</div>
+            <p class="card-tag" id="tag1">Live</p>
+            <h2 class="card-title" id="title1">Manager Dashboard</h2>
+            <p class="card-desc" id="desc1">Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.</p>
+            <div class="card-arrow" id="cta1">Open Dashboard →</div>
         </a>
 
-        <!-- Guest Page -->
         <a href="/guest" class="card active">
             <div class="card-icon icon-silver">📱</div>
-            <p class="card-tag">Active</p>
-            <h2 class="card-title" data-i18n="guestTitle">Guest Request Page</h2>
-            <p class="card-desc">The page your guests use to submit requests. Share via QR code in rooms or direct link.</p>
-            <div class="card-arrow" data-i18n="openGuest">Open Page →</div>
+            <p class="card-tag" id="tag2">Active</p>
+            <h2 class="card-title" id="title2">Guest Request Page</h2>
+            <p class="card-desc" id="desc2">The page your guests use to submit requests. Share via QR code in rooms or direct link.</p>
+            <div class="card-arrow" id="cta2">Open Page →</div>
         </a>
 
-        <!-- QR Code -->
-        <div class="card active" onclick="showQR()">
+        <div class="card active" id="qrCard">
             <div class="card-icon icon-green">⬛</div>
-            <p class="card-tag">Utility</p>
-            <h2 class="card-title" data-i18n="qrTitle">QR Code Generator</h2>
-            <p class="card-desc">Generate and print a QR code linking guests directly to the request page. Place in each room.</p>
-            <div class="card-arrow" data-i18n="genQR">Generate QR →</div>
+            <p class="card-tag" id="tag3">Utility</p>
+            <h2 class="card-title" id="title3">QR Code Generator</h2>
+            <p class="card-desc" id="desc3">Generate and print a QR code linking guests directly to the request page. Place in each room.</p>
+            <div class="card-arrow" id="cta3">Generate QR →</div>
         </div>
-
     </div>
 
     <!-- COMING SOON -->
-    <p class="section-label" style="margin-top: 32px; animation-delay: 0.8s;" data-i18n="comingSoon">Coming Soon</p>
+    <p class="section-label" id="lblComingSoon" style="margin-top:32px; animation-delay:0.8s;">Coming Soon</p>
 
     <div class="cards-grid-2">
-
-        <!-- Analytics -->
         <div class="card locked">
             <div class="card-icon icon-locked">📊</div>
-            <p class="card-tag coming" data-i18n="comingSoon">Coming Soon</p>
-            <h2 class="card-title">Analytics</h2>
-            <p class="card-desc">Weekly and monthly reports. Peak hours, top request types, staff performance, and guest satisfaction trends.</p>
-            <div class="card-lock">🔒 In Development</div>
+            <p class="card-tag coming">Coming Soon</p>
+            <h2 class="card-title" id="title4">Analytics</h2>
+            <p class="card-desc" id="desc4">Weekly and monthly reports. Peak hours, top request types, staff performance, and satisfaction trends.</p>
+            <div class="card-lock" id="lock1">🔒 In Development</div>
         </div>
 
-        <!-- Staff Management -->
         <div class="card locked">
             <div class="card-icon icon-locked">👥</div>
-            <p class="card-tag coming" data-i18n="comingSoon">Coming Soon</p>
-            <h2 class="card-title">Staff Management</h2>
-            <p class="card-desc">Add, edit, and manage staff profiles. Set availability, categories, and WhatsApp numbers from one place.</p>
-            <div class="card-lock">🔒 In Development</div>
+            <p class="card-tag coming">Coming Soon</p>
+            <h2 class="card-title" id="title5">Staff Management</h2>
+            <p class="card-desc" id="desc5">Add and manage staff profiles. Set availability, categories, and WhatsApp numbers from one place.</p>
+            <div class="card-lock" id="lock2">🔒 In Development</div>
         </div>
 
-        <!-- AI Monitor -->
         <div class="card locked">
             <div class="card-icon icon-locked">🤖</div>
-            <p class="card-tag coming" data-i18n="comingSoon">Coming Soon</p>
-            <h2 class="card-title">AI Monitor</h2>
-            <p class="card-desc">Intelligent system health monitoring. Detects silent failures, odd patterns, and alerts you before problems escalate.</p>
-            <div class="card-lock">🔒 In Development</div>
+            <p class="card-tag coming">Coming Soon</p>
+            <h2 class="card-title" id="title6">AI Monitor</h2>
+            <p class="card-desc" id="desc6">Intelligent system health monitoring. Detects silent failures and alerts before problems escalate.</p>
+            <div class="card-lock" id="lock3">🔒 In Development</div>
         </div>
-
     </div>
 
     <!-- FOOTER -->
     <footer>
         <span class="foot-left">© 2026 Efyoos Command · <span id="footHotel"></span></span>
         <div class="foot-right">
-            <span class="status-live">
+            <span class="status-live" id="sysLive">
                 <span class="status-dot"></span>
                 System Live
             </span>
@@ -610,149 +252,241 @@
 </div>
 
 <!-- QR MODAL -->
-<div id="qrModal" style="display:none; position:fixed; inset:0; background:rgba(11,14,20,0.92); backdrop-filter:blur(8px); z-index:100; align-items:center; justify-content:center;">
-    <div style="background:#13181F; border:1px solid rgba(0,245,155,0.2); border-radius:24px; padding:40px; max-width:380px; width:90%; text-align:center; position:relative;">
-        <button onclick="closeQR()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#4A5568; font-size:22px; cursor:pointer; line-height:1;">×</button>
-        <p style="font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#00F59B; margin-bottom:12px;">QR Code</p>
-        <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#F0F4F8; margin-bottom:6px;" data-i18n="guestTitle">Guest Request Page</h3>
-        <p style="font-size:13px; color:#94A3B8; margin-bottom:28px; font-weight:300;">Print and place this in each room</p>
-        <div id="qrContainer" style="display:flex; align-items:center; justify-content:center; margin-bottom:24px; background:#fff; border-radius:12px; padding:20px;">
-            <img id="qrImg" src="" alt="QR Code" style="width:180px; height:180px;">
+<div class="modal-overlay" id="qrModal">
+    <div class="modal-box">
+        <button class="modal-close" id="closeQrBtn">×</button>
+        <p class="qr-tag">QR Code</p>
+        <h3 class="qr-title">Guest Request Page</h3>
+        <p class="qr-desc">Print and place this in each room</p>
+        <div class="qr-frame">
+            <img id="qrImg" src="" alt="QR Code">
         </div>
-        <p style="font-size:12px; color:#4A5568; margin-bottom:20px; font-weight:300; word-break:break-all;" id="qrUrl"></p>
-        <button onclick="printQR()" style="width:100%; background:#00F59B; color:#0B0E14; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:700; cursor:pointer; letter-spacing:0.5px;">
-            🖨️ Print QR Code
-        </button>
+        <p class="qr-url" id="qrUrl"></p>
+        <button class="qr-print-btn" id="printQrBtn">🖨️ Print QR Code</button>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+    // ─── SAFE SUPABASE INIT ─────────────────────────────────
     const SUPABASE_URL = 'https://swuqyrbknkobamnruurl.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_TWLdfpE7RjUku1XgPLNSvQ_dpCh8kN5';
-    const GUEST_URL    = window.location.origin + '/guest';
+    const GUEST_URL = window.location.origin + '/guest';
 
-    let sb = null;
+    var sb = null;
     try {
-        if (window.supabase && window.supabase.createClient) {
+        if (window.supabase && typeof window.supabase.createClient === 'function') {
             sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         }
-    } catch(e) { console.warn("Supabase init failed:", e); }
+    } catch (e) {
+        console.warn('Supabase init failed:', e);
+    }
 
-    // ── GREET ──────────────────────────────────────────────
+    // ─── TRANSLATIONS ───────────────────────────────────────
+    var T = {
+        en: {
+            signOut: 'Sign out',
+            lblTools: 'Your Tools',
+            lblComingSoon: 'Coming Soon',
+            lblActive: 'Active Requests',
+            lblCompleted: 'Completed Today',
+            lblResponse: 'Avg. Response',
+            lblStaff: 'Staff Online',
+            sysLive: 'System Live',
+            greetMorn: 'Good morning',
+            greetAfter: 'Good afternoon',
+            greetEvening: 'Good evening',
+            tag1:'Live', title1:'Manager Dashboard', desc1:'Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.', cta1:'Open Dashboard →',
+            tag2:'Active', title2:'Guest Request Page', desc2:'The page your guests use to submit requests. Share via QR code in rooms or direct link.', cta2:'Open Page →',
+            tag3:'Utility', title3:'QR Code Generator', desc3:'Generate and print a QR code linking guests directly to the request page. Place in each room.', cta3:'Generate QR →',
+            title4:'Analytics', desc4:'Weekly and monthly reports. Peak hours, top request types, staff performance, and satisfaction trends.',
+            title5:'Staff Management', desc5:'Add and manage staff profiles. Set availability, categories, and WhatsApp numbers from one place.',
+            title6:'AI Monitor', desc6:'Intelligent system health monitoring. Detects silent failures and alerts before problems escalate.',
+            locked: '🔒 In Development'
+        },
+        fr: {
+            signOut: 'Déconnexion',
+            lblTools: 'Vos Outils',
+            lblComingSoon: 'Bientôt Disponible',
+            lblActive: 'Demandes Actives',
+            lblCompleted: 'Complétées Aujourd\u2019hui',
+            lblResponse: 'Rép. Moyenne',
+            lblStaff: 'Personnel En Ligne',
+            sysLive: 'Système Actif',
+            greetMorn: 'Bonjour',
+            greetAfter: 'Bon après-midi',
+            greetEvening: 'Bonsoir',
+            tag1:'En Direct', title1:'Tableau de Bord Manager', desc1:'Surveillez toutes les demandes en temps réel. Suivez les assignations et les temps de réponse.', cta1:'Ouvrir →',
+            tag2:'Actif', title2:'Page des Demandes Clients', desc2:'La page que vos clients utilisent pour soumettre des demandes. Partagez via QR code.', cta2:'Ouvrir →',
+            tag3:'Utilitaire', title3:'Générateur de QR Code', desc3:'Générez et imprimez un QR code pour les chambres.', cta3:'Générer QR →',
+            title4:'Analytiques', desc4:'Rapports hebdomadaires et mensuels. Heures de pointe et tendances de satisfaction.',
+            title5:'Gestion du Personnel', desc5:'Ajoutez et gérez les profils du personnel. Définissez les disponibilités.',
+            title6:'Moniteur IA', desc6:'Surveillance intelligente de la santé du système. Détecte les défaillances silencieuses.',
+            locked: '🔒 En Développement'
+        },
+        ar: {
+            signOut: 'تسجيل الخروج',
+            lblTools: 'أدواتك',
+            lblComingSoon: 'قريباً',
+            lblActive: 'الطلبات النشطة',
+            lblCompleted: 'مكتملة اليوم',
+            lblResponse: 'متوسط الرد',
+            lblStaff: 'الموظفون متصلون',
+            sysLive: 'النظام مباشر',
+            greetMorn: 'صباح الخير',
+            greetAfter: 'مساء الخير',
+            greetEvening: 'مساء النور',
+            tag1:'مباشر', title1:'لوحة تحكم المدير', desc1:'راقب جميع طلبات النزلاء في الوقت الفعلي. تتبع التعيينات وأوقات الاستجابة.', cta1:'فتح →',
+            tag2:'نشط', title2:'صفحة طلبات النزلاء', desc2:'الصفحة التي يستخدمها نزلاؤك لتقديم الطلبات. شاركها عبر رمز QR.', cta2:'فتح →',
+            tag3:'أداة', title3:'مولّد رمز QR', desc3:'أنشئ واطبع رمز QR يربط النزلاء بصفحة الطلبات.', cta3:'إنشاء QR →',
+            title4:'التحليلات', desc4:'تقارير أسبوعية وشهرية. أوقات الذروة واتجاهات رضا النزلاء.',
+            title5:'إدارة الموظفين', desc5:'أضف وأدر ملفات الموظفين. حدد التوفر وأرقام واتساب.',
+            title6:'مراقب الذكاء الاصطناعي', desc6:'مراقبة ذكية لصحة النظام. يكتشف الأعطال الصامتة قبل تصاعدها.',
+            locked: '🔒 قيد التطوير'
+        }
+    };
 
+    // ─── STATE ──────────────────────────────────────────────
+    var currentLang = localStorage.getItem('efyoos-lang') || 'en';
+
+    // ─── GREETING ───────────────────────────────────────────
     function initGreeting() {
-        const name    = localStorage.getItem('efyoos-admin-name') || 'Manager';
-        const hotelId = localStorage.getItem('efyoos-hotel-id')   || 'H01312';
+        var name = localStorage.getItem('efyoos-admin-name') || 'Manager';
+        var hotelId = localStorage.getItem('efyoos-hotel-id') || 'H01312';
 
-        document.getElementById('adminName').textContent   = name;
-        document.getElementById('hotelBadge').textContent  = hotelId;
-        document.getElementById('footHotel').textContent   = hotelId;
+        document.getElementById('adminName').textContent = name;
+        document.getElementById('hotelBadge').textContent = hotelId;
+        document.getElementById('footHotel').textContent = hotelId;
 
-        const hour = new Date().getHours();
-        const timeStr = hour < 12 ? 'Good morning'
-                      : hour < 18 ? 'Good afternoon'
-                      :             'Good evening';
-        document.getElementById('timeLabel').textContent = timeStr;
-
-        const dateEl = document.getElementById('dateLabel');
-        if (dateEl) {
-            const lang = localStorage.getItem('efyoos-lang') || 'en';
-            const localeMap = { en: 'en-US', fr: 'fr-FR', ar: 'ar-SA' };
-            dateEl.textContent = new Date().toLocaleDateString(localeMap[lang] || 'en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-        }
+        updateGreetingTime();
+        updateDate();
     }
 
-    // ── STATS ──────────────────────────────────────────────
+    function updateGreetingTime() {
+        var t = T[currentLang];
+        var hour = new Date().getHours();
+        var greet = hour < 12 ? t.greetMorn : hour < 18 ? t.greetAfter : t.greetEvening;
+        document.getElementById('timeLabel').textContent = greet;
+    }
 
-    async function loadStats() {
+    function updateDate() {
+        var localeMap = { en:'en-US', fr:'fr-FR', ar:'ar-SA' };
+        var locale = localeMap[currentLang] || 'en-US';
+        document.getElementById('dateLabel').textContent = new Date().toLocaleDateString(locale, {
+            weekday:'long', year:'numeric', month:'long', day:'numeric'
+        });
+    }
+
+    // ─── STATS ──────────────────────────────────────────────
+    function loadStats() {
         if (!sb) return;
-        try {
-            const hotelId = localStorage.getItem('efyoos-hotel-id') || 'H01312';
+        var hotelId = localStorage.getItem('efyoos-hotel-id') || 'H01312';
 
-            const { data } = await sb
-                .from('guest_requests')
-                .select('status, created_at')
-                .eq('hotel_id', hotelId);
+        sb.from('guest_requests')
+            .select('status, created_at')
+            .eq('hotel_id', hotelId)
+            .then(function(res) {
+                var data = res.data;
+                if (!data) return;
+                var today = new Date().toDateString();
+                var active = data.filter(function(r) {
+                    return !['completed','failed','cancelled'].includes(r.status);
+                }).length;
+                var completed = data.filter(function(r) {
+                    return r.status === 'completed' && new Date(r.created_at).toDateString() === today;
+                }).length;
+                document.getElementById('statActive').textContent = active;
+                document.getElementById('statCompleted').textContent = completed;
+                document.getElementById('statResponse').textContent = '< 2 min';
+            })
+            .catch(function(e) { console.warn('Stats error:', e); });
 
-            if (!data) return;
-
-            const today = new Date().toDateString();
-            const active    = data.filter(r => !['completed','failed','cancelled'].includes(r.status)).length;
-            const completed = data.filter(r =>
-                r.status === 'completed' &&
-                new Date(r.created_at).toDateString() === today
-            ).length;
-
-            document.getElementById('statActive').textContent    = active;
-            document.getElementById('statCompleted').textContent = completed;
-            document.getElementById('statResponse').textContent  = '< 2 min';
-
-            // Staff online count
-            const { data: staffData } = await sb
-                .from('staff')
-                .select('id')
-                .eq('hotel_id', hotelId)
-                .eq('is_active', true);
-
-            document.getElementById('statStaff').textContent = staffData?.length ?? '—';
-
-        } catch (e) {
-            console.error('Stats error:', e);
-        }
+        sb.from('staff')
+            .select('id')
+            .eq('hotel_id', hotelId)
+            .eq('is_active', true)
+            .then(function(res) {
+                document.getElementById('statStaff').textContent = res.data ? res.data.length : '—';
+            })
+            .catch(function() {});
     }
 
-    // ── QR CODE ────────────────────────────────────────────
+    // ─── LANGUAGE ───────────────────────────────────────────
+    function toggleLang() {
+        document.getElementById('langDrop').classList.toggle('open');
+    }
 
+    function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('efyoos-lang', lang);
+        document.getElementById('langBtn').textContent = lang.toUpperCase() + ' ▾';
+        document.getElementById('langDrop').classList.remove('open');
+        document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.lang = lang;
+
+        var t = T[lang];
+
+        // Sign out + labels
+        document.getElementById('signOutBtn').textContent = t.signOut;
+        document.getElementById('lblTools').textContent = t.lblTools;
+        document.getElementById('lblComingSoon').textContent = t.lblComingSoon;
+        document.getElementById('sysLive').innerHTML = '<span class="status-dot"></span>' + t.sysLive;
+
+        // Stat labels
+        document.getElementById('lblActive').textContent = t.lblActive;
+        document.getElementById('lblCompleted').textContent = t.lblCompleted;
+        document.getElementById('lblResponse').textContent = t.lblResponse;
+        document.getElementById('lblStaff').textContent = t.lblStaff;
+
+        // Active cards
+        ['1','2','3'].forEach(function(n) {
+            var tagEl = document.getElementById('tag' + n);
+            var titleEl = document.getElementById('title' + n);
+            var descEl = document.getElementById('desc' + n);
+            var ctaEl = document.getElementById('cta' + n);
+            if (tagEl) tagEl.textContent = t['tag' + n];
+            if (titleEl) titleEl.textContent = t['title' + n];
+            if (descEl) descEl.textContent = t['desc' + n];
+            if (ctaEl) ctaEl.textContent = t['cta' + n];
+        });
+
+        // Locked cards
+        ['4','5','6'].forEach(function(n) {
+            var titleEl = document.getElementById('title' + n);
+            var descEl = document.getElementById('desc' + n);
+            var lockEl = document.getElementById('lock' + (parseInt(n) - 3));
+            if (titleEl) titleEl.textContent = t['title' + n];
+            if (descEl) descEl.textContent = t['desc' + n];
+            if (lockEl) lockEl.textContent = t.locked;
+        });
+
+        // Update time and date in new language
+        updateGreetingTime();
+        updateDate();
+    }
+
+    // ─── QR CODE ────────────────────────────────────────────
     function showQR() {
-        const url = GUEST_URL;
-        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=0B0E14&bgcolor=ffffff&margin=10`;
+        var url = GUEST_URL;
+        var qrApi = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url) + '&color=0B0E14&bgcolor=ffffff&margin=10';
         document.getElementById('qrImg').src = qrApi;
         document.getElementById('qrUrl').textContent = url;
-        document.getElementById('qrModal').style.display = 'flex';
+        document.getElementById('qrModal').classList.add('open');
     }
 
     function closeQR() {
-        document.getElementById('qrModal').style.display = 'none';
+        document.getElementById('qrModal').classList.remove('open');
     }
 
     function printQR() {
-        const img = document.getElementById('qrImg').src;
-        const url = document.getElementById('qrUrl').textContent;
-        const win = window.open('', '_blank');
-        win.document.write(`
-            <html><head><title>Efyoos QR Code</title>
-            <style>
-                body { font-family: 'Montserrat', sans-serif; text-align: center; padding: 40px; }
-                img { width: 250px; height: 250px; margin: 20px 0; }
-                h2 { font-size: 24px; margin-bottom: 8px; }
-                p { font-size: 13px; color: #666; margin-bottom: 4px; }
-                @media print { button { display: none; } }
-            </style></head>
-            <body>
-                <h2>Efyoos — Guest Requests</h2>
-                <p>Scan this QR code to submit a request</p>
-                <p style="font-size:11px; color:#999;">${url}</p>
-                <br>
-                <img src="${img}" alt="QR Code">
-                <br>
-                <p style="margin-top:20px; font-size:12px; color:#aaa;">Powered by Efyoos Command</p>
-                <button onclick="window.print()" style="margin-top:24px; padding:10px 24px; font-size:14px; cursor:pointer;">🖨️ Print</button>
-            </body></html>
-        `);
+        var img = document.getElementById('qrImg').src;
+        var url = document.getElementById('qrUrl').textContent;
+        var win = window.open('', '_blank');
+        win.document.write('<html><head><title>Efyoos QR Code</title><style>body{font-family:sans-serif;text-align:center;padding:40px}img{width:250px;height:250px;margin:20px 0}@media print{button{display:none}}</style></head><body><h2>Efyoos — Guest Requests</h2><p>Scan to submit a request</p><p style="font-size:11px;color:#999">' + url + '</p><br><img src="' + img + '" alt="QR Code"><br><p style="margin-top:20px;font-size:12px;color:#aaa">Powered by Efyoos Command</p><button onclick="window.print()" style="margin-top:24px;padding:10px 24px;font-size:14px;cursor:pointer">🖨️ Print</button></body></html>');
         win.document.close();
-        setTimeout(() => win.print(), 500);
+        setTimeout(function() { win.print(); }, 500);
     }
 
-    // Close QR modal on outside click
-    document.getElementById('qrModal').addEventListener('click', function(e) {
-        if (e.target === this) closeQR();
-    });
-
-    // ── SIGN OUT ────────────────────────────────────────────
-
+    // ─── SIGN OUT ───────────────────────────────────────────
     function signOut() {
         localStorage.removeItem('efyoos-admin-name');
         localStorage.removeItem('efyoos-admin-email');
@@ -760,229 +494,50 @@
         window.location.href = '/';
     }
 
-    // ── TRANSLATIONS ────────────────────────────────────────────
-    const homeT = {
-        en: {
-            greeting: null, // handled by time
-            signOut: 'Sign out',
-            toolsLabel: 'Your Tools',
-            comingSoon: 'Coming Soon',
-            dashTitle: 'Manager Dashboard',
-            dashDesc: 'Monitor all guest requests in real-time. Track staff assignments, response times, and complete tasks.',
-            dashTag: 'Live',
-            dashCta: 'Open Dashboard →',
-            guestTitle: 'Guest Request Page',
-            guestDesc: 'The page your guests use to submit requests. Share via QR code in rooms or direct link.',
-            guestTag: 'Active',
-            guestCta: 'Open Page →',
-            qrTitle: 'QR Code Generator',
-            qrDesc: 'Generate and print a QR code linking guests directly to the request page.',
-            qrTag: 'Utility',
-            qrCta: 'Generate QR →',
-            analyticsTitle: 'Analytics',
-            analyticsDesc: 'Weekly and monthly reports. Peak hours, staff performance, and guest satisfaction trends.',
-            staffTitle: 'Staff Management',
-            staffDesc: 'Add, edit, and manage staff profiles. Set availability and WhatsApp numbers.',
-            aiTitle: 'AI Monitor',
-            aiDesc: 'Intelligent system health monitoring. Detects silent failures before problems escalate.',
-            locked: '🔒 In Development',
-            statActive: 'Active Requests',
-            statCompleted: 'Completed Today',
-            statResponse: 'Avg. Response',
-            statStaff: 'Staff Online',
-            qrModalTitle: 'Guest Request Page',
-            qrModalDesc: 'Print and place this in each room',
-            qrPrint: '🖨️ Print QR Code',
-            sysLive: 'System Live',
-            greetMorn: 'Good morning',
-            greetAfter: 'Good afternoon',
-            greetEvening: 'Good evening',
-        },
-        fr: {
-            signOut: 'Déconnexion',
-            toolsLabel: 'Vos Outils',
-            comingSoon: 'Bientôt Disponible',
-            dashTitle: 'Tableau de Bord Manager',
-            dashDesc: 'Surveillez toutes les demandes en temps réel. Suivez les assignations et les temps de réponse.',
-            dashTag: 'En Direct',
-            dashCta: 'Ouvrir →',
-            guestTitle: 'Page des Demandes Clients',
-            guestDesc: 'La page que vos clients utilisent pour soumettre des demandes. Partagez via QR code.',
-            guestTag: 'Actif',
-            guestCta: 'Ouvrir →',
-            qrTitle: 'Générateur de QR Code',
-            qrDesc: 'Générez et imprimez un QR code pour les chambres.',
-            qrTag: 'Utilitaire',
-            qrCta: 'Générer QR →',
-            analyticsTitle: 'Analytiques',
-            analyticsDesc: 'Rapports hebdomadaires et mensuels. Heures de pointe et tendances de satisfaction.',
-            staffTitle: 'Gestion du Personnel',
-            staffDesc: 'Ajoutez et gérez les profils du personnel. Définissez les disponibilités.',
-            aiTitle: 'Moniteur IA',
-            aiDesc: 'Surveillance intelligente de la santé du système. Détecte les défaillances silencieuses.',
-            locked: '🔒 En Développement',
-            statActive: 'Demandes Actives',
-            statCompleted: "Complétées Aujourd'hui",
-            statResponse: 'Rép. Moyenne',
-            statStaff: 'Personnel En Ligne',
-            qrModalTitle: 'Page des Demandes Clients',
-            qrModalDesc: 'Imprimez et placez dans chaque chambre',
-            qrPrint: '🖨️ Imprimer QR Code',
-            sysLive: 'Système Actif',
-            greetMorn: 'Bonjour',
-            greetAfter: 'Bon après-midi',
-            greetEvening: 'Bonsoir',
-        },
-        ar: {
-            signOut: 'تسجيل الخروج',
-            toolsLabel: 'أدواتك',
-            comingSoon: 'قريباً',
-            dashTitle: 'لوحة تحكم المدير',
-            dashDesc: 'راقب جميع طلبات النزلاء في الوقت الفعلي. تتبع التعيينات وأوقات الاستجابة.',
-            dashTag: 'مباشر',
-            dashCta: 'فتح →',
-            guestTitle: 'صفحة طلبات النزلاء',
-            guestDesc: 'الصفحة التي يستخدمها نزلاؤك لتقديم الطلبات. شاركها عبر رمز QR.',
-            guestTag: 'نشط',
-            guestCta: 'فتح →',
-            qrTitle: 'مولّد رمز QR',
-            qrDesc: 'أنشئ واطبع رمز QR يربط النزلاء بصفحة الطلبات.',
-            qrTag: 'أداة',
-            qrCta: 'إنشاء QR →',
-            analyticsTitle: 'التحليلات',
-            analyticsDesc: 'تقارير أسبوعية وشهرية. أوقات الذروة واتجاهات رضا النزلاء.',
-            staffTitle: 'إدارة الموظفين',
-            staffDesc: 'أضف وأدر ملفات الموظفين. حدد التوفر وأرقام واتساب.',
-            aiTitle: 'مراقب الذكاء الاصطناعي',
-            aiDesc: 'مراقبة ذكية لصحة النظام. يكتشف الأعطال الصامتة قبل تصاعدها.',
-            locked: '🔒 قيد التطوير',
-            statActive: 'الطلبات النشطة',
-            statCompleted: 'مكتملة اليوم',
-            statResponse: 'متوسط الرد',
-            statStaff: 'الموظفون متصلون',
-            qrModalTitle: 'صفحة طلبات النزلاء',
-            qrModalDesc: 'اطبع وضع في كل غرفة',
-            qrPrint: '🖨️ طباعة رمز QR',
-            sysLive: 'النظام مباشر',
-            greetMorn: 'صباح الخير',
-            greetAfter: 'مساء الخير',
-            greetEvening: 'مساء النور',
-        }
-    };
-
-    let currentLang = localStorage.getItem('efyoos-lang') || 'en';
-
-    function toggleLang() {
-        document.getElementById('langDrop').classList.toggle('open');
-    }
+    // ─── EVENT LISTENERS ────────────────────────────────────
+    document.getElementById('langBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleLang();
+    });
 
     document.addEventListener('click', function(e) {
-        const ls = document.querySelector('.lang-switcher');
+        var ls = document.querySelector('.lang-switcher');
         if (ls && !ls.contains(e.target)) {
             document.getElementById('langDrop').classList.remove('open');
         }
     });
 
-    function setLang(lang) {
-        currentLang = lang;
-        localStorage.setItem('efyoos-lang', lang);
-        document.getElementById('langBtn').textContent = lang.toUpperCase() + ' ▾';
-        document.getElementById('langDrop').classList.remove('open');
+    // Lang options
+    var langOpts = document.querySelectorAll('.lang-opt');
+    var langs = ['en', 'fr', 'ar'];
+    langOpts.forEach(function(btn, i) {
+        btn.addEventListener('click', function() { setLang(langs[i]); });
+    });
 
-        // RTL
-        document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('qrCard').addEventListener('click', showQR);
+    document.getElementById('closeQrBtn').addEventListener('click', closeQR);
+    document.getElementById('printQrBtn').addEventListener('click', printQR);
+    document.getElementById('signOutBtn').addEventListener('click', signOut);
 
-        const t = homeT[lang];
+    document.getElementById('qrModal').addEventListener('click', function(e) {
+        if (e.target === this) closeQR();
+    });
 
-        // Update greeting
-        const hour = new Date().getHours();
-        const greet = hour < 12 ? t.greetMorn : hour < 18 ? t.greetAfter : t.greetEvening;
-        document.getElementById('timeLabel').textContent = greet;
-
-        // Update date locale
-        const dateEl = document.getElementById('dateLabel');
-        if (dateEl) {
-            const localeMap = { en: 'en-US', fr: 'fr-FR', ar: 'ar-SA' };
-            dateEl.textContent = new Date().toLocaleDateString(localeMap[lang] || 'en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-        }
-
-        // Update sign out
-        document.querySelector('.sign-out').textContent = t.signOut;
-
-        // Update section labels
-        document.querySelectorAll('.section-label').forEach((el, i) => {
-            el.textContent = i === 0 ? t.toolsLabel : t.comingSoon;
-        });
-
-        // Update system live
-        const sysEl = document.querySelector('.status-live');
-        if (sysEl) sysEl.innerHTML = '<span class="status-dot"></span>' + t.sysLive;
-
-        // Update stat labels
-        const statLabels = document.querySelectorAll('.stat-label');
-        const labelKeys = ['statActive','statCompleted','statResponse','statStaff'];
-        statLabels.forEach((el, i) => { if(t[labelKeys[i]]) el.textContent = t[labelKeys[i]]; });
-
-        // Update active cards
-        const activeCards = document.querySelectorAll('.cards-grid .card.active');
-        if (activeCards[0]) {
-            activeCards[0].querySelector('.card-title').textContent = t.dashTitle;
-            activeCards[0].querySelector('.card-desc').textContent = t.dashDesc;
-            activeCards[0].querySelector('.card-tag').textContent = t.dashTag;
-            activeCards[0].querySelector('.card-arrow').textContent = t.dashCta;
-        }
-        if (activeCards[1]) {
-            activeCards[1].querySelector('.card-title').textContent = t.guestTitle;
-            activeCards[1].querySelector('.card-desc').textContent = t.guestDesc;
-            activeCards[1].querySelector('.card-tag').textContent = t.guestTag;
-            activeCards[1].querySelector('.card-arrow').textContent = t.guestCta;
-        }
-        if (activeCards[2]) {
-            activeCards[2].querySelector('.card-title').textContent = t.qrTitle;
-            activeCards[2].querySelector('.card-desc').textContent = t.qrDesc;
-            activeCards[2].querySelector('.card-tag').textContent = t.qrTag;
-            activeCards[2].querySelector('.card-arrow').textContent = t.qrCta;
-        }
-
-        // Update locked cards
-        const lockedCards = document.querySelectorAll('.cards-grid-2 .card.locked');
-        const lockedData = [
-            {title: t.analyticsTitle, desc: t.analyticsDesc},
-            {title: t.staffTitle, desc: t.staffDesc},
-            {title: t.aiTitle, desc: t.aiDesc},
-        ];
-        lockedCards.forEach((card, i) => {
-            card.querySelector('.card-title').textContent = lockedData[i].title;
-            card.querySelector('.card-desc').textContent = lockedData[i].desc;
-            card.querySelector('.card-lock').textContent = t.locked;
-        });
-    }
-
-    // Init language
-    if (currentLang !== 'en') setLang(currentLang);
-    document.getElementById('langBtn').textContent = currentLang.toUpperCase() + ' ▾';
-
-    // Clear stuck state on page show (back button)
     window.addEventListener('pageshow', function() {
         document.body.style.overflow = '';
     });
 
-    // ── INIT ────────────────────────────────────────────────
-
-    // Fix modal stuck when navigating back
-    window.addEventListener('pageshow', function() {
-        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-    });
-
+    // ─── INIT ───────────────────────────────────────────────
     initGreeting();
     loadStats();
-
-    // Refresh stats every 60 seconds
     setInterval(loadStats, 60000);
-</script>
 
+    // Apply saved language
+    if (currentLang !== 'en') {
+        setLang(currentLang);
+    } else {
+        document.getElementById('langBtn').textContent = 'EN ▾';
+    }
+</script>
 </body>
 </html>
-
